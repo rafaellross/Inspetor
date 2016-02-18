@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace InspetorXML_Console.Classes.ERP.Protheus
 {
-    class ProcessaNotas : ERP.Generico.Erp
+    class ProcessaNotas
     {
         public List<XmlNfe> notas { get; private set; }
 

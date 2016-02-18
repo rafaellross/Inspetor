@@ -29,7 +29,8 @@ namespace InspetorXML_Console.Classes.App
         public string PastaCriticados { get; private set; }
         public string PastaLog { get; private set; }
         public int TempoExecucao { get; set; }
-        
+        public string User { get; private set; }
+        public string ativaLog { get; private set; }
 
         public void carregaParametros()
         {
@@ -56,7 +57,8 @@ namespace InspetorXML_Console.Classes.App
             this.PastaCriticados = parametros["PastaCriticados"];
             this.PastaLog = parametros["PastaLog"];
             this.TempoExecucao = Convert.ToInt32(parametros.Get("TempoExecucao"));
-                
-    }
+            this.User = parametros["User"];
+            this.ativaLog = parametros["AtivaLog"];
+        }
     }
 }

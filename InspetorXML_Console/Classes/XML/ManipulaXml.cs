@@ -15,12 +15,14 @@ namespace InspetorXML_Console.Classes.XML
         public List<XmlNfe> arquivosXml { get; set; }
         public DB dbXml { get; set; }
         public DB dbErp { get; set; }
+        public string tipoErp { get; private set; }
 
-        public ManipulaXml(DB dbXml, DB dbErp)
+        public ManipulaXml(string tipoErp, DB dbXml, DB dbErp)
         {
             this.arquivosXml = new List<XmlNfe>();
             this.dbXml = dbXml;
             this.dbErp = dbErp;
+            this.tipoErp = tipoErp;
 
         }
         //Este método lê o diretório e retorna o nome de todos os arquivos
@@ -55,7 +57,7 @@ namespace InspetorXML_Console.Classes.XML
         {
             foreach (var item in DocsXml())
             {
-                XmlNfe nfe = new XmlNfe(item.Key, item.Value, "nfe", this.dbXml, this.dbErp);
+                XmlNfe nfe = new XmlNfe(this.tipoErp, item.Key, item.Value, "nfe", this.dbXml, this.dbErp);
                 nfe.carregaAtributos();
                 arquivosXml.Add(nfe);
             }

@@ -12,7 +12,7 @@ namespace InspetorXML_Console.Classes
     class DB
     {
         public string connetionString { get; set; }
-        private SqlConnection connection { get; set; }
+        public SqlConnection connection { get; set; }
         public System.IO.StreamWriter arquivoLog { get; set; }
         public string tipoDB { get; set; }
         public DB(string Instancia, string Banco, string Usuario, string Senha, string pastaLog, string tipoDB)
@@ -55,32 +55,56 @@ namespace InspetorXML_Console.Classes
 
         }
 
-        public ArrayList consulta(string query)
+        public List<string> consultaErp(string query)
+        {
+            List<string> result = new List<string>();
+            try
+            {
+                
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = this.connection;
+                this.connection.Open();
+                cmd.CommandText = query;
+                SqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    result.Add(dr.GetValue(0).ToString());
+                    result.Add(dr.GetValue(1).ToString());
+                }                
+                return result;
+
+            }
+            catch (Exception)
+            {                
+                return result;
+            }
+            finally
+            {
+                this.connection.Close();
+            }        
+                        
+
+        }
+
+        public ArrayList execQuery(string query)
         {
             ArrayList result = new ArrayList();
             try
             {
-                this.abreConexao();
+                
                 SqlCommand cmd = new SqlCommand();
+                cmd.Connection = this.connection;
+                this.connection.Open();
                 cmd.CommandText = query;
                 SqlDataReader Dr = cmd.ExecuteReader();
 
-                Dictionary<String, Object> dict = new Dictionary<string, object>();
-
-                while (Dr.Read())
-                {
-                    for (int i = 0; i < (Dr.FieldCount - 1); i++)
-                    {
-                        dict.Add(Dr.GetName(i), Dr.GetString(i));
-                    }
-                    result.Add(dict);
-                }
+                
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                result.Add("erro");
+                result.Add("erro: " + ex.ToString());
             }
-            
+            this.connection.Close();
             return result;
         }
 

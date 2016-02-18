@@ -23,7 +23,7 @@ namespace InspetorXML_Console
             DB dbInspetor = new DB(parametros.DBInspetorServer, parametros.DBInspetor, parametros.UserDBInspetor, parametros.PasswdDBInspetor, parametros.PastaLog, "InspetorXml");
 
             //Instancia a classe para manipulação dos arquivos XML
-            ManipulaXml notas = new ManipulaXml(dbInspetor, dbErp);
+            ManipulaXml notas = new ManipulaXml(parametros.TipoErp, dbInspetor, dbErp);
 
             //Passa o caminho da pasta de processamento dos arquivos
             notas.caminhoProcessar = parametros.PastaProcessar;
@@ -31,8 +31,9 @@ namespace InspetorXML_Console
             //Carrega os arquivos XML
             notas.carregaXml();
             
-            Erp erp = new Erp();
-
+            Erp erp = new Erp(notas.arquivosXml, dbErp, parametros, dbInspetor);
+            erp.inicia();
+            Console.Write("Fim");
 
         }
     }

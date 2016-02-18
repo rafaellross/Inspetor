@@ -1,6 +1,8 @@
-﻿using System;
+﻿using InspetorXML_Console.Classes.ERP.Generico;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,7 +11,7 @@ using System.Xml.XPath;
 
 namespace InspetorXML_Console.Classes.XML
 {
-    class XmlNfe
+    class XmlNfe 
     {
         public string CnpjEmitente { get; set; }
         public string NomeEmitente { get; set; }
@@ -59,14 +61,20 @@ namespace InspetorXML_Console.Classes.XML
         public string dDesemb { get; private set; }
         public string infCpl { get; private set; }
         public string infAdFisco { get; private set; }
+        public string CodCliForErp { get; set; }
+        public string CodEmpErp { get; set; }
+        public string tipoErp { get; private set; }
+        public string CodFilErp { get; private set; }
+        public bool xmlCriticado { get; set; }
 
-        public XmlNfe(string nomeArquivo, XmlDocument xmlInput, string nameSpace, DB dbXml, DB dbErp)
+        public XmlNfe(string tipoErp, string nomeArquivo, XmlDocument xmlInput, string nameSpace, DB dbXml, DB dbErp)
         {
             this.xml = xmlInput;
             this.Itens = new List<ProdutosNfe>();
             this.dbXml = dbXml;
             this.dbErp = dbErp;
             this.nomeArquivo = nomeArquivo;
+            this.tipoErp = tipoErp;
         }
         
         public void carregaAtributos()
@@ -475,7 +483,10 @@ namespace InspetorXML_Console.Classes.XML
                             
                         }
                     }
-                    ArrayList verificaEmpresa = new ArrayList();
+
+
+
+                    List<string> verificaEmpresa = new List<string>();
 
                     string sqlVerificaEmpresa;
 
@@ -489,24 +500,33 @@ namespace InspetorXML_Console.Classes.XML
                         sqlVerificaEmpresa = "SELECT CODCOLIGADA, CODFILIAL FROM GFILIAL WHERE REPLACE(REPLACE(REPLACE(CGC, '.', ''), '/', ''), '-', '') = '" + this.CnpjEmitente+"'";
                     }
                     
-                    verificaEmpresa = this.dbXml.consulta(sqlVerificaEmpresa);
-                    
+                    verificaEmpresa = this.dbXml.consultaErp(sqlVerificaEmpresa);
                     //Se o emitente estiver na sigamat então o tipo da nota será saída
-                    if (verificaEmpresa[0].ToString() != "erro")
+                    if (verificaEmpresa.Count > 0)
                     {
                         this.TipoNf = "SAIDA";
                     }
-                    //Senão será de entrada
                     else
                     {
                         this.TipoNf = "ENTRADA";
                     }
-                    
+
+                    this.carregaDadosErp();
                     this.Itens.Add(produto);
-                    i++;
-                    
+                    i++;                    
                 }
+
             }            
         }
-    }
+
+        public void carregaDadosErp()
+        {
+            string query = FuncoesErp.sqlEmpresaErp(this.tipoErp, this.TipoNf == "ENTRADA" ? this.CnpjDestinatario : this.CnpjEmitente);
+            var lista = this.dbXml.consultaErp(query);                                            
+            this.CodEmpErp = lista[0];
+            this.CodFilErp = lista[1];
+                
+            
+        }
+   }
 }
