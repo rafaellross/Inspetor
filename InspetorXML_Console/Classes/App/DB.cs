@@ -68,8 +68,10 @@ namespace InspetorXML_Console.Classes
                 SqlDataReader dr = cmd.ExecuteReader();
                 while (dr.Read())
                 {
-                    result.Add(dr.GetValue(0).ToString());
-                    result.Add(dr.GetValue(1).ToString());
+                    for (int i = 0; i <= dr.FieldCount-1; i++)
+                    {
+                        result.Add(dr.GetValue(i).ToString());
+                    }                    
                 }                
                 return result;
 

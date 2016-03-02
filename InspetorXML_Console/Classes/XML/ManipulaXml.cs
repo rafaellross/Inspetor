@@ -31,24 +31,16 @@ namespace InspetorXML_Console.Classes.XML
             return Directory.GetFiles(this.caminhoProcessar);
         }
 
-        //Este método carrega um arquivo Xml a partir do caminho do arquivo
-        public XmlDocument lerXml(string arquivo)
-        {
-            XmlDocument DocXml = new XmlDocument();
-            DocXml.Load(arquivo);
-            return DocXml;
-        }
-
         //Retorna uma lista de arquivos XML lidos no método lerDiretorio
-        public Dictionary<string, XmlDocument> DocsXml()
+        public Dictionary<string, string> DocsXml()
         {
-            var dict = new Dictionary<string, XmlDocument>();
+            var dict = new Dictionary<string, string>();
 
             
 
             foreach (var DocXml in this.lerDiretorio())
             {
-                dict.Add(DocXml, this.lerXml(DocXml));
+                dict.Add(DocXml, DocXml);
             }
             return dict;
         }
