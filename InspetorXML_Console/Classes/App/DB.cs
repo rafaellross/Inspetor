@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,12 +16,12 @@ namespace InspetorXML_Console.Classes
         public SqlConnection connection { get; set; }
         public System.IO.StreamWriter arquivoLog { get; set; }
         public string tipoDB { get; set; }
-        public DB(string Instancia, string Banco, string Usuario, string Senha, string pastaLog, string tipoDB)
+        public DB(string Instancia, string Banco, string Usuario, string Senha, StreamWriter arquivoLog, string tipoDB)
         {
             this.connetionString = "Data Source=" + Instancia + ";Initial Catalog=" + Banco + ";User ID=" + Usuario + ";Password=" + Senha + ";MultipleActiveResultSets=True";
             this.connection = new SqlConnection(this.connetionString);
             this.tipoDB = tipoDB;
-            arquivoLog = new System.IO.StreamWriter(pastaLog + "Erros_DB_" + tipoDB +".txt");            
+            this.arquivoLog = arquivoLog;
         }
 
         public bool abreConexao()
@@ -36,7 +37,10 @@ namespace InspetorXML_Console.Classes
             }
             catch (Exception e)
             {
-                this.arquivoLog.WriteLine("Ocorreu um erro ao conectar:" + e.ToString());            
+                Console.ForegroundColor = System.ConsoleColor.Red;
+                Console.WriteLine("Ocorreu um erro ao conectar:" + e.ToString());
+                this.arquivoLog.WriteLine("Ocorreu um erro ao conectar:" + e.ToString());
+                Console.ForegroundColor = System.ConsoleColor.Gray;
                 return false;
             }
 
@@ -50,6 +54,10 @@ namespace InspetorXML_Console.Classes
             }
             catch (Exception e)
             {
+                Console.WriteLine("Ocorreu um erro ao conectar:" + e.ToString());
+                this.arquivoLog.WriteLine("Ocorreu um erro ao fechar a conexão:" + e.ToString());
+                Console.ForegroundColor = System.ConsoleColor.Gray;
+
                 this.arquivoLog.WriteLine("Ocorreu um erro ao fechar a conexão:" + e.ToString());                                
             }
 
@@ -72,42 +80,96 @@ namespace InspetorXML_Console.Classes
                     {
                         result.Add(dr.GetValue(i).ToString());
                     }                    
-                }                
-                return result;
-
+                }                                
             }
-            catch (Exception)
-            {                
-                return result;
+            catch (Exception ex)
+            {
+                Console.ForegroundColor = System.ConsoleColor.Red;
+                Console.WriteLine("Erro no banco de dados:" + ex.ToString());
+                this.arquivoLog.WriteLineAsync("Erro no banco de dados:" + ex.ToString());
+                Console.ForegroundColor = System.ConsoleColor.Gray;
             }
             finally
             {
                 this.connection.Close();
-            }        
-                        
-
+            }
+            return result;
         }
 
         public ArrayList execQuery(string query)
         {
             ArrayList result = new ArrayList();
             try
-            {
+            {                
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = this.connection;
+                if (this.connection.State == ConnectionState.Closed)
+                {
+                    this.connection.Open();
+                }
                 
+                cmd.CommandText = query;
+                SqlDataReader Dr = cmd.ExecuteReader();                
+            }
+            catch (Exception ex)
+            {
+                Console.ForegroundColor = System.ConsoleColor.Red;
+                Console.WriteLine("Erro no banco de dados:" + ex.ToString());
+                Console.ForegroundColor = System.ConsoleColor.Gray;
+                result.Add("erro: " + ex.ToString());
+            }
+            finally
+            {
+                if (this.connection.State != ConnectionState.Closed)
+                {
+                    this.connection.Close();
+                }
+
+                
+            }
+            return result;
+        }
+
+        public List<Dictionary<string, string>> queryListToDic(string query)
+        {
+            List<Dictionary<string, string>> result = new List<Dictionary<string, string>>();
+            try
+            {
+
                 SqlCommand cmd = new SqlCommand();
                 cmd.Connection = this.connection;
                 this.connection.Open();
                 cmd.CommandText = query;
-                SqlDataReader Dr = cmd.ExecuteReader();
-
-                
+                SqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    var dict = new Dictionary<string, string>();
+                    for (int i = 0; i <= dr.FieldCount - 1; i++)
+                    {
+                        dict.Add(dr.GetName(i), dr.GetValue(i).ToString());
+                    }
+                    result.Add(dict);
+                }
             }
             catch (Exception ex)
             {
-                result.Add("erro: " + ex.ToString());
+                Console.ForegroundColor = System.ConsoleColor.Red;
+                Console.WriteLine("Erro no banco de dados:" + ex.ToString());
+                Console.ForegroundColor = System.ConsoleColor.Gray;
+                var erro = new Dictionary<string, string>();
+                erro.Add("erro", ex.Message);
+                result.Add(erro);
             }
-            this.connection.Close();
+            finally
+            {
+                if (this.connection.State != ConnectionState.Closed)
+                {
+                    this.connection.Close();
+                }
+            }
+
             return result;
+
         }
 
     }

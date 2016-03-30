@@ -1,4 +1,5 @@
-﻿using System;
+﻿using InspetorXML_Console.Classes.App;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace InspetorXML_Console.Classes.XML
 {
     class ManipulaXml
     {
-        public string caminhoProcessar { get; set; }
+        public Parametros parametros { get; set; }
         public string[] arquivos { get; set; }
         public List<XmlNfe> arquivosXml { get; set; }
         public DB dbXml { get; set; }
@@ -28,7 +29,7 @@ namespace InspetorXML_Console.Classes.XML
         //Este método lê o diretório e retorna o nome de todos os arquivos
         public string[] lerDiretorio()
         {
-            return Directory.GetFiles(this.caminhoProcessar);
+            return Directory.GetFiles(this.parametros.PastaProcessar);
         }
 
         //Retorna uma lista de arquivos XML lidos no método lerDiretorio
@@ -47,11 +48,30 @@ namespace InspetorXML_Console.Classes.XML
 
         public void carregaXml()
         {
-            foreach (var item in DocsXml())
+            Console.WriteLine(" ");
+            Console.WriteLine(" ");
+            if (DocsXml().Count == 0)
             {
-                XmlNfe nfe = new XmlNfe(this.tipoErp, item.Key, item.Value, "nfe", this.dbXml, this.dbErp);
-                nfe.carregaAtributos();
-                arquivosXml.Add(nfe);
+                Console.ForegroundColor = System.ConsoleColor.Blue;
+                Console.WriteLine("    A pasta de processamento está vazia");
+                Console.ForegroundColor = System.ConsoleColor.Gray;
+            }
+            else
+            {
+                Console.WriteLine("Foram encontrados " + DocsXml().Count.ToString() + " arquivos XML na pasta para processar");
+
+                foreach (var item in DocsXml())
+                {
+                    Console.ForegroundColor = System.ConsoleColor.Green;
+                    Console.WriteLine(" ");
+                    Console.WriteLine("         Iniciando a manipulação do arquivo " + item.Key.ToString());
+                    XmlNfe nfe = new XmlNfe(this.tipoErp, item.Key, item.Value, "nfe", this.dbXml, this.dbErp, parametros);
+                    nfe.carregaAtributos();
+                    arquivosXml.Add(nfe);
+                    Console.WriteLine("         Arquivo " + item.Key.ToString() + " carregado");
+                    Console.ForegroundColor = System.ConsoleColor.Gray;
+                }
+
             }
         }
     }

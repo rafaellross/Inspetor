@@ -1,6 +1,6 @@
 ﻿namespace CadastroUsuario
 {
-    partial class Form1
+    partial class TelaCadastro
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TelaCadastro));
             this.label1 = new System.Windows.Forms.Label();
             this.lbNome = new System.Windows.Forms.Label();
             this.txtNome = new System.Windows.Forms.TextBox();
@@ -45,6 +45,10 @@
             this.label3 = new System.Windows.Forms.Label();
             this.txtIdUsuario = new System.Windows.Forms.TextBox();
             this.lbIdUsuario = new System.Windows.Forms.Label();
+            this.dgEmpresas = new System.Windows.Forms.DataGridView();
+            this.chkAtivo = new System.Windows.Forms.CheckBox();
+            this.chkAdministrador = new System.Windows.Forms.CheckBox();
+            ((System.ComponentModel.ISupportInitialize)(this.dgEmpresas)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -79,7 +83,7 @@
             // 
             this.btnSalvar.Image = ((System.Drawing.Image)(resources.GetObject("btnSalvar.Image")));
             this.btnSalvar.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnSalvar.Location = new System.Drawing.Point(260, 139);
+            this.btnSalvar.Location = new System.Drawing.Point(260, 211);
             this.btnSalvar.Name = "btnSalvar";
             this.btnSalvar.Size = new System.Drawing.Size(85, 70);
             this.btnSalvar.TabIndex = 7;
@@ -101,7 +105,7 @@
             // 
             this.btnCancelar.Image = ((System.Drawing.Image)(resources.GetObject("btnCancelar.Image")));
             this.btnCancelar.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnCancelar.Location = new System.Drawing.Point(260, 215);
+            this.btnCancelar.Location = new System.Drawing.Point(369, 211);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(85, 70);
             this.btnCancelar.TabIndex = 8;
@@ -182,9 +186,9 @@
             // 
             // txtIdUsuario
             // 
-            this.txtIdUsuario.Enabled = false;
             this.txtIdUsuario.Location = new System.Drawing.Point(12, 111);
             this.txtIdUsuario.Name = "txtIdUsuario";
+            this.txtIdUsuario.ReadOnly = true;
             this.txtIdUsuario.Size = new System.Drawing.Size(239, 20);
             this.txtIdUsuario.TabIndex = 1;
             this.txtIdUsuario.WordWrap = false;
@@ -199,11 +203,52 @@
             this.lbIdUsuario.TabIndex = 15;
             this.lbIdUsuario.Text = "Id. Usuário";
             // 
-            // Form1
+            // dgEmpresas
+            // 
+            this.dgEmpresas.AllowUserToAddRows = false;
+            this.dgEmpresas.AllowUserToDeleteRows = false;
+            this.dgEmpresas.AllowUserToOrderColumns = true;
+            this.dgEmpresas.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.dgEmpresas.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
+            this.dgEmpresas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgEmpresas.Location = new System.Drawing.Point(1, 299);
+            this.dgEmpresas.Name = "dgEmpresas";
+            this.dgEmpresas.ReadOnly = true;
+            this.dgEmpresas.RowHeadersVisible = false;
+            this.dgEmpresas.Size = new System.Drawing.Size(463, 150);
+            this.dgEmpresas.TabIndex = 16;
+            this.dgEmpresas.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
+            // 
+            // chkAtivo
+            // 
+            this.chkAtivo.AutoSize = true;
+            this.chkAtivo.Checked = true;
+            this.chkAtivo.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkAtivo.Location = new System.Drawing.Point(260, 114);
+            this.chkAtivo.Name = "chkAtivo";
+            this.chkAtivo.Size = new System.Drawing.Size(50, 17);
+            this.chkAtivo.TabIndex = 17;
+            this.chkAtivo.Text = "Ativo";
+            this.chkAtivo.UseVisualStyleBackColor = true;
+            // 
+            // chkAdministrador
+            // 
+            this.chkAdministrador.AutoSize = true;
+            this.chkAdministrador.Location = new System.Drawing.Point(317, 114);
+            this.chkAdministrador.Name = "chkAdministrador";
+            this.chkAdministrador.Size = new System.Drawing.Size(89, 17);
+            this.chkAdministrador.TabIndex = 18;
+            this.chkAdministrador.Text = "Administrador";
+            this.chkAdministrador.UseVisualStyleBackColor = true;
+            // 
+            // TelaCadastro
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(356, 340);
+            this.ClientSize = new System.Drawing.Size(466, 453);
+            this.Controls.Add(this.chkAdministrador);
+            this.Controls.Add(this.chkAtivo);
+            this.Controls.Add(this.dgEmpresas);
             this.Controls.Add(this.txtIdUsuario);
             this.Controls.Add(this.lbIdUsuario);
             this.Controls.Add(this.txtConfirmaSenha);
@@ -223,10 +268,11 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.KeyPreview = true;
             this.MaximizeBox = false;
-            this.Name = "Form1";
+            this.Name = "TelaCadastro";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Cadastro de Usuários";
             this.Load += new System.EventHandler(this.Form1_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.dgEmpresas)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -237,19 +283,22 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label lbNome;
-        private System.Windows.Forms.TextBox txtNome;
         private System.Windows.Forms.Button btnSalvar;
         private System.Windows.Forms.Button btnCancelar;
-        private System.Windows.Forms.TextBox txtUsuario;
         private System.Windows.Forms.Label lbUsuario;
-        private System.Windows.Forms.TextBox txtEmail;
         private System.Windows.Forms.Label lbEmail;
-        private System.Windows.Forms.TextBox txtSenha;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox txtConfirmaSenha;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox txtIdUsuario;
         private System.Windows.Forms.Label lbIdUsuario;
+        private System.Windows.Forms.DataGridView dgEmpresas;
+        internal System.Windows.Forms.TextBox txtIdUsuario;
+        internal System.Windows.Forms.TextBox txtNome;
+        internal System.Windows.Forms.TextBox txtUsuario;
+        internal System.Windows.Forms.TextBox txtEmail;
+        internal System.Windows.Forms.TextBox txtSenha;
+        internal System.Windows.Forms.TextBox txtConfirmaSenha;
+        internal System.Windows.Forms.CheckBox chkAtivo;
+        internal System.Windows.Forms.CheckBox chkAdministrador;
     }
 }
 

@@ -12,22 +12,22 @@ namespace InspetorXML_Console.Classes
 {
     class DB
     {
-        public string connetionString { get; set; }
+        public string connectionString { get; set; }
         public SqlConnection connection { get; set; }
         public System.IO.StreamWriter arquivoLog { get; set; }
         public string tipoDB { get; set; }
         public DB(string Instancia, string Banco, string Usuario, string Senha, StreamWriter arquivoLog, string tipoDB)
         {
-            this.connetionString = "Data Source=" + Instancia + ";Initial Catalog=" + Banco + ";User ID=" + Usuario + ";Password=" + Senha + ";MultipleActiveResultSets=True";
-            this.connection = new SqlConnection(this.connetionString);
+            this.connectionString = "Data Source=" + Instancia + ";Initial Catalog=" + Banco + ";User ID=" + Usuario + ";Password=" + Senha + ";MultipleActiveResultSets=True";
+            this.connection = new SqlConnection(this.connectionString);
             this.tipoDB = tipoDB;
             this.arquivoLog = arquivoLog;
         }
 
         public DB(string Instancia, string Banco, string Usuario, string Senha)
         {
-            this.connetionString = "Data Source=" + Instancia + ";Initial Catalog=" + Banco + ";User ID=" + Usuario + ";Password=" + Senha + ";MultipleActiveResultSets=True";
-            this.connection = new SqlConnection(this.connetionString);
+            this.connectionString = "Data Source=" + Instancia + ";Initial Catalog=" + Banco + ";User ID=" + Usuario + ";Password=" + Senha + ";MultipleActiveResultSets=True";
+            this.connection = new SqlConnection(this.connectionString);
         }
 
         public bool abreConexao()
@@ -127,6 +127,27 @@ namespace InspetorXML_Console.Classes
                     this.connection.Close();
                 }                
             }            
+        }
+
+        public List<Dictionary<string, string>> queryListToDic(string query)
+        {
+            List<Dictionary<string, string>> result = new List<Dictionary<string, string>>();
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = this.connection;
+            this.connection.Open();
+            cmd.CommandText = query;
+            SqlDataReader dr = cmd.ExecuteReader();
+            while (dr.Read())
+            {
+                var dict = new Dictionary<string, string>();
+                for (int i = 0; i <= dr.FieldCount - 1; i++)
+                {
+                    dict.Add(dr.GetName(i), dr.GetValue(i).ToString());                    
+                }
+                result.Add(dict);
+            }
+            return result;
+
         }
     }
 }

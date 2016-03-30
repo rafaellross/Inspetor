@@ -16,7 +16,15 @@ namespace CadastroUsuario
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            var login = new Login();
+
+            Application.Run(login);
+
+            if (login.Logado)
+            {
+                Application.Run(new GridUsuarios());
+            }
+            
         }
     }
 }

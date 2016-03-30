@@ -1,4 +1,5 @@
-﻿using InspetorXML_Console.Classes.ERP.Generico;
+﻿using InspetorXML_Console.Classes.App;
+using InspetorXML_Console.Classes.ERP.Generico;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -76,14 +77,44 @@ namespace InspetorXML_Console.Classes.XML
         public string BaseIcms { get; internal set; }
         public string ValorIcms { get; internal set; }
         public string vIPI { get; private set; }
-        public object ValorBruto { get; internal set; }
+        public string ValorBruto { get; internal set; }
         public string vSeg { get; private set; }
-
-        public XmlNfe(string tipoErp, string nomeArquivo, string xmlInput, string nameSpace, DB dbXml, DB dbErp)
+        public string vDesc { get; private set; }
+        public string EspNf { get; private set; }
+        public double vBCCofins { get; private set; } = 0;
+        public double BasePis { get; private set; } = 0;
+        public double vCOFINS { get; private set; } = 0;
+        public double ValorPis { get; private set; } = 0;
+        public string CodTipoCliFor { get; internal set; }
+        public string ValBcIcms { get; private set; }
+        public string bAliqRedBCIcms { get; private set; }
+        public string bAliqRedBCSTIcms { get; private set; }
+        public string dAliqMvaST { get; private set; }
+        public string dValBcSTIcms { get; private set; }
+        public string dValIcmsSt { get; private set; }
+        public string dAliqIcmsSt { get; private set; }
+        public string sOrigCST { get; private set; }
+        public string sCstIcms { get; private set; }
+        public string dAliqIcms { get; private set; }
+        public string dValIcms { get; private set; }
+        public string dValBcIcms { get; private set; }        
+        public Parametros parametros;
+        public String[] matriz { get; set; }
+        public String[] matrizComRed { get; set; }
+        public String[] matrizAliqIcms { get; set; }
+        public String[] matrizRevenda { get; set; }
+        public String[] matrizUsoConsu { get; set; }
+        public String[] matrizAtivo { get; set; }
+        public object sCstRegra { get; private set; }
+        public string sCstComReducao { get; private set; }
+        public string sCstComAliqIcms { get; private set; }
+        
+        
+        public XmlNfe(string tipoErp, string nomeArquivo, string xmlInput, string nameSpace, DB dbXml, DB dbErp, Parametros parametros)
         {
             XmlDocument docXml = new XmlDocument();
             docXml.Load(xmlInput);
-
+            this.parametros = parametros;
             try
             {
                 this.xml = docXml;
@@ -100,6 +131,34 @@ namespace InspetorXML_Console.Classes.XML
             this.dbErp = dbErp;
             this.nomeArquivo = nomeArquivo;
             this.tipoErp = tipoErp;
+
+            
+            var regrasCst = this.dbXml.queryListToDic(FuncoesErp.sqlRegrasCst());
+
+            foreach (var regra in regrasCst)
+            {
+                switch (regra["ORDEM"].ToString())
+                {
+                    case "1":
+                        this.sCstRegra = regra["CONTEUDO"];
+                        break;
+
+                    case "2":
+                        this.sCstComReducao = regra["CONTEUDO"];
+                        break;
+
+                    case "3":
+                        this.sCstComAliqIcms = regra["CONTEUDO"];
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+            
+            matriz = sCstRegra.ToString().Split(',');
+            matrizComRed = sCstComReducao.ToString().Split(',');
+            matrizAliqIcms = sCstComAliqIcms.ToString().Split(',');
         }
 
         //Este método carrega um arquivo Xml a partir do caminho do arquivo
@@ -124,65 +183,95 @@ namespace InspetorXML_Console.Classes.XML
             //Atribui o Cnpj do Emitente
 
             node = xpathNav.SelectSingleNode("//nfe:infNFe/nfe:emit/nfe:CNPJ", this.nameSpace);
-            this.CnpjEmitente = node.InnerXml.ToString();
-
-            //Caso não tenha CNPJ, será atribuído o CPF
-            if (node.InnerXml.ToString() == String.Empty)
+            if (node != null)
             {
-                node = xpathNav.SelectSingleNode("//nfe:infNFe/nfe:emit/nfe:CPF", nameSpace);
                 this.CnpjEmitente = node.InnerXml.ToString();
+                node = null;             
+            }
+                //Caso não tenha CNPJ, será atribuído o CPF
+            node = xpathNav.SelectSingleNode("//nfe:infNFe/nfe:emit/nfe:CPF", nameSpace);
+            
+
+            if (node != null)
+            {                
+              this.CnpjEmitente = node.InnerXml.ToString();
             }
             
 
             //Atribui a razão social do Emitente
             node = xpathNav.SelectSingleNode("//nfe:infNFe/nfe:emit/nfe:xNome", nameSpace);
-            this.NomeEmitente = node.InnerXml.ToString(); //Razao Social do Fornecedor
-
+            if (node != null)
+            {
+                this.NomeEmitente = node.InnerXml.ToString(); //Razao Social do Fornecedor
+            }
+                 
             //Atribui o UF do Emitente
             node = xpathNav.SelectSingleNode("//nfe:infNFe/nfe:emit/nfe:enderEmit/nfe:UF", nameSpace);
-            this.UFEmitente = node.InnerXml.ToString();
-
+            if (node != null)
+            {
+                this.UFEmitente = node.InnerXml.ToString();
+            }
         //Carrega os dados do destinatário
             //Atribui o Cnpj do Destinatário
             node = xpathNav.SelectSingleNode("//nfe:infNFe/nfe:dest/nfe:CNPJ", nameSpace);
-            this.CnpjDestinatario = node.InnerXml.ToString();
-
-            //Caso não tenha CNPJ, será atribuído o CPF
-            if (node == null)
+            if (node != null)
             {
-                node = xpathNav.SelectSingleNode("//nfe:infNFe/nfe:dest/nfe:CPF", nameSpace);
                 this.CnpjDestinatario = node.InnerXml.ToString();
             }
+            //Caso não tenha CNPJ, será atribuído o CPF
+            //if (node == null)
+            //{
+               // node = xpathNav.SelectSingleNode("//nfe:infNFe/nfe:dest/nfe:CPF", nameSpace);
+              //  this.CnpjDestinatario = node.InnerXml.ToString();
+            //}
 
             //Atribui a razão social do Destinatário
             node = xpathNav.SelectSingleNode("//nfe:infNFe/nfe:dest/nfe:xNome", nameSpace);
-            this.NomeDestinatario = node.InnerXml.ToString();
+            if (node != null)
+            {
+                this.NomeDestinatario = node.InnerXml.ToString();
+            }
+            
 
             //Atribui UF do destinatário
             node = xpathNav.SelectSingleNode("//nfe:infNFe/nfe:dest/nfe:enderDest/nfe:UF", nameSpace);
-            this.UFDestinatario = node.InnerXml.ToString();
-
+            if (node != null)
+            {
+                this.UFDestinatario = node.InnerXml.ToString();
+            }
         //Carrega os dados gerais da nota
             //Atribui a data de emissão
             node = xpathNav.SelectSingleNode("//nfe:infNFe/nfe:ide/nfe:dhEmi", nameSpace);
-            string dhEmi = node.InnerXml.ToString();
-            this.DataEmissao = dhEmi.Substring(0, 19);
+            if (node != null)
+            {
+                string dhEmi = node.InnerXml.ToString();
+                this.DataEmissao = dhEmi.Substring(0, 19);
+                node = null;
+           }
 
             //Atribui a data de saída / entrada
             node = xpathNav.SelectSingleNode("//nfe:infNFe/nfe:ide/nfe:dhSaiEnt", nameSpace);
-            string dhSaiEnt = node.InnerXml.ToString();
-            this.DataSaidaEntrada = dhSaiEnt.Substring(0, 19);
-
-
-            //Atribui CRT (Código de Regime Tributário)
-            node = xpathNav.SelectSingleNode("//nfe:infNFe/nfe:emit/nfe:CRT", nameSpace);
-            this.CRT = node.InnerXml.ToString();
                 
+            if (node != null)
+            {
+                string dhSaiEnt = node.InnerXml.ToString();
+                this.DataSaidaEntrada = dhSaiEnt.Substring(0, 19);
+            }
+
+
+                //Atribui CRT (Código de Regime Tributário)
+            node = xpathNav.SelectSingleNode("//nfe:infNFe/nfe:emit/nfe:CRT", nameSpace);
+            if (node != null)
+            {
+                this.CRT = node.InnerXml.ToString();
+            }                
 
             //Atribui a chave da Nfe
             node = xpathNav.SelectSingleNode("//nfe:infNFe", nameSpace);
-            this.ChaveNfe = node.GetAttribute("Id", "");
-
+            if (node != null)
+            {
+                this.ChaveNfe = node.GetAttribute("Id", "").Substring(3, node.GetAttribute("Id", "").Length - 3);
+            }                
             //Numero da Nf
             node = xpathNav.SelectSingleNode("//nfe:infNFe/nfe:ide/nfe:nNF", nameSpace);
             if (node != null)
@@ -246,11 +335,17 @@ namespace InspetorXML_Console.Classes.XML
             }
 
             //vDesc
-            node = xpathNav.SelectSingleNode("//nfe:infNFe/nfe:total/nfe:ICMSTot/nfe:vDesc", nameSpace);    
+            node = xpathNav.SelectSingleNode("//nfe:infNFe/nfe:total/nfe:ICMSTot/nfe:vDesc", nameSpace);
+            if (node != null)
+            {
+                this.vDesc = node.InnerXml.ToString();
+                node = null;
+            }
+
         //Dados da transportadora
 
-                //Placa da Transportadora
-                node = xpathNav.SelectSingleNode("//nfe:infNFe/nfe:transp/nfe:veicTransp/nfe:placa", nameSpace);
+            //Placa da Transportadora
+            node = xpathNav.SelectSingleNode("//nfe:infNFe/nfe:transp/nfe:veicTransp/nfe:placa", nameSpace);
             if (node != null)
             {
                 this.placaTransportadora = node.InnerXml.ToString();
@@ -349,7 +444,6 @@ namespace InspetorXML_Console.Classes.XML
 
             //Valor ICMS
             node = xpathNav.SelectSingleNode("//nfe:infNFe/nfe:total/nfe:ICMSTot/nfe:vICMS", nameSpace);
-
             if (node != null)
             {
                 this.vICMS = node.InnerXml.ToString();
@@ -404,11 +498,23 @@ namespace InspetorXML_Console.Classes.XML
                 this.infAdFisco = node.InnerXml.ToString();
             }
 
+            //EspNF - Especie NF
+            if (this.TipoNf == "TRANSF_ENT" || this.TipoNf == "ENTRADA" || this.TipoNf == "ENT_IMP")
+            {
+                this.EspNf = "NFE";
+            }
+            else
+            {
+                this.EspNf = "NF";
+            }
+
+
             //Leitura dos produtos da Nfe
             int i = 1;
             bool ultimo = false;
             while (!ultimo)
             {
+
                 node = xpathNav.SelectSingleNode("//nfe:infNFe/nfe:det[" + i + "]/nfe:prod/nfe:xProd", nameSpace);
                 if (node == null)
                 {
@@ -419,6 +525,7 @@ namespace InspetorXML_Console.Classes.XML
                     ProdutosNfe produto = new ProdutosNfe();
                     produto.numItem = i.ToString();
                     produto.xProd = node.InnerXml.ToString();
+
 
                     //Atribui o CFOP
                     node = xpathNav.SelectSingleNode("//nfe:infNFe/nfe:det[" + i + "]/nfe:prod/nfe:CFOP", nameSpace);
@@ -513,13 +620,297 @@ namespace InspetorXML_Console.Classes.XML
                         produto.vIPI = node.InnerXml.ToString();
                     }
 
-                    //ICMS
-                    // node = xpathNav.SelectSingleNode("//nfe:infNFe/nfe:det[" + i + "]/nfe:imposto/nfe:ICMS/nfe:ICMS" + sIcms + "/nfe:pICMS", nameSpace);
-                        
 
+                    //ICMS
+                    //Icms Simples Nacional
+
+                    if (this.CRT.ToString() == "1")
+                                        {
+                        var sIcms = PegaIcmsSn(xml, 1);
+                        node = xpathNav.SelectSingleNode("//nfe:infNFe/nfe:det[" + i + "]/nfe:imposto/nfe:ICMS/nfe:ICMSSN" + sIcms + "/nfe:CSOSN", nameSpace);
+                        if (node != null)
+                        {
+                            produto.CstIcms = node.InnerXml.ToString();
+                        }
+                        node = xpathNav.SelectSingleNode("//nfe:infNFe/nfe:det[" + i + "]/nfe:imposto/nfe:ICMS/nfe:ICMSSN" + sIcms + "/nfe:pCredSN", nameSpace);
+
+                        if (node != null)
+                        {
+                            produto.AliqIcms = node.InnerXml.ToString();
+                        }
+                        else
+                        {
+                            produto.AliqIcms = "0";
+                        }
+
+                        node = xpathNav.SelectSingleNode("//nfe:infNFe/nfe:det[" + i + "]/nfe:imposto/nfe:ICMS/nfe:ICMSSN" + sIcms + "/nfe:vCredICMSSN", nameSpace);
+
+                        if (node != null)
+                        {
+                            produto.ValIcms = node.InnerXml.ToString();
+                        }
+                        else
+                        {
+                            produto.ValIcms = "0";
+                        }
+
+                        node = xpathNav.SelectSingleNode("//nfe:infNFe/nfe:det[" + i + "]/nfe:imposto/nfe:ICMS/nfe:ICMSSN" + sIcms + "/nfe:vBC", nameSpace);
+                        if (node != null)
+                        {
+                            ValBcIcms = produto.ValIcms = node.InnerXml.ToString();
+                        }
+                        else
+                        {
+                            ValBcIcms = "0";
+                        }
+
+                        node = xpathNav.SelectSingleNode("//nfe:infNFe/nfe:det[" + i + "]/nfe:imposto/nfe:ICMS/nfe:ICMSSN" + sIcms + "/nfe:pRedBC", nameSpace);
+                            if (node != null)
+                            {
+                                bAliqRedBCIcms = node.InnerXml.ToString();
+                            }
+                            else { 
+                                bAliqRedBCIcms = "0";
+                            }
+
+                        node = xpathNav.SelectSingleNode("//nfe:infNFe/nfe:det[" + i + "]/nfe:imposto/nfe:ICMS/nfe:ICMSSN" + sIcms + "/nfe:pRedBCST", nameSpace);
+                        if (node != null)
+                        {
+                            bAliqRedBCSTIcms = node.InnerXml.ToString();
+                        }
+                        else { 
+                            bAliqRedBCSTIcms = "0";
+                        }
+
+                        if (this.CRT == "1")
+                        {
+                            node = xpathNav.SelectSingleNode("//nfe:infNFe/nfe:det[" + i + "]/nfe:imposto/nfe:ICMS/nfe:ICMSSN" + sIcms + "/nfe:pMVAST", nameSpace);
+                        }
+                        else
+                        {
+                            node = xpathNav.SelectSingleNode("//nfe:infNFe/nfe:det[" + i + "]/nfe:imposto/nfe:ICMS/nfe:ICMSSN" + sIcms + "/nfe:pMVAST", nameSpace);
+                        }
+
+                        if (node != null)
+                        {
+                            produto.dMvaST = node.InnerXml.ToString();
+                        }
+                        else
+                        {
+                            produto.dMvaST = "0";
+                        }
+
+                        node = xpathNav.SelectSingleNode("//nfe:infNFe/nfe:det[" + i + "]/nfe:imposto/nfe:ICMS/nfe:ICMSSN" + sIcms + "/nfe:vBCST", nameSpace);
+
+                        if (node != null)
+                        {
+                            dValBcSTIcms = node.InnerXml.ToString();
+                        }
+                        else { 
+                                dValBcSTIcms = "0";
+                        }
+
+                        node = xpathNav.SelectSingleNode("//nfe:infNFe/nfe:det[" + i + "]/nfe:imposto/nfe:ICMS/nfe:ICMSSN" + sIcms + "/nfe:vCredICMSSN", nameSpace);
+                        if (node != null)
+                        {
+                            dValIcmsSt = node.InnerXml.ToString();
+                        }
+                        else {
+                            dValIcmsSt = "0";
+                        }
+
+                        node = xpathNav.SelectSingleNode("//nfe:infNFe/nfe:det[" + i + "]/nfe:imposto/nfe:ICMS/nfe:ICMSSN" + sIcms + "/nfe:pICMSST", nameSpace);
+                        if(node != null){
+                            produto.dAliqIcmsSt = node.InnerXml.ToString();
+                        }
+                        else {
+                            produto.dAliqIcmsSt = "0";
+                        }
+
+                        node = xpathNav.SelectSingleNode("//nfe:infNFe/nfe:det[" + i + "]/nfe:imposto/nfe:ICMS/nfe:ICMSSN" + sIcms + "/nfe:orig", nameSpace);
+                        if(node != null){
+                            sOrigCST = "'" + node.InnerXml.ToString().Substring(0, 1) + "'";
+                        }else { 
+                            sOrigCST = "NULL";
+                        }
+
+                        node = xpathNav.SelectSingleNode("//nfe:infNFe/nfe:det[" + i + "]/nfe:imposto/nfe:ICMS/nfe:ICMSSN" + sIcms + "/nfe:pRedBC", nameSpace);
+                        if (node != null)
+                        {
+                            produto.bRedBC = node.InnerXml.ToString();
+                        }
+                        else
+                        {
+                            produto.bRedBC = "0";
+                        }
+                        //Fim do Icms Simples Nacional
+                    }
+                    else
+                    {
+                        var sIcms = PegaIcms(xml, 1);
+
+
+                            node = xpathNav.SelectSingleNode("//nfe:infNFe/nfe:det[" + i + "]/nfe:imposto/nfe:ICMS/nfe:ICMS" + sIcms + "/nfe:pRedBC", nameSpace);
+                            if (node != null)
+                            {
+                                produto.bRedBC = node.InnerXml.ToString();
+                            }
+                            else
+                            {
+                                produto.bRedBC = "0";
+                            }
+
+                            node = xpathNav.SelectSingleNode("//nfe:infNFe/nfe:det[" + i + "]/nfe:imposto/nfe:ICMS/nfe:ICMS" + sIcms + "/nfe:CST", nameSpace);
+                            if (node != null)
+                            {
+                                if (node.InnerXml.ToString().Length >= 3)
+                                {
+                                    sCstIcms = "'" + node.InnerXml.ToString().Substring(0, 3) + "'";
+                                }                                
+                            }
+                            else {
+                                sCstIcms = "NULL";
+                            }
+
+                            node = xpathNav.SelectSingleNode("//nfe:infNFe/nfe:det[" + i + "]/nfe:imposto/nfe:ICMS/nfe:ICMS" + sIcms + "/nfe:pICMS", nameSpace);
+                            if (node != null)
+                            {
+                                dAliqIcms = node.InnerXml.ToString();
+                            }
+                            else {
+                                dAliqIcms = "0";
+                            }
+
+                            node = xpathNav.SelectSingleNode("//nfe:infNFe/nfe:det[" + i + "]/nfe:imposto/nfe:ICMS/nfe:ICMS" + sIcms + "/nfe:vICMS", nameSpace);
+                            if (node != null)
+                            {
+                                dValIcms = node.InnerXml.ToString();
+                            }
+                            else {
+                                dValIcms = "0";
+                            }
+
+                            node = xpathNav.SelectSingleNode("//nfe:infNFe/nfe:det[" + i + "]/nfe:imposto/nfe:ICMS/nfe:ICMS" + sIcms + "/nfe:vBC", nameSpace);
+                            if (node != null)
+                            {
+                                dValBcIcms = node.InnerXml.ToString();
+                            }
+                            else {
+                                dValBcIcms = "0";
+                            }
+
+                            node = xpathNav.SelectSingleNode("//nfe:infNFe/nfe:det[" + i + "]/nfe:imposto/nfe:ICMS/nfe:ICMS" + sIcms + "/nfe:pRedBC", nameSpace);
+                            if (node != null)
+                            {
+                                bAliqRedBCIcms = node.InnerXml.ToString();
+                            }
+                            else {
+                                bAliqRedBCIcms = "0";
+                            }
+
+                            node = xpathNav.SelectSingleNode("//nfe:infNFe/nfe:det[" + i + "]/nfe:imposto/nfe:ICMS/nfe:ICMS" + sIcms + "/nfe:pRedBCST", nameSpace);
+                            if (node != null)
+                            {
+                                bAliqRedBCSTIcms = node.InnerXml.ToString();
+                            }
+                            else {
+                                bAliqRedBCSTIcms = "0";
+                            }
+
+                            node = xpathNav.SelectSingleNode("//nfe:infNFe/nfe:det[" + i + "]/nfe:imposto/nfe:ICMS/nfe:ICMS" + sIcms + "/nfe:pMVAST", nameSpace);
+                            if (node != null)
+                            {
+                                produto.dAliqMvaST = node.InnerXml.ToString();
+                            }
+                            else {
+                                produto.dAliqMvaST = "0";
+                            }
+
+                            node = xpathNav.SelectSingleNode("//nfe:infNFe/nfe:det[" + i + "]/nfe:imposto/nfe:ICMS/nfe:ICMS" + sIcms + "/nfe:vBCST", nameSpace);
+                            if (node != null)
+                            {
+                                dValBcSTIcms = node.InnerXml.ToString();
+                            }
+                            else {
+                                dValBcSTIcms = "0";
+                            }
+
+                            node = xpathNav.SelectSingleNode("//nfe:infNFe/nfe:det[" + i + "]/nfe:imposto/nfe:ICMS/nfe:ICMS" + sIcms + "/nfe:vICMSST", nameSpace);
+                            if (node != null)
+                            {
+                                dValIcmsSt = node.InnerXml.ToString();
+                            }
+                            else {
+                                dValIcmsSt = "0";
+                            }
+
+                            node = xpathNav.SelectSingleNode("//nfe:infNFe/nfe:det[" + i + "]/nfe:imposto/nfe:ICMS/nfe:ICMS" + sIcms + "/nfe:pICMSST", nameSpace);
+                            if (node != null)
+                            {
+                                dAliqIcmsSt = node.InnerXml.ToString();
+                            }
+                            else {
+                                dAliqIcmsSt = "0";
+                            }
+
+                            node = xpathNav.SelectSingleNode("//nfe:infNFe/nfe:det[" + i + "]/nfe:imposto/nfe:ICMS/nfe:ICMS" + sIcms + "/nfe:orig", nameSpace);
+                            if (node != null)
+                            {
+                                sOrigCST = "'" + node.InnerXml.ToString().Substring(0, 1) + "'";
+                            }
+                            else {
+                                sOrigCST = "NULL";
+                            }
+
+                            node = xpathNav.SelectSingleNode("//nfe:infNFe/nfe:det[" + i + "]/nfe:imposto/nfe:ICMS/nfe:ICMSSN" + sIcms + "/nfe:CSOSN", nameSpace);
+
+
+                            node = xpathNav.SelectSingleNode("//nfe:infNFe/nfe:det[" + i + "]/nfe:imposto/nfe:ICMS/nfe:ICMS" + sIcms + "/nfe:CST", nameSpace);
+
+                            if (CRT.ToString() == "1")
+                            {
+                                node = xpathNav.SelectSingleNode("//nfe:infNFe/nfe:det[" + i + "]/nfe:imposto/nfe:ICMS/nfe:ICMSSN" + sIcms + "/nfe:CSOSN", nameSpace);
+                            }
+                            else
+                            {
+                                node = xpathNav.SelectSingleNode("//nfe:infNFe/nfe:det[" + i + "]/nfe:imposto/nfe:ICMS/nfe:ICMS" + sIcms + "/nfe:CST", nameSpace);
+                            }
+
+                            if (node != null)
+                            {
+                                produto.sCst = node.InnerXml.ToString().Replace(".", ",");
+                            }
+
+                            for (var j = 0; j <= matriz.GetUpperBound(0); j++)
+                            {
+
+                                if (produto.sCst == matriz[j])
+                                {
+                                    produto.bSimST = true;
+                                    produto.bValMvaSt = true;
+                                    produto.bValBcSt = true;
+                                }
+                            }
+
+                            for (int j = 0; j <= matrizComRed.GetUpperBound(0); j++)
+                            {
+                                if (produto.sCst == matrizComRed[j])
+                                {
+                                    produto.bValComReducao = true;
+                                }
+                            }
+
+                            for (int j = 0; j <= matrizAliqIcms.GetUpperBound(0); j++)
+                            {
+                                if (produto.sCst == matrizAliqIcms[j])
+                                {
+                                    produto.bValAliqIcms = true;
+                                }
+                            }
+                        }
 
                     //CST
-                        node = xpathNav.SelectSingleNode("//nfe:infNFe/nfe:det[" + i + "]/nfe:imposto/nfe:COFINS/nfe:COFINSAliq/nfe:CST", nameSpace);
+                    node = xpathNav.SelectSingleNode("//nfe:infNFe/nfe:det[" + i + "]/nfe:imposto/nfe:COFINS/nfe:COFINSAliq/nfe:CST", nameSpace);
                     if (node != null)
                     {
                         produto.CST = node.InnerXml.ToString();
@@ -535,7 +926,8 @@ namespace InspetorXML_Console.Classes.XML
                         node = xpathNav.SelectSingleNode("//nfe:infNFe/nfe:det[" + i + "]/nfe:imposto/nfe:COFINS/nfe:COFINSAliq/nfe:vBC", nameSpace);
                         if (node != null)
                         {
-                            produto.vBC = node.InnerXml.ToString();
+                            this.vBCCofins += Convert.ToDouble(node.InnerXml.ToString());
+                            produto.vBCCofins = node.InnerXml.ToString();
                         }
 
                         //Atribui pCOFINS
@@ -549,6 +941,7 @@ namespace InspetorXML_Console.Classes.XML
                         node = xpathNav.SelectSingleNode("//nfe:infNFe/nfe:det[" + i + "]/nfe:imposto/nfe:COFINS/nfe:COFINSAliq/nfe:vCOFINS", nameSpace);
                         if (node != null)
                         {
+                            this.vCOFINS += Convert.ToDouble(node.InnerXml.ToString());
                             produto.vCOFINS = node.InnerXml.ToString();
                         }
                     }
@@ -580,6 +973,7 @@ namespace InspetorXML_Console.Classes.XML
                     node = xpathNav.SelectSingleNode("//nfe:infNFe/nfe:det[" + i + "]/nfe:imposto/nfe:PIS/nfe:PISAliq/nfe:vBC", nameSpace);
                     if (node != null)
                     {
+                        this.BasePis += Convert.ToDouble(node.InnerXml.ToString());
                         produto.BasePis = node.InnerXml.ToString();
                     }
 
@@ -588,6 +982,7 @@ namespace InspetorXML_Console.Classes.XML
                     node = xpathNav.SelectSingleNode("//nfe:infNFe/nfe:det[" + i + "]/nfe:imposto/nfe:PIS/nfe:PISAliq/nfe:vPIS", nameSpace);
                     if (node != null)
                     {
+                        this.ValorPis += Convert.ToDouble(node.InnerXml.ToString());
                         produto.ValorPis = node.InnerXml.ToString();
                     }
 
@@ -598,6 +993,7 @@ namespace InspetorXML_Console.Classes.XML
                         produto.pPIS = node.InnerXml.ToString();
                     }
 
+                    
 
                     List<string> verificaEmpresa = new List<string>();
 
@@ -613,7 +1009,7 @@ namespace InspetorXML_Console.Classes.XML
                         //Implementar a query do RM aqui
                         sqlVerificaEmpresa = "SELECT CODCOLIGADA, CODFILIAL FROM GFILIAL WHERE REPLACE(REPLACE(REPLACE(CGC, '.', ''), '/', ''), '-', '') = '" + this.CnpjEmitente+"'";
                     }
-                    
+                //Determina o TipoNF
                     verificaEmpresa = this.dbXml.consultaErp(sqlVerificaEmpresa);
                     //Se o emitente estiver na sigamat então o tipo da nota será saída
                     if (verificaEmpresa.Count > 0)
@@ -627,20 +1023,62 @@ namespace InspetorXML_Console.Classes.XML
                         this.TipoNf = "ENTRADA";
                     }
 
-                    this.carregaDadosErp();
+                    //Determina se a nota é de transferência
+                    if (this.CnpjEmitente.Substring(0, 8) == this.CnpjDestinatario.Substring(0,8))
+                    {
+                        var qryRegra = "SELECT ATIVO FROM REGRASXML WHERE TIPO_VALIDACAO = 'SAIDA' AND ORDEM = 1 AND TIPO = 'S' AND PROCESSO = 'SAIDA'";
+                        var processa = this.dbXml.consultaErp(qryRegra);
+                        if (processa[0] == "1")
+                        {
+                            this.TipoNf = "TRANSF_ENTSAI";
+                        }
+                        else
+                        {
+                            this.TipoNf = "TRANSF_ENT";
+                        }
+                    }
+
+                    if (this.CnpjEmitente == this.CnpjDestinatario)
+                    {
+                        this.TipoNf = "ENT_IMP";
+                    }
+
+                    if (!this.carregaDadosErp())
+                    {
+                        break;
+                    }
+                        
                     //Carrega o código do produto do ERP
                     string query = FuncoesErp.sqlCodProdErp(this.tipoErp, produto.NCM, this.codTabProd, this.CodFilErp);
                     var lista = this.dbErp.consultaErp(query);
                     try
                     {
-                        produto.codProdErp = lista[0];
-                        produto.codFilialProdErp = lista[1];
-                        produto.TpProd = lista[2];
-                    }
+                        if (lista.Count == 0)
+                        {
+                            this.xmlCriticado = true;
+                            this.msgCritica = "Produto com NCM: " + produto.NCM + " não foi encontrado no ERP";
+                            var queryPrd = "INSERT INTO CRITICAXML (CODFILIAL, NOME_XML, DATAEMISSAO, CNPJ, RAZAO, SETOR, ITEM_XML, COD_PRD_AUX, DESC_PRD, UND_MED, CRITICA, TIPO, FLAG_STATUS) VALUES " +
+                                                                            "('" + this.CodFilErp + "', '" + this.nomeArquivo + "', '" + this.DataEmissao + "', '" + this.CnpjEmitente + "', '" + this.NomeEmitente + "', 'CMP', '" + produto.numItem + "', '" + produto.codProdErp + "', '" + produto.xProd + "', '" + produto.uCom + "', 'PRODUTO NAO CADASTRADO', 'C', 'E')";
+                            this.dbXml.execQuery(queryPrd);
+
+                                break;
+                            }
+                            else
+                            {
+                                produto.codProdErp = lista[0];
+                                produto.codFilialProdErp = lista[1];
+                                produto.TpProd = lista[2];
+                            }
+                        }
                     catch (Exception ex)
                     {
                         this.xmlCriticado = true;
                         this.msgCritica = "Produto não cadastrado! " + ex.ToString();
+                        Console.ForegroundColor = System.ConsoleColor.Red;
+                        Console.WriteLine("         Erro na função carregaAtributos(): " + ex.ToString());
+                        Console.ForegroundColor = System.ConsoleColor.Gray;
+                        break;
+                        
                     }
 
                     //Atribui o campo TES                    
@@ -655,43 +1093,117 @@ namespace InspetorXML_Console.Classes.XML
                     {
                         this.xmlCriticado = true;
                         this.msgCritica = ex.ToString();
+                            Console.WriteLine("         Erro: " + ex.ToString());                        
+                    }
+                    
+                    produto.GrpTrib = this.dbErp.consultaErp(FuncoesErp.sqlGrupoTrib(this.codTabProd, this.codTabProd, this.CodFilErp))[0];
+                    var pauta = this.dbErp.consultaErp(FuncoesErp.sqlPauta(this.codTabProd, this.UFEmitente, this.CodFilErp, produto.GrpTrib));
+                    produto.dFatorMva = Convert.ToDouble(pauta[0]);
+                    produto.dVAliqPauta = Convert.ToDouble(pauta[1]);
+                    produto.dVPrecoPauta = Convert.ToDouble(pauta[2]);
+
+
+
+                    //Validação Fiscal 1
+                    if (!(produto.dVPrecoPauta > 0))
+                    {
+                        if (produto.dMvaST == "0"  && produto.bValMvaSt)
+                        {
+                                this.xmlCriticado = true;
+                                this.msgCritica = "MVA NAO DESTACADO NO XML, CST UTILIZADO OBRIGA PREENCHIMENTO DE INFORMACOES ST";
+                                var queryErroCst = "INSERT INTO CRITICAXML (CODFILIAL, NOME_XML, DATAEMISSAO, CNPJ, RAZAO, SETOR, ITEM_XML, COD_PRD, COD_PRD_AUX, DESC_PRD, VALOR_PRD, CST, ALIQ_ICMS, ALIQ_ICMSST, RED_BC, CRITICA, TIPO) " +
+                                    "VALUES ('" + this.CodFilErp + "', '" + this.nomeArquivo + "', '" + this.DataEmissao + "', '" + this.CnpjEmitente + "', '" + this.NomeEmitente + "', 'FIS', '" + i + "', '" + produto.codProdErp + "', '" + produto.codProdErp + "', " +
+                                    "'" + produto.xProd + "', '" + produto.vProd.ToString() + "', '" + produto.sCst + "', '" + produto.AliqIcms + "', '" + dAliqIcmsSt + "', '" + produto.bRedBC + "', 'MVA NAO DESTACADO NO XML, CST UTILIZADO OBRIGA PREENCHIMENTO DE INFORMACOES ST', 'A')";
+
+                                this.dbXml.execQuery(queryErroCst);
+                            }
+
+                    }
+                    else if ((Convert.ToDouble(produto.dMvaST) != produto.dFatorMva) && Convert.ToDouble(produto.dMvaST) > 0)
+                    {
+                        this.xmlCriticado = true;
+                        this.msgCritica = "DIVERGENCIA NO VALOR MVA XML X MVA CADASTRADO NAS EXCECOES FISCAIS";
+                        var queryErroCst = "INSERT INTO CRITICAXML (CODFILIAL, NOME_XML, DATAEMISSAO, CNPJ, RAZAO, SETOR, ITEM_XML, COD_PRD, COD_PRD_AUX, DESC_PRD, VALOR_PRD, CST, ALIQ_ICMS, ALIQ_ICMSST, RED_BC, VALOR_MVA_XML, " +
+                            "VALOR_MVA_PRD, CRITICA, TIPO) VALUES ('" + this.CodFilErp + "', '" + this.nomeArquivo + "', '" + this.DataEmissao + "', '" + this.CnpjEmitente + "', '" + this.NomeEmitente + "', 'FIS', '" + i + "', '" + produto.codProdErp + "', '" + produto.codProdErp + "', " +
+                            "'" + produto.xProd + "', '" + produto.vProd + "', '" + produto.sCst + "', '" + produto.AliqIcms + "', '" + produto.dAliqIcmsSt + "', '" + produto.bRedBC + "', '" + produto.dMvaST + "', '" + produto.dFatorMva + "', " +
+                            "'DIVERGENCIA NO VALOR MVA XML X MVA CADASTRADO NAS EXCECOES FISCAIS', 'A')";
+                        this.dbXml.execQuery(queryErroCst);
                     }
 
+                    //Validação Fiscal 2
+                    if (Convert.ToDouble(produto.bRedBC) > 0 && produto.bValComReducao)
+                    {
+                        produto.dBcCalc = Convert.ToDouble(produto.vProd) - (Convert.ToDouble(produto.vProd) * (Convert.ToDouble(produto.bRedBC) / 100));
+                        if (!(produto.dVPrecoPauta > 0))
+                        {
+                            if (produto)
+                            {
+
+                            }
+                        }
+
+                    }
                     this.Itens.Add(produto);
                     i++;                    
                 }
-
             }
         }
+
+        //Validações
+
+
+
         } //Fim da função
 
-        public void carregaDadosErp()
+        public bool carregaDadosErp()
         {
             string query = FuncoesErp.sqlEmpresaErp(this.tipoErp, this.TipoNf == "ENTRADA" ? this.CnpjDestinatario : this.CnpjEmitente);
             var lista = this.dbXml.consultaErp(query);
+            
             try
             {
-                this.CodEmpErp = lista[0];
-                this.CodFilErp = lista[1];
+                if (lista.Count > 0)
+                {
+                    this.CodEmpErp = lista[0];
+                    this.CodFilErp = lista[1];
+                    //Query para pegar a tabela dos produtos do ERP
+                    query = FuncoesErp.sqlTabProdErp(this.tipoErp, this.CodEmpErp);
+
+                    lista = this.dbXml.consultaErp(query);
+                    try
+                    {
+                        if (lista.Count > 0)
+                        {
+                            this.codTabProd = lista[1];
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                        
+                    }
+                    catch (Exception ex)
+                    {
+                        this.xmlCriticado = true;
+                        this.msgCritica = ex.ToString();
+                        return false;
+                    }
+                }
+                else
+                {
+                    this.xmlCriticado = true;
+                    this.msgCritica = "XML TRANSFERIDO PARA A PASTA CRITICADOS, O MESMO NAO PERTENCE AO GRUPO DA EMPRESA";
+                    return false;
+                }
             }
             catch (Exception ex)
             {
                 this.xmlCriticado = true;
-                this.msgCritica = ex.ToString();
+                
+                return false;
             }
 
-            //Query para pegar a tabela dos produtos do ERP
-            query = FuncoesErp.sqlTabProdErp(this.tipoErp, this.CodEmpErp);
-            lista = this.dbXml.consultaErp(query);
-            try
-            {
-                this.codTabProd = lista[1];
-            }
-            catch (Exception ex)
-            {
-                this.xmlCriticado = true;
-                this.msgCritica = ex.ToString();
-            }            
         }
 
         public string PegaIcmsSn(XmlDocument xmlDoc, int item)
@@ -846,6 +1358,15 @@ namespace InspetorXML_Console.Classes.XML
                 sResp = sResp.Trim() == "" ? "90" : sResp + ";90";
             }
             return sResp;
+        }
+
+        public void validacaoFiscal()
+        {
+            
+            if (this.TipoNf != "ENT_IMP")
+            {
+
+            }
         }
     }
 }

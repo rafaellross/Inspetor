@@ -121,7 +121,7 @@
   <data name="btnSalvar.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABHNCSVQICAgIfAhkiAAAAAFzUkdCAK7O
-        HOkAAAAEZ0FNQQAAsY8L/GEFAAAACXBIWXMAAAsRAAALEQF/ZF+RAAAI5klEQVRoQ+2ZeUyU+RnHqd02
+        HOkAAAAEZ0FNQQAAsY8L/GEFAAAACXBIWXMAAAsNAAALDQHtB8AsAAAI5klEQVRoQ+2ZeUyU+RnHqd02
         TZt2j57b3ZpNFbo2TdakXVebGpssZV11WWW4BHSGS+SQGwFRjuG+T7mv4UYQEJBDGEHkEu9ju9p16/by
         YNv+07Sbpo3fPs/vnXecmQy+27TL/LNP8gkB5J3P9/k97/s+iXaf1+f1f6xXtx5McNji97cfbfb75H/D
         9zPBntw2bA2KNehaVsoa+03qf+n0H0F//WNMMteWMXF1GcsV2Vguz8JyWSaRgeXSdMGjEq1EUapEYQoe
@@ -230,7 +230,4 @@
         WZbZcwAAAABJRU5ErkJggg==
 </value>
   </data>
-  <metadata name="$this.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
 </root>
