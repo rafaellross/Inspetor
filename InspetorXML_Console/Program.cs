@@ -19,18 +19,30 @@ namespace InspetorXML_Console
             Console.WriteLine("Carrega os Parametros");
             parametros.carregaParametros();
 
-            Console.WindowWidth = 170;
-            Console.WindowHeight = 58;
+            //Console.WindowWidth = 140;
+            //Console.WindowHeight = 40;
             Console.WriteLine("Cria as variáveis dos arquivos de log");
-            var logXml = new StreamWriter(parametros.PastaLog + "\\Erros_DB_xml.txt");
-            var logErp = new StreamWriter(parametros.PastaLog + "\\Erros_DB_" + parametros.TipoErp + ".txt");
-            Console.WriteLine("Log DB XML:" + logXml.ToString() + " | " + "Log DB Erp:" + logErp.ToString());
+            StreamWriter logXml;
+            StreamWriter logErp;
+            if (!File.Exists(parametros.PastaLog + "\\Erros_DB_xml.txt"))
+            {
+                logXml = new StreamWriter(parametros.PastaLog + "\\Erros_DB_xml.txt");
+                logErp = new StreamWriter(parametros.PastaLog + "\\Erros_DB_" + parametros.TipoErp + ".txt");
+            }
+            else
+            {
+                logXml = File.AppendText(parametros.PastaLog + "\\Erros_DB_xml.txt");                    
+                logErp = File.AppendText(parametros.PastaLog + "\\Erros_DB_" + parametros.TipoErp + ".txt");
+            }
+            Console.WriteLine("Log DB XML:" + logXml + " | " + "Log DB Erp:" + logErp.ToString());
             Console.WriteLine(" ");
             Console.WriteLine(" ");
 
 
 
             Console.WriteLine("Instancia os Bancos de Dados");
+            //public DB(string Instancia, string Banco, string Usuario, string Senha, StreamWriter arquivoLog, string tipoDB)
+            
             DB dbErp = new DB(parametros.DBErpServer, parametros.DBErp, parametros.UserDBErp, parametros.PasswdDBErp, logErp, parametros.TipoErp);
             DB dbInspetor = new DB(parametros.DBInspetorServer, parametros.DBInspetor, parametros.UserDBInspetor, parametros.PasswdDBInspetor, logXml, "InspetorXml");
 
@@ -51,14 +63,14 @@ namespace InspetorXML_Console
             Console.WriteLine(" ");
             Console.WriteLine("Carrega os arquivos XML");
             //Carrega os arquivos XML
+            
             notas.carregaXml();
 
             Console.WriteLine(" ");
             Console.WriteLine(" ");
             if (notas.arquivosXml.Count == 0)
             {
-                Console.WriteLine("Aperte ENTER para sair!");
-                Console.ReadLine();
+                Console.WriteLine("Aperte qualquer tecla para sair!");
                 Environment.Exit(0);
             }
             Console.WriteLine("Instanciando objeto do ERP para inserir das notas");
@@ -66,9 +78,8 @@ namespace InspetorXML_Console
             //Instanciando objeto do ERP para inserir das notas
             Erp erp = new Erp(notas.arquivosXml, dbErp, parametros, dbInspetor);
             erp.inicia();
-            Console.WriteLine("Aperte ENTER para sair!");
+            
 
-            Console.ReadKey();
 
         }
     }

@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace InspetorXML_Console.Classes
 {
@@ -116,6 +117,7 @@ namespace InspetorXML_Console.Classes
             catch (Exception ex)
             {
                 Console.ForegroundColor = System.ConsoleColor.Red;
+                MessageBox.Show(ex.Message + " | " + query);
                 Console.WriteLine("Erro no banco de dados:" + ex.ToString());
                 Console.ForegroundColor = System.ConsoleColor.Gray;
                 return false;

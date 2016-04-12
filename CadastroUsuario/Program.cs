@@ -16,6 +16,7 @@ namespace CadastroUsuario
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
             var login = new Login();
 
             Application.Run(login);

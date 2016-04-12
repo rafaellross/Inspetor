@@ -39,7 +39,7 @@ namespace InspetorXML_Console.Classes.App
 
             //Parâmetros do Banco de Dados do Inspetor XML
             this.DBInspetor = parametros["DBInspetor"];
-            this.DBErpServer = parametros["DBInspetorServer"];
+            this.DBInspetorServer = parametros["DBInspetorServer"];
             this.UserDBInspetor = parametros["UserDBInspetor"];
             this.PasswdDBInspetor = parametros["PasswdDBInspetor"];
 

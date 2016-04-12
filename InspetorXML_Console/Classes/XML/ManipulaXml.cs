@@ -29,7 +29,7 @@ namespace InspetorXML_Console.Classes.XML
         //Este método lê o diretório e retorna o nome de todos os arquivos
         public string[] lerDiretorio()
         {
-            return Directory.GetFiles(this.parametros.PastaProcessar);
+            return Directory.GetFiles(this.parametros.PastaProcessar, "*.xml");
         }
 
         //Retorna uma lista de arquivos XML lidos no método lerDiretorio
@@ -59,11 +59,14 @@ namespace InspetorXML_Console.Classes.XML
             else
             {
                 Console.WriteLine("Foram encontrados " + DocsXml().Count.ToString() + " arquivos XML na pasta para processar");
-
+                var itemAtual = 1;
+                var itensTotais = DocsXml().Count;
                 foreach (var item in DocsXml())
                 {
-                    Console.ForegroundColor = System.ConsoleColor.Green;
                     Console.WriteLine(" ");
+                    Console.WriteLine("         [Arquivo " + itemAtual.ToString() + " de " + itensTotais.ToString() + "]");
+                    itemAtual++;                    
+                    Console.ForegroundColor = System.ConsoleColor.Green;                    
                     Console.WriteLine("         Iniciando a manipulação do arquivo " + item.Key.ToString());
                     XmlNfe nfe = new XmlNfe(this.tipoErp, item.Key, item.Value, "nfe", this.dbXml, this.dbErp, parametros);
                     nfe.carregaAtributos();

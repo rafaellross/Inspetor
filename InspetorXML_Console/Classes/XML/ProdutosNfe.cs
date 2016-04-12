@@ -63,5 +63,6 @@ namespace InspetorXML_Console.Classes.XML
         public bool bValComReducao { get; internal set; }
         public bool bValAliqIcms { get; internal set; }
         public double dBcCalc { get; internal set; }
+        public string dBc { get; internal set; }
     }
 }

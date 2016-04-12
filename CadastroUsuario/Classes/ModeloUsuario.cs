@@ -87,6 +87,20 @@ namespace CadastroUsuario.Classes
                 db.execQuery("insert into usuario_empresa(usuario, codemp, codfilial, ativo) values('" + usuario + "', '" + empresa + "', '" + filial + "', 1);");
             }
         }
-        
+
+        //Função utilizada para cifrar a senha
+        public static string getMD5Hash(string input)
+        {
+            System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create();
+            byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(input);
+            byte[] hash = md5.ComputeHash(inputBytes);
+            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+            for (int i = 0; i < hash.Length; i++)
+            {
+                sb.Append(hash[i].ToString("X2"));
+            }
+            return sb.ToString();
+        }
+
     }
 }

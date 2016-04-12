@@ -22,6 +22,8 @@ namespace CadastroUsuario
         public TelaCadastro()
         {
             InitializeComponent();
+            txtNome.Focus();
+            txtNome.Select();
         }
         
         private void Form1_Load(object sender, EventArgs e)
@@ -31,6 +33,8 @@ namespace CadastroUsuario
             {
                 
                 txtUsuario.ReadOnly = true;
+                txtSenha.Enabled = false;
+                txtConfirmaSenha.Enabled = false;
             }
             dgEmpresas.DataSource = bindingSource1;
             GetData("SELECT cast(case when usr.usuario is null then 0 else 1 end  as bit) ' X ', M0_CODIGO, M0_CODFIL, M0_FILIAL, M0_NOMECOM FROM SIGAMAT left join usuario_empresa usr on sigamat.M0_CODIGO = usr.CODEMP and sigamat.M0_CODFIL = usr.CODFILIAL and usr.usuario = '" + txtUsuario.Text +"'");
@@ -43,6 +47,7 @@ namespace CadastroUsuario
 
         private void btnSalvar_Click(object sender, EventArgs e)
         {
+            
             if (txtSenha.Text != txtConfirmaSenha.Text || txtSenha.Text == "")
             {
                 toolTip("A senhas não coincidem!", txtSenha);
@@ -64,8 +69,7 @@ namespace CadastroUsuario
                 MessageBox.Show("O usuário já existe, favor escolha outro", "Erro ao cadastra usuário!",MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
-            {
-                //MessageBox.Show(chkAtivo.CheckState.ToString());
+            {                
                 salvaUsuario();
                 usuario.db.execQuery("delete from usuario_empresa where usuario = '" + usuario.Usuario + "';");
                 foreach (DataGridViewRow dr in dgEmpresas.Rows)
@@ -94,7 +98,7 @@ namespace CadastroUsuario
             usuario.Usuario = txtUsuario.Text;
             usuario.Email = txtEmail.Text;
             usuario.Nome = txtNome.Text;
-            usuario.Senha = txtSenha.Text;
+            usuario.Senha = ModeloUsuario.getMD5Hash(txtSenha.Text);
             if (chkAtivo.CheckState == CheckState.Checked)
             {
                 usuario.Ativo = "1";
@@ -119,8 +123,9 @@ namespace CadastroUsuario
                 {
                     MessageBox.Show("Usuário " + usuario.Usuario + " cadastrado com sucesso");
                     txtIdUsuario.Text = usuario.Id;
-                    txtUsuario.ReadOnly = true;                    
-
+                    txtUsuario.ReadOnly = true;
+                    txtSenha.Enabled = false;
+                    txtConfirmaSenha.Enabled = false;
                 }
                 else
                 {
@@ -178,6 +183,15 @@ namespace CadastroUsuario
                     "connectionString variable with a connection string that is " +
                     "valid for your system.");
             }
+        }
+
+        private void btnAlteraSenha_Click(object sender, EventArgs e)
+        {
+            txtSenha.Text = "";
+            txtConfirmaSenha.Text = "";
+            txtSenha.Enabled = true;
+            txtConfirmaSenha.Enabled = true;
+
         }
     }
 }

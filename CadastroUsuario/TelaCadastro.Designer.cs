@@ -48,6 +48,7 @@
             this.dgEmpresas = new System.Windows.Forms.DataGridView();
             this.chkAtivo = new System.Windows.Forms.CheckBox();
             this.chkAdministrador = new System.Windows.Forms.CheckBox();
+            this.btnAlteraSenha = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgEmpresas)).BeginInit();
             this.SuspendLayout();
             // 
@@ -77,13 +78,13 @@
             this.txtNome.Location = new System.Drawing.Point(13, 158);
             this.txtNome.Name = "txtNome";
             this.txtNome.Size = new System.Drawing.Size(239, 20);
-            this.txtNome.TabIndex = 2;
+            this.txtNome.TabIndex = 1;
             // 
             // btnSalvar
             // 
             this.btnSalvar.Image = ((System.Drawing.Image)(resources.GetObject("btnSalvar.Image")));
             this.btnSalvar.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnSalvar.Location = new System.Drawing.Point(260, 211);
+            this.btnSalvar.Location = new System.Drawing.Point(258, 158);
             this.btnSalvar.Name = "btnSalvar";
             this.btnSalvar.Size = new System.Drawing.Size(85, 70);
             this.btnSalvar.TabIndex = 7;
@@ -105,7 +106,7 @@
             // 
             this.btnCancelar.Image = ((System.Drawing.Image)(resources.GetObject("btnCancelar.Image")));
             this.btnCancelar.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnCancelar.Location = new System.Drawing.Point(369, 211);
+            this.btnCancelar.Location = new System.Drawing.Point(349, 158);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(85, 70);
             this.btnCancelar.TabIndex = 8;
@@ -190,7 +191,7 @@
             this.txtIdUsuario.Name = "txtIdUsuario";
             this.txtIdUsuario.ReadOnly = true;
             this.txtIdUsuario.Size = new System.Drawing.Size(239, 20);
-            this.txtIdUsuario.TabIndex = 1;
+            this.txtIdUsuario.TabIndex = 0;
             this.txtIdUsuario.WordWrap = false;
             // 
             // lbIdUsuario
@@ -241,11 +242,22 @@
             this.chkAdministrador.Text = "Administrador";
             this.chkAdministrador.UseVisualStyleBackColor = true;
             // 
+            // btnAlteraSenha
+            // 
+            this.btnAlteraSenha.Location = new System.Drawing.Point(258, 261);
+            this.btnAlteraSenha.Name = "btnAlteraSenha";
+            this.btnAlteraSenha.Size = new System.Drawing.Size(113, 23);
+            this.btnAlteraSenha.TabIndex = 19;
+            this.btnAlteraSenha.Text = "Alterar Senha";
+            this.btnAlteraSenha.UseVisualStyleBackColor = true;
+            this.btnAlteraSenha.Click += new System.EventHandler(this.btnAlteraSenha_Click);
+            // 
             // TelaCadastro
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(466, 453);
+            this.Controls.Add(this.btnAlteraSenha);
             this.Controls.Add(this.chkAdministrador);
             this.Controls.Add(this.chkAtivo);
             this.Controls.Add(this.dgEmpresas);
@@ -299,6 +311,7 @@
         internal System.Windows.Forms.TextBox txtConfirmaSenha;
         internal System.Windows.Forms.CheckBox chkAtivo;
         internal System.Windows.Forms.CheckBox chkAdministrador;
+        private System.Windows.Forms.Button btnAlteraSenha;
     }
 }
 

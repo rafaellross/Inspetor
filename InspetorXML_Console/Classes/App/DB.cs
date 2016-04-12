@@ -39,7 +39,7 @@ namespace InspetorXML_Console.Classes
             {
                 Console.ForegroundColor = System.ConsoleColor.Red;
                 Console.WriteLine("Ocorreu um erro ao conectar:" + e.ToString());
-                this.arquivoLog.WriteLine("Ocorreu um erro ao conectar:" + e.ToString());
+                this.arquivoLog.WriteLineAsync("Ocorreu um erro ao conectar:" + e.ToString());
                 Console.ForegroundColor = System.ConsoleColor.Gray;
                 return false;
             }
@@ -58,7 +58,7 @@ namespace InspetorXML_Console.Classes
                 this.arquivoLog.WriteLine("Ocorreu um erro ao fechar a conexão:" + e.ToString());
                 Console.ForegroundColor = System.ConsoleColor.Gray;
 
-                this.arquivoLog.WriteLine("Ocorreu um erro ao fechar a conexão:" + e.ToString());                                
+                this.arquivoLog.WriteLineAsync("Ocorreu um erro ao fechar a conexão:" + e.ToString());                                
             }
 
         }
@@ -85,6 +85,7 @@ namespace InspetorXML_Console.Classes
             catch (Exception ex)
             {
                 Console.ForegroundColor = System.ConsoleColor.Red;
+                Console.WriteLine(query);
                 Console.WriteLine("Erro no banco de dados:" + ex.ToString());
                 this.arquivoLog.WriteLineAsync("Erro no banco de dados:" + ex.ToString());
                 Console.ForegroundColor = System.ConsoleColor.Gray;
@@ -109,13 +110,16 @@ namespace InspetorXML_Console.Classes
                 }
                 
                 cmd.CommandText = query;
-                SqlDataReader Dr = cmd.ExecuteReader();                
+                SqlDataReader Dr = cmd.ExecuteReader();
+
             }
             catch (Exception ex)
             {
                 Console.ForegroundColor = System.ConsoleColor.Red;
+                Console.WriteLine(query);
                 Console.WriteLine("Erro no banco de dados:" + ex.ToString());
                 Console.ForegroundColor = System.ConsoleColor.Gray;
+                this.arquivoLog.WriteLineAsync("Erro no banco de dados:" + ex.ToString());
                 result.Add("erro: " + ex.ToString());
             }
             finally
@@ -153,10 +157,17 @@ namespace InspetorXML_Console.Classes
             }
             catch (Exception ex)
             {
-                Console.ForegroundColor = System.ConsoleColor.Red;
-                Console.WriteLine("Erro no banco de dados:" + ex.ToString());
+                Console.ForegroundColor = System.ConsoleColor.Red;                                
+                var erro = new Dictionary<string, string>();                
+                var msgErro = "---------------------------------------------------------------------" + "\n";
+                msgErro += "Comando: " + "\n";
+                msgErro += query + "\n";
+                msgErro += "Mensagem: " + "\n";
+                msgErro += ex.Message + "\n";
+                msgErro += "---------------------------------------------------------------------" + "\n";
+                Console.WriteLine(msgErro);
+                this.arquivoLog.WriteLineAsync(msgErro);
                 Console.ForegroundColor = System.ConsoleColor.Gray;
-                var erro = new Dictionary<string, string>();
                 erro.Add("erro", ex.Message);
                 result.Add(erro);
             }
@@ -169,7 +180,41 @@ namespace InspetorXML_Console.Classes
             }
 
             return result;
+        }
 
+        public bool insere(string query, string nomeTransacao = "InsereNotas")
+        {
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = this.connection;
+            this.connection.Open();
+            SqlTransaction transac = connection.BeginTransaction(nomeTransacao);
+            cmd.Transaction = transac;
+            try
+            {
+                cmd.CommandText = query;                
+                cmd.ExecuteNonQuery();
+                transac.Commit();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                transac.Rollback(nomeTransacao);
+                Console.ForegroundColor = System.ConsoleColor.Red;                                
+                var msgErro = "---------------------------------------------------------------------" + "\n";
+                    msgErro += "Comando: " + "\n";
+                    msgErro += query + "\n";
+                    msgErro += "Mensagem: " + "\n";
+                    msgErro += ex.Message + "\n";
+                    msgErro += "---------------------------------------------------------------------" + "\n";
+                Console.WriteLine(msgErro);
+                this.arquivoLog.WriteLineAsync(msgErro);
+                Console.ForegroundColor = System.ConsoleColor.Gray;
+                return false;
+            }
+            finally
+            {
+                this.connection.Close();
+            }            
         }
 
     }

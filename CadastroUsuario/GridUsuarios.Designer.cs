@@ -28,13 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GridUsuarios));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.dgUsuarios = new System.Windows.Forms.DataGridView();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.btnNovo = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
             this.chkUsuarios = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.button2 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.btnNovo = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgUsuarios)).BeginInit();
             this.panel1.SuspendLayout();
@@ -77,6 +78,14 @@
             this.dgUsuarios.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgUsuarios_CellContentDoubleClick);
             this.dgUsuarios.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgUsuarios_ColumnHeaderMouseClick);
             // 
+            // chkUsuarios
+            // 
+            this.chkUsuarios.HeaderText = "x";
+            this.chkUsuarios.Name = "chkUsuarios";
+            this.chkUsuarios.ReadOnly = true;
+            this.chkUsuarios.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.chkUsuarios.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
             // panel1
             // 
             this.panel1.Controls.Add(this.button2);
@@ -86,34 +95,6 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(670, 53);
             this.panel1.TabIndex = 1;
-            // 
-            // btnNovo
-            // 
-            this.btnNovo.Location = new System.Drawing.Point(9, 7);
-            this.btnNovo.Name = "btnNovo";
-            this.btnNovo.Size = new System.Drawing.Size(101, 40);
-            this.btnNovo.TabIndex = 0;
-            this.btnNovo.Text = "Novo Usuário";
-            this.btnNovo.UseVisualStyleBackColor = true;
-            this.btnNovo.Click += new System.EventHandler(this.btnNovo_Click_1);
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(119, 7);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(101, 40);
-            this.button1.TabIndex = 1;
-            this.button1.Text = "Atualizar";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // chkUsuarios
-            // 
-            this.chkUsuarios.HeaderText = "x";
-            this.chkUsuarios.Name = "chkUsuarios";
-            this.chkUsuarios.ReadOnly = true;
-            this.chkUsuarios.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.chkUsuarios.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             // 
             // button2
             // 
@@ -125,12 +106,33 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(119, 7);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(101, 40);
+            this.button1.TabIndex = 1;
+            this.button1.Text = "Atualizar";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // btnNovo
+            // 
+            this.btnNovo.Location = new System.Drawing.Point(9, 7);
+            this.btnNovo.Name = "btnNovo";
+            this.btnNovo.Size = new System.Drawing.Size(101, 40);
+            this.btnNovo.TabIndex = 0;
+            this.btnNovo.Text = "Novo Usuário";
+            this.btnNovo.UseVisualStyleBackColor = true;
+            this.btnNovo.Click += new System.EventHandler(this.btnNovo_Click_1);
+            // 
             // GridUsuarios
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(676, 397);
             this.Controls.Add(this.tableLayoutPanel1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "GridUsuarios";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Lista de Usuários";
