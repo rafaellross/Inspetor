@@ -15,20 +15,50 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_15EBFF3F16FCFC640FDDA86D2A6D9CAA"
-        "OwnerKey" = "8:_7AFB0A1D955A41BBA3B30468AA3B83D5"
+        "MsmKey" = "8:_1603E7CB60DF4E9F9CFD7EB11AAED7D6"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_15EBFF3F16FCFC640FDDA86D2A6D9CAA"
+        "MsmKey" = "8:_366CA3EADFE6EE2C95D5768116467A41"
+        "OwnerKey" = "8:_419B06CB70874B109CD53E13D03E0D24"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_366CA3EADFE6EE2C95D5768116467A41"
+        "OwnerKey" = "8:_5BF5B154862D4741A70205EA11FC5130"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_366CA3EADFE6EE2C95D5768116467A41"
         "OwnerKey" = "8:_CE40DD75522440C988C18CD4FFBF0945"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_7AFB0A1D955A41BBA3B30468AA3B83D5"
+        "MsmKey" = "8:_419B06CB70874B109CD53E13D03E0D24"
         "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_5BF5B154862D4741A70205EA11FC5130"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_7F798D8E747A56EB0ABE0D0474361190"
+        "OwnerKey" = "8:_419B06CB70874B109CD53E13D03E0D24"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_7F798D8E747A56EB0ABE0D0474361190"
+        "OwnerKey" = "8:_D00D928C32F147B6B0AB9CC1D18C68D5"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -45,8 +75,8 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_15EBFF3F16FCFC640FDDA86D2A6D9CAA"
+        "MsmKey" = "8:_D00D928C32F147B6B0AB9CC1D18C68D5"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -58,7 +88,31 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_7AFB0A1D955A41BBA3B30468AA3B83D5"
+        "OwnerKey" = "8:_5BF5B154862D4741A70205EA11FC5130"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_7F798D8E747A56EB0ABE0D0474361190"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_D00D928C32F147B6B0AB9CC1D18C68D5"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_419B06CB70874B109CD53E13D03E0D24"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_366CA3EADFE6EE2C95D5768116467A41"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -79,6 +133,22 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.5"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.5 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.5"
+                    }
+                }
+            }
         }
         "Release"
         {
@@ -95,12 +165,42 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.5"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.5 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.5"
+                    }
+                }
+            }
         }
     }
     "Deployable"
     {
         "CustomAction"
         {
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_19A6040DDF7B42D78718BC0300B563D7"
+            {
+            "Name" = "8:Primary output from CadastroUsuario (Active)"
+            "Condition" = "8:"
+            "Object" = "8:_5BF5B154862D4741A70205EA11FC5130"
+            "FileType" = "3:2"
+            "InstallAction" = "3:2"
+            "Arguments" = "8:"
+            "EntryPoint" = "8:"
+            "Sequence" = "3:4"
+            "Identifier" = "8:_10D8693D_5AF5_4F37_993B_38C01ACE639A"
+            "InstallerClass" = "11:TRUE"
+            "CustomActionData" = "8:"
+            }
             "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_1F219A31ED894AF58285F90939118344"
             {
             "Name" = "8:Primary output from InspetorXML_Console (Active)"
@@ -110,64 +210,92 @@
             "InstallAction" = "3:1"
             "Arguments" = "8:"
             "EntryPoint" = "8:"
-            "Sequence" = "3:2"
+            "Sequence" = "3:1"
             "Identifier" = "8:_A72CF8E2_D3C5_4013_89B9_24DEFE862568"
             "InstallerClass" = "11:TRUE"
             "CustomActionData" = "8:"
             }
-            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_41CD8502170F45FE987A803ED5017016"
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_2982A5DE3A7845C3BB8099C90AE76E1C"
             {
-            "Name" = "8:Primary output from ServicoInspetor (Active)"
+            "Name" = "8:Primary output from ServicoInspetorXML (Active)"
             "Condition" = "8:"
-            "Object" = "8:_7AFB0A1D955A41BBA3B30468AA3B83D5"
-            "FileType" = "3:2"
-            "InstallAction" = "3:4"
-            "Arguments" = "8:"
-            "EntryPoint" = "8:"
-            "Sequence" = "3:1"
-            "Identifier" = "8:_40F20BFD_C1ED_479B_808F_C4EACF135AE2"
-            "InstallerClass" = "11:TRUE"
-            "CustomActionData" = "8:"
-            }
-            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_519728E6EEC34546A42CEE5FCAA96260"
-            {
-            "Name" = "8:Primary output from ServicoInspetor (Active)"
-            "Condition" = "8:"
-            "Object" = "8:_7AFB0A1D955A41BBA3B30468AA3B83D5"
+            "Object" = "8:_419B06CB70874B109CD53E13D03E0D24"
             "FileType" = "3:2"
             "InstallAction" = "3:1"
             "Arguments" = "8:"
             "EntryPoint" = "8:"
-            "Sequence" = "3:1"
-            "Identifier" = "8:_704B0ED9_B24E_40DA_893F_688664158430"
+            "Sequence" = "3:2"
+            "Identifier" = "8:_7B19EF80_4EB7_4A93_9F61_76487FFF6FFF"
             "InstallerClass" = "11:TRUE"
             "CustomActionData" = "8:"
             }
-            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_68C02266D61048409C1B50CFA77EBECA"
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_31EB34AA92B14F2C96A7B30E8D3625D5"
             {
-            "Name" = "8:Primary output from ServicoInspetor (Active)"
+            "Name" = "8:Primary output from Tela Critica XML (Active)"
             "Condition" = "8:"
-            "Object" = "8:_7AFB0A1D955A41BBA3B30468AA3B83D5"
+            "Object" = "8:_D00D928C32F147B6B0AB9CC1D18C68D5"
+            "FileType" = "3:2"
+            "InstallAction" = "3:4"
+            "Arguments" = "8:"
+            "EntryPoint" = "8:"
+            "Sequence" = "3:3"
+            "Identifier" = "8:_99BDFE23_84CC_426F_BB71_8F3B25759A5C"
+            "InstallerClass" = "11:TRUE"
+            "CustomActionData" = "8:"
+            }
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_356F6260A49C498480C772F637F67DCA"
+            {
+            "Name" = "8:Primary output from Tela Critica XML (Active)"
+            "Condition" = "8:"
+            "Object" = "8:_D00D928C32F147B6B0AB9CC1D18C68D5"
             "FileType" = "3:2"
             "InstallAction" = "3:3"
             "Arguments" = "8:"
             "EntryPoint" = "8:"
-            "Sequence" = "3:1"
-            "Identifier" = "8:_1DDA45B3_4ADC_4AAF_B0BB_7B9F8BB53106"
+            "Sequence" = "3:3"
+            "Identifier" = "8:_78F04589_DF59_4F1E_8B79_2333875846A7"
             "InstallerClass" = "11:TRUE"
             "CustomActionData" = "8:"
             }
-            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_75E58D6EBCEE4B2EB83A6671AA3F586F"
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_4032B4E2BAAD4732BC5C104C59BB5AC4"
             {
-            "Name" = "8:Primary output from ServicoInspetor (Active)"
+            "Name" = "8:Primary output from CadastroUsuario (Active)"
             "Condition" = "8:"
-            "Object" = "8:_7AFB0A1D955A41BBA3B30468AA3B83D5"
+            "Object" = "8:_5BF5B154862D4741A70205EA11FC5130"
+            "FileType" = "3:2"
+            "InstallAction" = "3:4"
+            "Arguments" = "8:"
+            "EntryPoint" = "8:"
+            "Sequence" = "3:4"
+            "Identifier" = "8:_3DA78638_FC33_4BE2_ADD1_85D46B423C88"
+            "InstallerClass" = "11:TRUE"
+            "CustomActionData" = "8:"
+            }
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_56068BE4A5D04DBFB4E21994AA954A98"
+            {
+            "Name" = "8:Primary output from ServicoInspetorXML (Active)"
+            "Condition" = "8:"
+            "Object" = "8:_419B06CB70874B109CD53E13D03E0D24"
             "FileType" = "3:2"
             "InstallAction" = "3:2"
             "Arguments" = "8:"
             "EntryPoint" = "8:"
-            "Sequence" = "3:1"
-            "Identifier" = "8:_DED41C85_11EC_487E_8676_C507B0EBDC18"
+            "Sequence" = "3:2"
+            "Identifier" = "8:_28371E8A_3E6B_4922_9C2B_BD679165756E"
+            "InstallerClass" = "11:TRUE"
+            "CustomActionData" = "8:"
+            }
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_5F83D537874D45619B1292BCE04226AF"
+            {
+            "Name" = "8:Primary output from ServicoInspetorXML (Active)"
+            "Condition" = "8:"
+            "Object" = "8:_419B06CB70874B109CD53E13D03E0D24"
+            "FileType" = "3:2"
+            "InstallAction" = "3:4"
+            "Arguments" = "8:"
+            "EntryPoint" = "8:"
+            "Sequence" = "3:2"
+            "Identifier" = "8:_AF5F4AD5_DDB5_4F82_BF3C_235D6FF877C6"
             "InstallerClass" = "11:TRUE"
             "CustomActionData" = "8:"
             }
@@ -180,8 +308,50 @@
             "InstallAction" = "3:2"
             "Arguments" = "8:"
             "EntryPoint" = "8:"
-            "Sequence" = "3:2"
+            "Sequence" = "3:1"
             "Identifier" = "8:_5B4A7244_CE87_4815_97E2_C65CE94BABF9"
+            "InstallerClass" = "11:TRUE"
+            "CustomActionData" = "8:"
+            }
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_B22624266BDF43358F8DB1ADC2492093"
+            {
+            "Name" = "8:Primary output from CadastroUsuario (Active)"
+            "Condition" = "8:"
+            "Object" = "8:_5BF5B154862D4741A70205EA11FC5130"
+            "FileType" = "3:2"
+            "InstallAction" = "3:1"
+            "Arguments" = "8:"
+            "EntryPoint" = "8:"
+            "Sequence" = "3:4"
+            "Identifier" = "8:_FA378313_7C31_4BF5_B66E_34794E2B562F"
+            "InstallerClass" = "11:TRUE"
+            "CustomActionData" = "8:"
+            }
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_C11A8CA75AA7445BAA264C0D0F7AA5F4"
+            {
+            "Name" = "8:Primary output from Tela Critica XML (Active)"
+            "Condition" = "8:"
+            "Object" = "8:_D00D928C32F147B6B0AB9CC1D18C68D5"
+            "FileType" = "3:2"
+            "InstallAction" = "3:1"
+            "Arguments" = "8:"
+            "EntryPoint" = "8:"
+            "Sequence" = "3:3"
+            "Identifier" = "8:_A832699C_E9D4_4651_B463_FBC13FA624D3"
+            "InstallerClass" = "11:TRUE"
+            "CustomActionData" = "8:"
+            }
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_CB1AFAA0D5484E37A762D39EE2B7A271"
+            {
+            "Name" = "8:Primary output from CadastroUsuario (Active)"
+            "Condition" = "8:"
+            "Object" = "8:_5BF5B154862D4741A70205EA11FC5130"
+            "FileType" = "3:2"
+            "InstallAction" = "3:3"
+            "Arguments" = "8:"
+            "EntryPoint" = "8:"
+            "Sequence" = "3:4"
+            "Identifier" = "8:_78439F49_5F0D_44E5_B42D_D284B85774FA"
             "InstallerClass" = "11:TRUE"
             "CustomActionData" = "8:"
             }
@@ -194,8 +364,22 @@
             "InstallAction" = "3:3"
             "Arguments" = "8:"
             "EntryPoint" = "8:"
-            "Sequence" = "3:2"
+            "Sequence" = "3:1"
             "Identifier" = "8:_A111FD3B_296A_481D_8D09_991E4A171ACC"
+            "InstallerClass" = "11:TRUE"
+            "CustomActionData" = "8:"
+            }
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_E8069ECD40C3483F9832809C5FC025A9"
+            {
+            "Name" = "8:Primary output from Tela Critica XML (Active)"
+            "Condition" = "8:"
+            "Object" = "8:_D00D928C32F147B6B0AB9CC1D18C68D5"
+            "FileType" = "3:2"
+            "InstallAction" = "3:2"
+            "Arguments" = "8:"
+            "EntryPoint" = "8:"
+            "Sequence" = "3:3"
+            "Identifier" = "8:_A795FAB7_1D24_4783_9E5A_13FF7B6FEE83"
             "InstallerClass" = "11:TRUE"
             "CustomActionData" = "8:"
             }
@@ -208,8 +392,22 @@
             "InstallAction" = "3:4"
             "Arguments" = "8:"
             "EntryPoint" = "8:"
-            "Sequence" = "3:2"
+            "Sequence" = "3:1"
             "Identifier" = "8:_6AD38F33_B0B8_4854_9C41_12F35B6EA4C6"
+            "InstallerClass" = "11:TRUE"
+            "CustomActionData" = "8:"
+            }
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_FD253112843E4B9DBBBFBECF57CE3FC8"
+            {
+            "Name" = "8:Primary output from ServicoInspetorXML (Active)"
+            "Condition" = "8:"
+            "Object" = "8:_419B06CB70874B109CD53E13D03E0D24"
+            "FileType" = "3:2"
+            "InstallAction" = "3:3"
+            "Arguments" = "8:"
+            "EntryPoint" = "8:"
+            "Sequence" = "3:2"
+            "Identifier" = "8:_A7859F16_4013_4DED_91BF_99228EB700C9"
             "InstallerClass" = "11:TRUE"
             "CustomActionData" = "8:"
             }
@@ -236,20 +434,71 @@
         }
         "File"
         {
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_15EBFF3F16FCFC640FDDA86D2A6D9CAA"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_1603E7CB60DF4E9F9CFD7EB11AAED7D6"
+            {
+            "SourcePath" = "8:..\\Tela Critica XML\\icon_inspector.ico"
+            "TargetName" = "8:icon_inspector.ico"
+            "Tag" = "8:"
+            "Folder" = "8:_B4C936A91ABB4581ACA8FE1A5529C044"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_366CA3EADFE6EE2C95D5768116467A41"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
             "AssemblyAsmDisplayName" = "8:System.Net.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
-                    "_15EBFF3F16FCFC640FDDA86D2A6D9CAA"
+                    "_366CA3EADFE6EE2C95D5768116467A41"
                     {
                     "Name" = "8:System.Net.Http.dll"
                     "Attributes" = "3:512"
                     }
                 }
             "SourcePath" = "8:System.Net.Http.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_B4C936A91ABB4581ACA8FE1A5529C044"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_7F798D8E747A56EB0ABE0D0474361190"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:InspetorXML_Console, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_7F798D8E747A56EB0ABE0D0474361190"
+                    {
+                    "Name" = "8:InspetorXML_Console.exe"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:InspetorXML_Console.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_B4C936A91ABB4581ACA8FE1A5529C044"
@@ -344,7 +593,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:InspetorXML"
         "ProductCode" = "8:{A7FF5B4D-65C9-4A57-AEFD-589DB4AA0658}"
-        "PackageCode" = "8:{9A1C748E-ACA3-4208-81A3-8E034BD64293}"
+        "PackageCode" = "8:{EF5F7FD0-8C59-4B7F-B0BC-24F4C7CB68DD}"
         "UpgradeCode" = "8:{CA7F2015-0C90-40F9-B630-60375C11FEAE}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -361,7 +610,7 @@
         "Keywords" = "8:"
         "ARPCOMMENTS" = "8:InspetorXMl - Nfe"
         "ARPURLINFOABOUT" = "8:http://www.cmsconsultoria.com/"
-        "ARPPRODUCTICON" = "8:_A60BFEA669A34168A18D3684EEC18E25"
+        "ARPPRODUCTICON" = "8:_1603E7CB60DF4E9F9CFD7EB11AAED7D6"
         "ARPIconIndex" = "3:0"
         "SearchPath" = "8:"
         "UseSystemSearchPath" = "11:TRUE"
@@ -475,7 +724,21 @@
             "Target" = "8:_CE40DD75522440C988C18CD4FFBF0945"
             "Folder" = "8:_3719D548D75840C0AE6F4449E0FA14BB"
             "WorkingFolder" = "8:_B4C936A91ABB4581ACA8FE1A5529C044"
-            "Icon" = "8:_A60BFEA669A34168A18D3684EEC18E25"
+            "Icon" = "8:_1603E7CB60DF4E9F9CFD7EB11AAED7D6"
+            "Feature" = "8:"
+            }
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_F9968FAF007C42E9A3C4E3EF806D82D5"
+            {
+            "Name" = "8:Tela Critica XML"
+            "Arguments" = "8:"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_D00D928C32F147B6B0AB9CC1D18C68D5"
+            "Folder" = "8:_3719D548D75840C0AE6F4449E0FA14BB"
+            "WorkingFolder" = "8:_B4C936A91ABB4581ACA8FE1A5529C044"
+            "Icon" = "8:_1603E7CB60DF4E9F9CFD7EB11AAED7D6"
             "Feature" = "8:"
             }
         }
@@ -877,9 +1140,9 @@
         }
         "ProjectOutput"
         {
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_7AFB0A1D955A41BBA3B30468AA3B83D5"
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_419B06CB70874B109CD53E13D03E0D24"
             {
-            "SourcePath" = "8:..\\ServicoInspetor\\obj\\Debug\\ServicoInspetor.exe"
+            "SourcePath" = "8:..\\ServicoTeste\\obj\\Release\\ServicoInspetorXML.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_B4C936A91ABB4581ACA8FE1A5529C044"
@@ -899,7 +1162,35 @@
             "ProjectOutputGroupRegister" = "3:1"
             "OutputConfiguration" = "8:"
             "OutputGroupCanonicalName" = "8:Built"
-            "OutputProjectGuid" = "8:{01C74782-2179-411E-8400-8321F0286B05}"
+            "OutputProjectGuid" = "8:{268090FF-0EB4-491C-8A79-B02708876DF3}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_5BF5B154862D4741A70205EA11FC5130"
+            {
+            "SourcePath" = "8:..\\CadastroUsuario\\obj\\Release\\CadastroUsuario.exe"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_B4C936A91ABB4581ACA8FE1A5529C044"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:1"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:Built"
+            "OutputProjectGuid" = "8:{89E76FF4-34ED-462A-AE77-093675FEBFB9}"
             "ShowKeyOutput" = "11:TRUE"
                 "ExcludeFilters"
                 {
@@ -907,7 +1198,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_CE40DD75522440C988C18CD4FFBF0945"
             {
-            "SourcePath" = "8:..\\InspetorXML_Console\\obj\\Debug\\InspetorXML_Console.exe"
+            "SourcePath" = "8:..\\InspetorXML_Console\\obj\\Release\\InspetorXML_Console.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_B4C936A91ABB4581ACA8FE1A5529C044"
@@ -928,6 +1219,34 @@
             "OutputConfiguration" = "8:"
             "OutputGroupCanonicalName" = "8:Built"
             "OutputProjectGuid" = "8:{ACF65547-5822-458A-8B44-34511F96EEC2}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_D00D928C32F147B6B0AB9CC1D18C68D5"
+            {
+            "SourcePath" = "8:..\\Tela Critica XML\\obj\\x86\\Release\\Tela_Critica_XML.exe"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_B4C936A91ABB4581ACA8FE1A5529C044"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:1"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:Built"
+            "OutputProjectGuid" = "8:{65B3663B-A02E-44A4-83A5-94F6CB5C38AD}"
             "ShowKeyOutput" = "11:TRUE"
                 "ExcludeFilters"
                 {

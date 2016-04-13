@@ -13,7 +13,7 @@ using System.Xml;
 
 namespace InspetorXML_Console.Classes.ERP.Generico
 {
-    class Erp
+    public class Erp
     {
         private List<XmlNfe> arquivosXml;
         private DB dbErp;
@@ -73,8 +73,7 @@ namespace InspetorXML_Console.Classes.ERP.Generico
                     System.IO.File.Create(arquivoLog);
                 }
                 StreamWriter stream = new StreamWriter(arquivoLog, true);
-                stream.WriteLine(DataAtual + " -- : " + titulo + " ---------- " + msg);
-                
+                stream.WriteLine(DataAtual + " -- : " + titulo + " ---------- " + msg);                
                 stream.Close();
             }
         }
@@ -101,9 +100,9 @@ namespace InspetorXML_Console.Classes.ERP.Generico
                     {
                         this.escreveLog("Arquivo " + nota.nomeArquivo + " criticado", "JA FOI LANCADO NO SISTEMA");
                         //Caso a nota já tenha sido lançada, será criado um log
-                        var qryJaLancado = "INSERT INTO CRITICAXML (CODFILIAL, NOME_XML, DATAEMISSAO, SETOR, CNPJ, RAZAO, CRITICA, TIPO) VALUES " +
-                                        "('" + nota.CodFilErp + "', '" + nota.nomeArquivo + "', '" + nota.DataEmissao + "', 'CMP', '" + nota.CnpjEmitente + "', " +
-                                        "'" + nota.NomeEmitente + "', 'XML TRANSFERIDO PARA A PASTA CRITICADOS, O MESMO JA FOI LANCADO NO SISTEMA.', 'C')";
+                        var qryJaLancado = "INSERT INTO CRITICAXML (CODFILIAL, NOME_XML, DATAEMISSAO, SETOR, CNPJ, RAZAO, CRITICA, TIPO, CNPJINTERNO) VALUES " +
+                                        "('" + nota.CodFilErp + "', '" + nota.nomeArquivo.Replace(this.parametros.PastaProcessar, this.parametros.PastaCriticados) + "', '" + nota.DataEmissao + "', 'CMP', '" + nota.CnpjCliFor + "', " +
+                                        "'" + nota.nomeCliFor + "', 'XML TRANSFERIDO PARA A PASTA CRITICADOS, O MESMO JA FOI LANCADO NO SISTEMA.', 'C', '" + nota.cnpjInterno + "')";
 
                         this.dbInspetor.execQuery(qryJaLancado);
 
@@ -122,7 +121,7 @@ namespace InspetorXML_Console.Classes.ERP.Generico
                         Console.WriteLine(nota.nomeArquivo + " | " + nota.msgCritica.ToUpper());                        
                         Console.ForegroundColor = System.ConsoleColor.Gray;
                         this.dbInspetor.execQuery("INSERT INTO LOGEVENTOSXML (NOME_XML, DATAEMISSAO, SETOR, USUARIO, EVENTO, CRITICA) " +
-                                              "VALUES ('" + nota.nomeArquivo + "',GETDATE(), 'FIS', '" + parametros.User + "', 'I', '" + nota.msgCritica + "')");
+                                              "VALUES ('" + nota.nomeArquivo.Replace(this.parametros.PastaProcessar, this.parametros.PastaCriticados) + "',GETDATE(), 'FIS', '" + parametros.User + "', 'I', '" + nota.msgCritica + "')");
                     }
                     continue;
                 }
@@ -181,9 +180,9 @@ namespace InspetorXML_Console.Classes.ERP.Generico
                         this.escreveLog("Arquivo " + nota.nomeArquivo + " criticado", logMsg);
                         
 
-                        var query = "INSERT INTO CRITICAXML (CODFILIAL, NOME_XML, DATAEMISSAO, SETOR, CNPJ, RAZAO, CRITICA, TIPO) VALUES " +
-                                        "('" + nota.CodFilErp + "', '" + nota.nomeArquivo + "', '" + nota.DataEmissao + "', 'CMP', '" + nota.CnpjEmitente + "', " +
-                                        "'" + nota.NomeEmitente + "', '"+ logMsg + "', 'C')";
+                        var query = "INSERT INTO CRITICAXML (CODFILIAL, NOME_XML, DATAEMISSAO, SETOR, CNPJ, RAZAO, CRITICA, TIPO, CNPJINTERNO) VALUES " +
+                                        "('" + nota.CodFilErp + "', '" + nota.nomeArquivo.Replace(this.parametros.PastaProcessar, this.parametros.PastaCriticados) + "', '" + nota.DataEmissao + "', 'CMP', '" + nota.CnpjCliFor + "', " +
+                                        "'" + nota.nomeCliFor + "', '"+ logMsg + "', 'C', '" + nota.cnpjInterno + "')";
                         var color = Console.ForegroundColor;
                         Console.ForegroundColor = System.ConsoleColor.Red;
                         Console.WriteLine(logMsg);
@@ -200,15 +199,15 @@ namespace InspetorXML_Console.Classes.ERP.Generico
                         nota.xmlCriticado = true;
                         //Caso o cliente/fornecedor não possua forma de pagamento cadastrado
                         this.escreveLog("Arquivo " + nota.nomeArquivo + " criticado", "O CLIENTE/FORNECEDOR NAO POSSUI COND. DE PAGTO CADASTRADA NO SISTEMA");
-                        this.dbInspetor.execQuery("INSERT INTO CRITICAXML (CODFILIAL, NOME_XML, DATAEMISSAO, SETOR, CNPJ, RAZAO, CRITICA, TIPO) VALUES " +
-                                        "('" + nota.CodFilErp + "', '" + nota.nomeArquivo + "', '" + nota.DataEmissao + "', 'CMP', '" + nota.CnpjEmitente + "', " +
-                                        "'" + nota.NomeEmitente + "', 'O CLIENTE/FORNECEDOR NAO POSSUI COND. DE PAGTO CADASTRADA NO SISTEMA', 'C')");
+                        this.dbInspetor.execQuery("INSERT INTO CRITICAXML (CODFILIAL, NOME_XML, DATAEMISSAO, SETOR, CNPJ, RAZAO, CRITICA, TIPO, CNPJINTERNO) VALUES " +
+                                        "('" + nota.CodFilErp + "', '" + nota.nomeArquivo.Replace(this.parametros.PastaProcessar, this.parametros.PastaCriticados) + "', '" + nota.DataEmissao + "', 'CMP', '" + nota.CnpjCliFor + "', " +
+                                        "'" + nota.nomeCliFor + "', 'O CLIENTE/FORNECEDOR NAO POSSUI COND. DE PAGTO CADASTRADA NO SISTEMA', 'C', '" + nota.cnpjInterno + "')");
                         continue;
                     }
                     
                 }
                 //Inicia o tratamento dos produtos
-                var resultInsert = true;
+                
                 StringBuilder inserts = new StringBuilder();
                 foreach (var item in nota.Itens)
                 {

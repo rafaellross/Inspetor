@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace InspetorXML_Console.Classes
 {
-    class DB
+    public class DB
     {
         public string connetionString { get; set; }
         public SqlConnection connection { get; set; }
@@ -71,6 +71,7 @@ namespace InspetorXML_Console.Classes
                 
                 SqlCommand cmd = new SqlCommand();
                 cmd.Connection = this.connection;
+
                 this.connection.Open();
                 cmd.CommandText = query;
                 SqlDataReader dr = cmd.ExecuteReader();

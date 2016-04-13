@@ -78,7 +78,7 @@ namespace InspetorXML_Console
             //Instanciando objeto do ERP para inserir das notas
             Erp erp = new Erp(notas.arquivosXml, dbErp, parametros, dbInspetor);
             erp.inicia();
-            
+            Console.ReadLine();            
 
 
         }

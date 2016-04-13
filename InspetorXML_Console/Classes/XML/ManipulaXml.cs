@@ -9,7 +9,7 @@ using System.Xml;
 
 namespace InspetorXML_Console.Classes.XML
 {
-    class ManipulaXml
+    public class ManipulaXml
     {
         public Parametros parametros { get; set; }
         public string[] arquivos { get; set; }
@@ -27,9 +27,12 @@ namespace InspetorXML_Console.Classes.XML
 
         }
         //Este método lê o diretório e retorna o nome de todos os arquivos
-        public string[] lerDiretorio()
+        public FileInfo[] lerDiretorio()
         {
-            return Directory.GetFiles(this.parametros.PastaProcessar, "*.xml");
+            var d = new DirectoryInfo(parametros.PastaProcessar);
+            var files = d.GetFiles("*.xml").OrderByDescending(fi => fi.LastWriteTime).Take(200).ToArray();
+            return files;
+            //return Directory.GetFiles(this.parametros.PastaProcessar, "*.xml");
         }
 
         //Retorna uma lista de arquivos XML lidos no método lerDiretorio
@@ -41,7 +44,7 @@ namespace InspetorXML_Console.Classes.XML
 
             foreach (var DocXml in this.lerDiretorio())
             {
-                dict.Add(DocXml, DocXml);
+                dict.Add(DocXml.FullName, DocXml.FullName);
             }
             return dict;
         }

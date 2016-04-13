@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace InspetorXML_Console.Classes.ERP.Generico
 {
-    enum Valores
+    public enum Valores
     {
 
     }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace InspetorXML_Console.Classes.XML
 {
-    class ProdutosNfe
+    public class ProdutosNfe
     {
         public string numItem { get; set; }
         public string cProd { get; set; } = "";

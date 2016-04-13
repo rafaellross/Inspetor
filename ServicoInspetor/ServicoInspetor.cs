@@ -23,6 +23,7 @@ namespace ServicoInspetor
         }
 
         Timer timer = new Timer();
+        
 
         protected override void OnStart(string[] args)
         {
@@ -34,28 +35,6 @@ namespace ServicoInspetor
             
             EventLog.WriteEntry("Serviço Inicializado.", EventLogEntryType.Information);
 
-            try
-            {
-                Process p = new Process();
-
-                p.StartInfo.UseShellExecute = true;
-                p.StartInfo.CreateNoWindow = true;
-                p.StartInfo.ErrorDialog = false;
-                p.StartInfo.FileName = "C:\\Program Files (x86)\\CMS Consultoria\\InspetorXML\\InspetorXML_Console.exe";
-                p.StartInfo.Arguments = "";
-                p.StartInfo.RedirectStandardOutput = false;
-
-                p.Start();
-
-                string output = p.StandardOutput.ReadToEnd();
-
-                p.WaitForExit();
-            }
-            catch (Exception ex)
-            {
-
-                EventLog.WriteEntry("InspetorXML" + ex.Message);
-            }
 
             //1: Adicionando o evento Elapsed ao objeto Timer
             timer.Elapsed += new ElapsedEventHandler(OnElapsedTime);
