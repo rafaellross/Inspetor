@@ -249,7 +249,7 @@ Partial Class frmPrincipal
         'VersãoToolStripMenuItem
         '
         Me.VersãoToolStripMenuItem.Name = "VersãoToolStripMenuItem"
-        Me.VersãoToolStripMenuItem.Size = New System.Drawing.Size(109, 22)
+        Me.VersãoToolStripMenuItem.Size = New System.Drawing.Size(108, 22)
         Me.VersãoToolStripMenuItem.Text = "Versão"
         '
         'tbLog
@@ -261,7 +261,7 @@ Partial Class frmPrincipal
         Me.tbLog.Location = New System.Drawing.Point(4, 22)
         Me.tbLog.Name = "tbLog"
         Me.tbLog.Padding = New System.Windows.Forms.Padding(3)
-        Me.tbLog.Size = New System.Drawing.Size(982, 597)
+        Me.tbLog.Size = New System.Drawing.Size(982, 572)
         Me.tbLog.TabIndex = 2
         Me.tbLog.Text = "Log"
         Me.tbLog.UseVisualStyleBackColor = True
@@ -438,7 +438,7 @@ Partial Class frmPrincipal
         Me.CTe.Controls.Add(Me.gbacoescte)
         Me.CTe.Location = New System.Drawing.Point(4, 22)
         Me.CTe.Name = "CTe"
-        Me.CTe.Size = New System.Drawing.Size(982, 597)
+        Me.CTe.Size = New System.Drawing.Size(982, 572)
         Me.CTe.TabIndex = 3
         Me.CTe.Text = "CT-e"
         Me.CTe.UseVisualStyleBackColor = True
@@ -830,7 +830,7 @@ Partial Class frmPrincipal
         Me.Fiscal.Location = New System.Drawing.Point(4, 22)
         Me.Fiscal.Name = "Fiscal"
         Me.Fiscal.Padding = New System.Windows.Forms.Padding(3)
-        Me.Fiscal.Size = New System.Drawing.Size(982, 597)
+        Me.Fiscal.Size = New System.Drawing.Size(982, 572)
         Me.Fiscal.TabIndex = 1
         Me.Fiscal.Text = "Fiscal"
         Me.Fiscal.UseVisualStyleBackColor = True
@@ -1422,12 +1422,14 @@ Partial Class frmPrincipal
         '
         'btnManualCad
         '
+        Me.btnManualCad.Enabled = False
         Me.btnManualCad.Location = New System.Drawing.Point(514, 20)
         Me.btnManualCad.Name = "btnManualCad"
         Me.btnManualCad.Size = New System.Drawing.Size(102, 29)
         Me.btnManualCad.TabIndex = 26
         Me.btnManualCad.Text = "XML Manual"
         Me.btnManualCad.UseVisualStyleBackColor = True
+        Me.btnManualCad.Visible = False
         '
         'btnExcluirCad
         '

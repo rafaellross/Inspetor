@@ -109,13 +109,17 @@ namespace ServicoTeste
 
                 notas.carregaXml();
 
-                EventLog.WriteEntry("Serão processadas " + notas.arquivosXml.Count.ToString() + " notas!", EventLogEntryType.Information);
+                if (notas.arquivosXml.Count > 0)
+                {
+                    EventLog.WriteEntry("Serão processadas " + notas.arquivosXml.Count.ToString() + " notas!", EventLogEntryType.Information);
+                }
+                else
+                {
+                    EventLog.WriteEntry("A pasta está vazia!", EventLogEntryType.Information);
+                }
+                
                 
 
-                if (notas.arquivosXml.Count == 0)
-                {
-                    Environment.Exit(0);
-                }
                 //Instanciando objeto do ERP para inserir das notas
                 Erp erp = new Erp(notas.arquivosXml, dbErp, parametros, dbInspetor);
                 erp.inicia();
