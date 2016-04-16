@@ -6,7 +6,7 @@ Public Class frmSelecaoEmpresa
     Public Property da As SqlDataAdapter
     Public Property commandBuilder As SqlCommandBuilder
     Public Property bindingSource1 As BindingSource
-
+    Public Property todosMarcados As Boolean
     Private ds As DataSet
 
 
@@ -18,6 +18,7 @@ Public Class frmSelecaoEmpresa
         ' Add any initialization after the InitializeComponent() call.
         usuario = usuarioParam
         administrador = administradorParam
+
 
 
     End Sub
@@ -114,12 +115,25 @@ Public Class frmSelecaoEmpresa
 
     Private Sub dgEmpresas_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgEmpresas.CellClick
 
-        If (e.ColumnIndex = 0) Then
-            If dgEmpresas.Rows(e.RowIndex).Cells(0).Value = Nothing Or dgEmpresas.Rows(e.RowIndex).Cells(0).Value <> "True" Then
-                dgEmpresas.Rows(e.RowIndex).Cells(0).Value = "True"
+        If (e.ColumnIndex = 0) And e.RowIndex = -1 Then
+            If Me.todosMarcados Then
+                For Each row As DataGridViewRow In dgEmpresas.Rows
+                    row.Cells(0).Value = False
+                Next
+                Me.todosMarcados = False
             Else
-                dgEmpresas.Rows(e.RowIndex).Cells(0).Value = "False"
+                For Each row As DataGridViewRow In dgEmpresas.Rows
+                    row.Cells(0).Value = True
+                Next
+                Me.todosMarcados = True
             End If
+        ElseIf (e.ColumnIndex = 0) And e.RowIndex <> -1 Then
+            If dgEmpresas.Rows(e.RowIndex).Cells(0).Value <> True Then
+                dgEmpresas.Rows(e.RowIndex).Cells(0).Value = True
+            Else
+                dgEmpresas.Rows(e.RowIndex).Cells(0).Value = False
+            End If
+
         End If
     End Sub
 End Class

@@ -16,6 +16,8 @@ namespace CadastroUsuario
     {
 
         private ModeloUsuario usuario { get; set; }
+        public bool todosMarcados { get; private set; }
+
         private BindingSource bindingSource1 = new BindingSource();
         private SqlDataAdapter dataAdapter = new SqlDataAdapter();
 
@@ -37,7 +39,12 @@ namespace CadastroUsuario
                 txtConfirmaSenha.Enabled = false;
             }
             dgEmpresas.DataSource = bindingSource1;
-            GetData("SELECT cast(case when usr.usuario is null then 0 else 1 end  as bit) ' X ', M0_CODIGO, M0_CODFIL, M0_FILIAL, M0_NOMECOM FROM SIGAMAT left join usuario_empresa usr on sigamat.M0_CODIGO = usr.CODEMP and sigamat.M0_CODFIL = usr.CODFILIAL and usr.usuario = '" + txtUsuario.Text +"'");
+            GetData("SELECT cast(case when usr.usuario is null then 0 else 1 end  as bit) '[X]', M0_CODIGO AS Grupo, M0_CODFIL AS [Cód. Filial], M0_FILIAL AS [Nome da Filial], M0_NOMECOM FROM SIGAMAT left join usuario_empresa usr on sigamat.M0_CODIGO = usr.CODEMP and sigamat.M0_CODFIL = usr.CODFILIAL and usr.usuario = '" + txtUsuario.Text +"'");
+            dgEmpresas.Columns[0].Width = 30;
+            dgEmpresas.Columns[0].ToolTipText = "Clique para marcar todos";            
+            dgEmpresas.Columns[1].Width = 60;
+            dgEmpresas.Columns[2].Width = 60;
+            
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
@@ -98,7 +105,14 @@ namespace CadastroUsuario
             usuario.Usuario = txtUsuario.Text;
             usuario.Email = txtEmail.Text;
             usuario.Nome = txtNome.Text;
-            usuario.Senha = ModeloUsuario.getMD5Hash(txtSenha.Text);
+            if (txtSenha.Modified || usuario.Id == "")
+            {
+                usuario.Senha = ModeloUsuario.getMD5Hash(txtSenha.Text);
+            }
+            else
+            {
+                usuario.Senha = txtSenha.Text;
+            }                        
             if (chkAtivo.CheckState == CheckState.Checked)
             {
                 usuario.Ativo = "1";
@@ -130,7 +144,6 @@ namespace CadastroUsuario
                 else
                 {
                     MessageBox.Show("Usuário " + usuario.Usuario + " atualizado com sucesso");
-
                 }
             }
         }
@@ -139,14 +152,23 @@ namespace CadastroUsuario
         {
             if (e.ColumnIndex == dgEmpresas.Columns[0].Index)
             {
-                if (dgEmpresas.Rows[e.RowIndex].Cells[0].Value == null || dgEmpresas.Rows[e.RowIndex].Cells[0].Value.ToString() != "True")
+                if (!this.todosMarcados)
                 {
-                    dgEmpresas.Rows[e.RowIndex].Cells[0].Value = "True";
+                    foreach (DataGridViewRow row in dgEmpresas.Rows)
+                    {
+                        row.Cells[0].Value = true;
+                    }
+                    this.todosMarcados = true;
                 }
                 else
                 {
-                    dgEmpresas.Rows[e.RowIndex].Cells[0].Value = "False";
+                    foreach (DataGridViewRow row in dgEmpresas.Rows)
+                    {
+                        row.Cells[0].Value = false;
+                    }
+                    this.todosMarcados = false;
                 }
+
             }
         }
 

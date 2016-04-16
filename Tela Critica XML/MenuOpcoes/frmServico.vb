@@ -1,10 +1,11 @@
 ﻿Imports System.ServiceProcess
 
 Public Class frmServico
+    Public Property nomeServico As String
 
     Private Sub frmServico_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-
-        Dim service As ServiceController = New ServiceController(".InspetorXML")
+        Me.nomeServico = "InspetorXML - Processamento NFe"
+        Dim service As ServiceController = New ServiceController(Me.nomeServico)
 
         If ((service.Status.Equals(ServiceControllerStatus.Stopped)) Or (service.Status.Equals(ServiceControllerStatus.StopPending))) Then
 
@@ -20,7 +21,7 @@ Public Class frmServico
 
     Private Sub btnPararServico_Click(sender As Object, e As EventArgs) Handles btnPararServico.Click
 
-        Dim service As ServiceController = New ServiceController(".InspetorXML")
+        Dim service As ServiceController = New ServiceController(Me.nomeServico)
 
         service.Stop()
 
@@ -34,7 +35,7 @@ Public Class frmServico
 
     Private Sub btnIniciar_Click(sender As Object, e As EventArgs) Handles btnIniciar.Click
 
-        Dim service As ServiceController = New ServiceController(".InspetorXML")
+        Dim service As ServiceController = New ServiceController(Me.nomeServico)
 
         service.Start()
 
@@ -48,7 +49,7 @@ Public Class frmServico
 
     Private Sub btnStatus_Click(sender As Object, e As EventArgs) Handles btnStatus.Click
 
-        Dim service As ServiceController = New ServiceController(".InspetorXML")
+        Dim service As ServiceController = New ServiceController("InspetorXML - Processamento NFe")
 
         If ((service.Status.Equals(ServiceControllerStatus.Stopped)) Or (service.Status.Equals(ServiceControllerStatus.StopPending))) Then
 

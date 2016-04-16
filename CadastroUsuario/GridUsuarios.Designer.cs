@@ -31,11 +31,11 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GridUsuarios));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.dgUsuarios = new System.Windows.Forms.DataGridView();
-            this.chkUsuarios = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.panel1 = new System.Windows.Forms.Panel();
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.btnNovo = new System.Windows.Forms.Button();
+            this.chkUsuarios = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgUsuarios)).BeginInit();
             this.panel1.SuspendLayout();
@@ -78,14 +78,6 @@
             this.dgUsuarios.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgUsuarios_CellContentDoubleClick);
             this.dgUsuarios.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgUsuarios_ColumnHeaderMouseClick);
             // 
-            // chkUsuarios
-            // 
-            this.chkUsuarios.HeaderText = "x";
-            this.chkUsuarios.Name = "chkUsuarios";
-            this.chkUsuarios.ReadOnly = true;
-            this.chkUsuarios.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.chkUsuarios.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            // 
             // panel1
             // 
             this.panel1.Controls.Add(this.button2);
@@ -126,6 +118,15 @@
             this.btnNovo.UseVisualStyleBackColor = true;
             this.btnNovo.Click += new System.EventHandler(this.btnNovo_Click_1);
             // 
+            // chkUsuarios
+            // 
+            this.chkUsuarios.HeaderText = "   [X]";
+            this.chkUsuarios.Name = "chkUsuarios";
+            this.chkUsuarios.ReadOnly = true;
+            this.chkUsuarios.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.chkUsuarios.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.chkUsuarios.ToolTipText = "Clique para marcar todos";
+            // 
             // GridUsuarios
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -151,7 +152,7 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button btnNovo;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn chkUsuarios;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn chkUsuarios;
     }
 }

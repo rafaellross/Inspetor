@@ -16,6 +16,8 @@ namespace CadastroUsuario
     public partial class GridUsuarios : Form
     {
         private Parametros parametros { get; set; }
+        public bool todosMarcados { get; private set; }
+
         private BindingSource bindingSource1 = new BindingSource();
         private SqlDataAdapter dataAdapter = new SqlDataAdapter();
         private DB db;
@@ -94,18 +96,22 @@ namespace CadastroUsuario
 
         private void dgUsuarios_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            //MessageBox.Show(dgUsuarios.Rows[e.RowIndex].Cells[0].Value.ToString());
-            var usuario = new TelaCadastro();
-            
-            usuario.txtIdUsuario.Text = dgUsuarios.Rows[e.RowIndex].Cells[1].Value.ToString();
-            usuario.txtUsuario.Text = dgUsuarios.Rows[e.RowIndex].Cells[2].Value.ToString();
-            usuario.txtNome.Text = dgUsuarios.Rows[e.RowIndex].Cells[3].Value.ToString();
-            usuario.txtEmail.Text = dgUsuarios.Rows[e.RowIndex].Cells[4].Value.ToString();
-            usuario.chkAtivo.CheckState = checkValor(dgUsuarios.Rows[e.RowIndex].Cells[5].Value);
-            usuario.chkAdministrador.CheckState = checkValor(dgUsuarios.Rows[e.RowIndex].Cells[6].Value);
-            usuario.txtSenha.Text = db.consultaErp("select senha from usuario where id = '" + dgUsuarios.Rows[e.RowIndex].Cells[1].Value.ToString() + "'")[0];
-            usuario.txtConfirmaSenha.Text = usuario.txtSenha.Text;
-            usuario.Show();
+            //Verifica se a linha clicada não é o header do datagrid
+            if (e.RowIndex != -1)
+            {
+                var usuario = new TelaCadastro();
+
+                usuario.txtIdUsuario.Text = dgUsuarios.Rows[e.RowIndex].Cells[1].Value.ToString();
+                usuario.txtUsuario.Text = dgUsuarios.Rows[e.RowIndex].Cells[2].Value.ToString();
+                usuario.txtNome.Text = dgUsuarios.Rows[e.RowIndex].Cells[3].Value.ToString();
+                usuario.txtEmail.Text = dgUsuarios.Rows[e.RowIndex].Cells[4].Value.ToString();
+                usuario.chkAtivo.CheckState = checkValor(dgUsuarios.Rows[e.RowIndex].Cells[5].Value);
+                usuario.chkAdministrador.CheckState = checkValor(dgUsuarios.Rows[e.RowIndex].Cells[6].Value);
+                usuario.txtSenha.Text = db.consultaErp("select senha from usuario where id = '" + dgUsuarios.Rows[e.RowIndex].Cells[1].Value.ToString() + "'")[0];
+                usuario.txtConfirmaSenha.Text = usuario.txtSenha.Text;
+                usuario.Show();
+
+            }
         }
 
         private CheckState checkValor(object valor)
@@ -131,14 +137,22 @@ namespace CadastroUsuario
             if (e.ColumnIndex == dgUsuarios.Columns["chkUsuarios"].Index)
             {
                 //interrompe a edição
-                if (dgUsuarios.Rows[e.RowIndex].Cells[0].Value == null || dgUsuarios.Rows[e.RowIndex].Cells[0].Value.ToString() != "True")
+                if (!this.todosMarcados)
                 {
-                    dgUsuarios.Rows[e.RowIndex].Cells[0].Value = "True";
+                    foreach (DataGridViewRow row in dgUsuarios.Rows)
+                    {
+                        row.Cells[0].Value = true;
+                    }
+                    this.todosMarcados = true;
                 }
                 else
                 {
-                    dgUsuarios.Rows[e.RowIndex].Cells[0].Value = "False";
-                }                                                
+                    foreach (DataGridViewRow row in dgUsuarios.Rows)
+                    {
+                        row.Cells[0].Value = false;
+                    }
+                    this.todosMarcados = false;
+                }
             }
 
         }
@@ -154,7 +168,7 @@ namespace CadastroUsuario
                     //Implementar código para excluir usuários e empresas do usuário                    
                 }
             }
-            GetDataUser("SELECT id, usuario, nome, email FROM usuario");
+            GetDataUser("SELECT id, usuario, nome, email, Ativo, Administrador  FROM usuario");
         }
     }
 }

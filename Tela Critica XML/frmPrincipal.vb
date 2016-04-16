@@ -20,16 +20,6 @@ Public Class frmPrincipal
 
     Private Sub Principal_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
         Dim configurationAppSettings As System.Configuration.AppSettingsReader = New System.Configuration.AppSettingsReader()
-        'Dim sLogo As String = configurationAppSettings.GetValue("Logo", GetType(System.String))
-
-
-        'PictureBox1.Image = Image.FromFile(sLogo)
-        'PictureBox2.Image = Image.FromFile(sLogo)
-
-        'Teste para acessar DBF
-
-
-
 
         ' Cria um novo SqlDataAdapter que servirá para actualizar o DataSet 
         Dim SQLCTe As String = "SELECT DISTINCT C.NOME_XML, C.DATAEMISSAO, C.CNPJ, C.RAZAO, (SELECT FLAG_ERRO FROM TIPO_FLAG WHERE TIPO = C.TIPO) AS FLAG_ERRO, C.NUMEROMOV, C.SERIE, " +
@@ -44,7 +34,7 @@ Public Class frmPrincipal
         Me.dgCTe.DataSource = dsCTe.Tables("CRITICAXML")
         GetConnectionXML().Dispose()
         ' Cria um novo SqlDataAdapter que servirá para actualizar o DataSet 
-        Dim SQLCmp As String = "SELECT DISTINCT C.NOME_XML, C.DATAEMISSAO, C.CNPJ, C.RAZAO, (SELECT FLAG_ERRO FROM TIPO_FLAG WHERE TIPO = C.TIPO) AS FLAG_ERRO, C.TIPO, C.CODFILIAL " +
+        Dim SQLCmp As String = "SELECT DISTINCT C.NOME_XML, C.DATAEMISSAO, C.CNPJ, C.RAZAO, (SELECT FLAG_ERRO FROM TIPO_FLAG WHERE TIPO = C.TIPO) AS FLAG_ERRO, C.TIPO, C.CODFILIAL, C.CNPJINTERNO, C.GRUPO, (SELECT TOP 1 M0_NOMECOM FROM SIGAMAT WHERE M0_CODIGO = C.GRUPO AND M0_CODFIL = C.CODFILIAL) AS EMPRESA " +
             "FROM CRITICAXML C WHERE C.SETOR = 'CMP' AND C.FLAG_STATUS NOT IN ('A','I') and " + filtro
         daCad = New SqlDataAdapter(SQLCmp, GetConnectionXML())
         ' Cria um DataSet, ou seja, uma representação em memória da informação
@@ -201,6 +191,19 @@ Public Class frmPrincipal
         Else
             txtFilial.Text = String.Empty
         End If
+
+        If Not IsDBNull(Me.dgCadastros.Item(9, i).Value) Then
+            txtCnpjInterno.Text = CStr(Me.dgCadastros.Item(9, i).Value)
+        Else
+            txtCnpjInterno.Text = String.Empty
+        End If
+
+        If Not IsDBNull(Me.dgCadastros.Item(10, i).Value) Then
+            txtGrupo.Text = CStr(Me.dgCadastros.Item(10, i).Value)
+        Else
+            txtGrupo.Text = String.Empty
+        End If
+
 
     End Sub
 
@@ -477,7 +480,7 @@ Public Class frmPrincipal
             For i = 0 To dgCadastros.Rows.Count - 1
                 If dgCadastros.Item(1, i).Value Then
                     Dim xml As String
-                    'i = dgCadastros.CurrentRow.Index
+        
                     If Not IsDBNull(Me.dgCadastros.Item(2, i).Value) Then
                         xml = CStr(Me.dgCadastros.Item(2, i).Value)
                     Else
@@ -1382,5 +1385,9 @@ Public Class frmPrincipal
 
     Private Sub frmPrincipal_FormClosed(sender As Object, e As FormClosedEventArgs) Handles MyBase.FormClosed
         Application.Exit()
+    End Sub
+
+    Private Sub txtFilial_TextChanged(sender As Object, e As EventArgs) Handles txtFilial.TextChanged
+
     End Sub
 End Class

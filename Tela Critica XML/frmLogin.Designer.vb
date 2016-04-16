@@ -98,6 +98,8 @@ Partial Class frmLogin
         Me.Controls.Add(Me.txtUsuario)
         Me.Controls.Add(Me.label1)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
+        Me.MaximizeBox = False
+        Me.MinimizeBox = False
         Me.Name = "frmLogin"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Login Inspetor"

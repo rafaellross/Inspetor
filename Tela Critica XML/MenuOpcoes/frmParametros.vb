@@ -160,44 +160,6 @@ Public Class frmParametros
             con.Dispose()
         End Using
 
-        'MAIL
-        'conta
-        Using con As SqlConnection = GetConnectionXML()
-            Try
-                con.Open()
-                Dim cmd As New SqlCommand
-                cmd.Connection = con
-                Dim dr As SqlDataReader
-                cmd.CommandText = "SELECT CONTAEMAIL FROM INSPETORXMLPARAM"
-                dr = cmd.ExecuteReader()
-                While (dr.Read())
-                    tbParamMailConta.Text = dr("CONTAEMAIL").ToString()
-                End While
-            Catch ex As Exception
-                MsgBox("Nao")
-            End Try
-            con.Dispose()
-        End Using
-
-        'ativa e-mail
-        Using con As SqlConnection = GetConnectionXML()
-            Try
-                con.Open()
-                Dim cmd As New SqlCommand
-                cmd.Connection = con
-                Dim dr As SqlDataReader
-                cmd.CommandText = "SELECT ENVIAEMAIL FROM INSPETORXMLPARAM"
-                dr = cmd.ExecuteReader()
-                If dr.HasRows Then
-                    cbMail.Checked = True
-                Else : cbMail.Checked = False
-                End If
-            Catch ex As Exception
-                MsgBox("Nao")
-            End Try
-            con.Dispose()
-        End Using
-
         'LOG
         'ativalog
         Using con As SqlConnection = GetConnectionXML()
@@ -251,115 +213,14 @@ Public Class frmParametros
     End Sub
 
     Private Sub btParamOK_Click(sender As Object, e As EventArgs) Handles btParamOK.Click
-
-        If cbLog.Checked = True And String.IsNullOrEmpty(tbParamCaminhoLog.Text) Then
-
-            MsgBox("Caminho do log não pode ser nulo!", MsgBoxStyle.Information, "Aviso")
-
-        ElseIf String.IsNullOrEmpty(tbParamREPProcessar.Text) Or String.IsNullOrEmpty(tbParamREPProcessados.Text) Or
-            String.IsNullOrEmpty(tbParamREPManual.Text) Or String.IsNullOrEmpty(tbParamREPCriticados.Text) Or
-            String.IsNullOrEmpty(tbParamBDUser.Text) Or String.IsNullOrEmpty(tbParamBDPwd.Text) Or
-            String.IsNullOrEmpty(tbParamBDAlias.Text) Or String.IsNullOrEmpty(tbParamBDServer.Text) Then
-
-            MsgBox("Existem campos vazios!", MsgBoxStyle.Information, "Aviso")
-
-        ElseIf tbParamREPProcessar.Text = sVltbParamREPProcessar And tbParamREPProcessados.Text = sVltbParamREPProcessados And
-            tbParamREPManual.Text = sVltbParamREPManual And tbParamREPCriticados.Text = sVltbParamREPCriticados And
-            tbParamBDUser.Text = sVltbParamBDUser And tbParamBDPwd.Text = sVltbParamBDPwd And
-            tbParamBDAlias.Text = sVltbParamBDAlias And tbParamBDServer.Text = sVltbParamBDServer And
-            cbLog.Checked = cVlcbLog And tbParamCaminhoLog.Text = sVltbParamCaminhoLog Then
-
+        If salvaParametros() Then
             Me.Close()
-
-        Else
-
-            MsgBox("Existem alterações não salvas!", MsgBoxStyle.Information, "Alerta")
-
         End If
 
     End Sub
 
     Private Sub btParamSalvar_Click(sender As Object, e As EventArgs) Handles btParamSalvar.Click
-
-        Dim vetor(1) As Integer
-
-        'valida tab parametros
-        If String.IsNullOrEmpty(tbParamREPProcessar.Text) Or String.IsNullOrEmpty(tbParamREPProcessados.Text) Or
-            String.IsNullOrEmpty(tbParamREPManual.Text) Or String.IsNullOrEmpty(tbParamREPCriticados.Text) Then
-
-            MsgBox("Existem campos vazios!", MsgBoxStyle.Information, "Aviso")
-
-        ElseIf tbParamREPProcessar.Text <> sVltbParamREPProcessar Or tbParamREPProcessados.Text <> sVltbParamREPProcessados Or
-            tbParamREPManual.Text <> sVltbParamREPManual Or tbParamREPCriticados.Text <> sVltbParamREPCriticados Then
-
-            Using con As SqlConnection = GetConnectionXML()
-                Try
-                    con.Open()
-                    Dim cmd As New SqlCommand
-                    cmd.Connection = con
-                    Dim dr As SqlDataReader
-                    cmd.CommandText = "UPDATE INSPETORXMLPARAM SET REPPROCESSAR = '" & tbParamREPProcessar.Text & "', REPPROCESSADOS = '" & tbParamREPProcessados.Text & "', REPMANUAL = '" & tbParamREPManual.Text & "', REPCRITICADOS = '" & tbParamREPCriticados.Text & "'"
-                    dr = cmd.ExecuteReader()
-                    sVltbParamREPProcessar = tbParamREPProcessar.Text
-                    sVltbParamREPProcessados = tbParamREPProcessados.Text
-                    sVltbParamREPManual = tbParamREPManual.Text
-                    sVltbParamREPCriticados = tbParamREPCriticados.Text
-                Catch ex As Exception
-                    MsgBox("Ocorreram erros ao salvar as alterações, verifique a aba Parâmetros!", MsgBoxStyle.Information, "Aviso")
-                    con.Dispose()
-                    Exit Sub
-                End Try
-                con.Dispose()
-                vetor(0) = 2
-            End Using
-        Else : vetor(0) = 1
-        End If
-
-        'valida tab log
-        If cbLog.Checked = True And String.IsNullOrEmpty(tbParamCaminhoLog.Text) Then
-
-            MsgBox("Caminho do log não pode ser nulo!", MsgBoxStyle.Information, "Aviso")
-
-        ElseIf cbLog.Checked <> cVlcbLog Or tbParamCaminhoLog.Text <> sVltbParamCaminhoLog Then
-
-            Using con As SqlConnection = GetConnectionXML()
-                Try
-                    con.Open()
-                    Dim cmd As New SqlCommand
-                    cmd.Connection = con
-                    Dim dr As SqlDataReader
-                    cmd.CommandText = "UPDATE INSPETORXMLPARAM SET CAMINHOLOG = '" & tbParamCaminhoLog.Text & "' , ATIVALOG = '" & cbLog.Checked & "'"
-                    dr = cmd.ExecuteReader()
-                    cVlcbLog = cbLog.Checked
-                    sVltbParamCaminhoLog = tbParamCaminhoLog.Text
-                Catch ex As Exception
-                    MsgBox("Ocorreram erros ao salvar as alterações, verifique a aba Log!", MsgBoxStyle.Information, "Aviso")
-                    con.Dispose()
-                    Exit Sub
-                End Try
-                con.Dispose()
-                vetor(1) = 2
-            End Using
-        Else : vetor(1) = 1
-        End If
-
-        Dim X As Boolean
-
-        For Each i In vetor
-            If i > 1 Then
-                X = True
-                Exit For
-            Else
-                X = False
-            End If
-        Next i
-
-        If X Then
-            MsgBox("Salvo com sucesso!", MsgBoxStyle.Information, "Aviso")
-        Else
-            MsgBox("Não houve alterações!", MsgBoxStyle.Information, "Aviso")
-        End If
-
+        salvaParametros()
     End Sub
 
     Private Sub btParamCancelar_Click(sender As Object, e As EventArgs) Handles btParamCancelar.Click
@@ -417,5 +278,59 @@ Public Class frmParametros
         If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
             tbParamCaminhoLog.Text = FolderBrowserDialog1.SelectedPath
         End If
+    End Sub
+
+    Function salvaParametros() As Boolean
+        Dim campos As Dictionary(Of String, String) = New Dictionary(Of String, String)
+
+        'Repositórios
+        campos.Add("Pasta Processar", tbParamREPProcessar.Text)
+        campos.Add("Pasta Processados", tbParamREPProcessados.Text)
+        campos.Add("Pasta Manual", tbParamREPManual.Text)
+        campos.Add("Pasta Criticados", tbParamREPCriticados.Text)
+        'Banco de Dados
+        campos.Add("Usuário do banco de dados", tbParamBDUser.Text)
+        campos.Add("Senha do banco de dados", tbParamBDPwd.Text)
+        campos.Add("Banco de dados", tbParamBDAlias.Text)
+        campos.Add("Servidor", tbParamBDServer.Text)
+        'Log
+        Dim logAtivo As String = IIf(cbLog.Checked, "1", "0")
+        campos.Add("Pasta de log", tbParamCaminhoLog.Text)
+
+        'Declara variável para resultado
+        Dim result As String = ""
+        For Each campo In campos
+            If String.IsNullOrEmpty(campo.Value) Then
+                result += campo.Key + Chr(13)
+            End If
+        Next
+        If result = "" Then
+            Using con As SqlConnection = GetConnectionXML()
+                Try
+                    con.Open()
+                    Dim cmd As New SqlCommand
+                    cmd.Connection = con
+                    Dim dr As SqlDataReader
+                    cmd.CommandText = "UPDATE INSPETORXMLPARAM SET REPPROCESSAR = '" & tbParamREPProcessar.Text & "', REPPROCESSADOS = '" & tbParamREPProcessados.Text & "', REPMANUAL = '" & tbParamREPManual.Text & "', REPCRITICADOS = '" & tbParamREPCriticados.Text & "', BDUSER = '" & tbParamBDUser.Text & "', BDPWD = '" & tbParamBDPwd.Text & "', BDSERVER = '" & tbParamBDServer.Text & "', BDALIAS = '" & tbParamBDAlias.Text & "', ATIVALOG = " & logAtivo & ";"
+                    dr = cmd.ExecuteReader()
+                    MsgBox("Parametros atualizados com sucesso!", MsgBoxStyle.Information, "Confirmação")
+                    Return True
+                Catch ex As Exception
+                    MsgBox("Ocorreram erros ao salvar as alterações, verifique a aba Parâmetros!" + "\n" + ex.Message, MsgBoxStyle.Information, "Aviso")
+                    con.Dispose()
+                    Return False
+                    Exit Function
+                Finally
+                    con.Dispose()
+                End Try
+            End Using
+        Else
+            MsgBox("Favor preencher os campos abaixo:" + Chr(13) + Chr(13) + result, MsgBoxStyle.Critical, "Verifique os campos!")
+            Return False
+        End If
+    End Function
+
+    Private Sub TextBox4_TextChanged(sender As Object, e As EventArgs) Handles txtBancoErp.TextChanged
+
     End Sub
 End Class

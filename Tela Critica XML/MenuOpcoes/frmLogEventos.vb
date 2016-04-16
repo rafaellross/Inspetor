@@ -4,7 +4,7 @@ Imports System.IO
 Public Class frmLogEventos
     Private Sub frmLogEventos_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
-        Dim sPath As String
+        Dim sPath As String = ""
 
         'caminho log
         Using con As SqlConnection = GetConnectionXML()

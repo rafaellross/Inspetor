@@ -31,8 +31,7 @@ namespace InspetorXML_Console.Classes.XML
         {
             var d = new DirectoryInfo(parametros.PastaProcessar);
             var files = d.GetFiles("*.xml").OrderByDescending(fi => fi.LastWriteTime).Take(200).ToArray();
-            return files;
-            //return Directory.GetFiles(this.parametros.PastaProcessar, "*.xml");
+            return files;            
         }
 
         //Retorna uma lista de arquivos XML lidos no método lerDiretorio

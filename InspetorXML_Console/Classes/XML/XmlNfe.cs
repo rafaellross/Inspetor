@@ -1274,8 +1274,8 @@ namespace InspetorXML_Console.Classes.XML
                             this.xmlCriticado = true;
                             
                             this.msgCritica = "Produto com NCM: " + produto.NCM + " não foi encontrado no ERP";
-                            var queryPrd = "INSERT INTO CRITICAXML (CODFILIAL, NOME_XML, DATAEMISSAO, CNPJ, RAZAO, SETOR, ITEM_XML, COD_PRD_AUX, DESC_PRD, UND_MED, CRITICA, TIPO, FLAG_STATUS, CNPJINTERNO) VALUES " +
-                                                                            "('" + this.CodFilErp + "', '" + this.nomeArquivo.Replace(this.parametros.PastaProcessar, this.parametros.PastaCriticados) + "', '" + this.DataEmissao + "', '" + this.CnpjCliFor + "', '" + this.nomeCliFor + "', 'CMP', '" + produto.numItem + "', '" + produto.codProdErp + "', '" + produto.xProd + "', '" + produto.uCom + "', 'PRODUTO NAO CADASTRADO | NCM:" + produto.NCM +"' , 'C', 'E', '"+ cnpjInterno + "')";
+                            var queryPrd = "INSERT INTO CRITICAXML (CODFILIAL, NOME_XML, DATAEMISSAO, CNPJ, RAZAO, SETOR, ITEM_XML, COD_PRD_AUX, DESC_PRD, UND_MED, CRITICA, TIPO, FLAG_STATUS, CNPJINTERNO, GRUPO) VALUES " +
+                                                                            "('" + this.CodFilErp + "', '" + this.nomeArquivo.Replace(this.parametros.PastaProcessar, this.parametros.PastaCriticados) + "', '" + this.DataEmissao + "', '" + this.CnpjCliFor + "', '" + this.nomeCliFor + "', 'CMP', '" + produto.numItem + "', '" + produto.codProdErp + "', '" + produto.xProd + "', '" + produto.uCom + "', 'PRODUTO NAO CADASTRADO | NCM:" + produto.NCM +"' , 'C', 'E', '"+ cnpjInterno + "', '" + this.CodEmpErp +"')";
                             this.dbXml.execQuery(queryPrd);
                                 break;
                             }
@@ -1344,9 +1344,9 @@ namespace InspetorXML_Console.Classes.XML
                         {
                                 this.xmlCriticado = true;
                                 this.msgCritica = "MVA NAO DESTACADO NO XML, CST UTILIZADO OBRIGA PREENCHIMENTO DE INFORMACOES ST";
-                                var queryErroCst = "INSERT INTO CRITICAXML (CODFILIAL, NOME_XML, DATAEMISSAO, CNPJ, RAZAO, SETOR, ITEM_XML, COD_PRD, COD_PRD_AUX, DESC_PRD, VALOR_PRD, CST, ALIQ_ICMS, ALIQ_ICMSST, RED_BC, CRITICA, TIPO, CNPJINTERNO) " +
+                                var queryErroCst = "INSERT INTO CRITICAXML (CODFILIAL, NOME_XML, DATAEMISSAO, CNPJ, RAZAO, SETOR, ITEM_XML, COD_PRD, COD_PRD_AUX, DESC_PRD, VALOR_PRD, CST, ALIQ_ICMS, ALIQ_ICMSST, RED_BC, CRITICA, TIPO, CNPJINTERNO, GRUPO) " +
                                     "VALUES ('" + this.CodFilErp + "', '" + this.nomeArquivo.Replace(this.parametros.PastaProcessar, this.parametros.PastaCriticados) + "', '" + this.DataEmissao + "', '" + this.CnpjCliFor + "', '" + this.nomeCliFor + "', 'FIS', '" + i + "', '" + produto.codProdErp + "', '" + produto.codProdErp + "', " +
-                                    "'" + produto.xProd + "', '" + produto.vProd.ToString() + "', '" + produto.sCst + "', '" + produto.AliqIcms + "', '" + dAliqIcmsSt + "', '" + produto.bRedBC + "', 'MVA NAO DESTACADO NO XML, CST UTILIZADO OBRIGA PREENCHIMENTO DE INFORMACOES ST', 'A', '" + this.cnpjInterno + "')";
+                                    "'" + produto.xProd + "', '" + produto.vProd.ToString() + "', '" + produto.sCst + "', '" + produto.AliqIcms + "', '" + dAliqIcmsSt + "', '" + produto.bRedBC + "', 'MVA NAO DESTACADO NO XML, CST UTILIZADO OBRIGA PREENCHIMENTO DE INFORMACOES ST', 'A', '" + this.cnpjInterno + "', '" + this.CodEmpErp + "')";
 
                                 this.dbXml.execQuery(queryErroCst);
                             }
@@ -1357,9 +1357,9 @@ namespace InspetorXML_Console.Classes.XML
                         this.xmlCriticado = true;
                         this.msgCritica = "DIVERGENCIA NO VALOR MVA XML X MVA CADASTRADO NAS EXCECOES FISCAIS";
                         var queryErroCst = "INSERT INTO CRITICAXML (CODFILIAL, NOME_XML, DATAEMISSAO, CNPJ, RAZAO, SETOR, ITEM_XML, COD_PRD, COD_PRD_AUX, DESC_PRD, VALOR_PRD, CST, ALIQ_ICMS, ALIQ_ICMSST, RED_BC, VALOR_MVA_XML, " +
-                            "VALOR_MVA_PRD, CRITICA, TIPO, CNPJINTERNO) VALUES ('" + this.CodFilErp + "', '" + this.nomeArquivo.Replace(this.parametros.PastaProcessar, this.parametros.PastaCriticados) + "', '" + this.DataEmissao + "', '" + this.cnpjInterno + "', '" + this.nomeCliFor + "', 'FIS', '" + i + "', '" + produto.codProdErp + "', '" + produto.codProdErp + "', " +
+                            "VALOR_MVA_PRD, CRITICA, TIPO, CNPJINTERNO, GRUPO) VALUES ('" + this.CodFilErp + "', '" + this.nomeArquivo.Replace(this.parametros.PastaProcessar, this.parametros.PastaCriticados) + "', '" + this.DataEmissao + "', '" + this.cnpjInterno + "', '" + this.nomeCliFor + "', 'FIS', '" + i + "', '" + produto.codProdErp + "', '" + produto.codProdErp + "', " +
                             "'" + produto.xProd + "', '" + produto.vProd + "', '" + produto.sCst + "', '" + produto.AliqIcms + "', '" + produto.dAliqIcmsSt + "', '" + produto.bRedBC + "', '" + produto.dMvaST + "', '" + produto.dFatorMva + "', " +
-                            "'DIVERGENCIA NO VALOR MVA XML X MVA CADASTRADO NAS EXCECOES FISCAIS', 'A', '" + this.cnpjInterno + "')";
+                            "'DIVERGENCIA NO VALOR MVA XML X MVA CADASTRADO NAS EXCECOES FISCAIS', 'A', '" + this.cnpjInterno + "', '" + this.CodEmpErp + "')";
                         this.dbXml.execQuery(queryErroCst);
                     }
 
@@ -1371,18 +1371,18 @@ namespace InspetorXML_Console.Classes.XML
                         {
                             if (Convert.ToDouble(produto.dBc) == Math.Round(produto.dBcCalc, 2))
                             {
-                                var qryMva = "INSERT INTO CRITICAXML (CODFILIAL, NOME_XML, DATAEMISSAO, CNPJ, RAZAO, SETOR, ITEM_XML, COD_PRD, COD_PRD_AUX, DESC_PRD, VALOR_PRD, CST, ALIQ_ICMS, ALIQ_ICMSST, RED_BC, CRITICA, TIPO, CNPJINTERNO) " +
+                                var qryMva = "INSERT INTO CRITICAXML (CODFILIAL, NOME_XML, DATAEMISSAO, CNPJ, RAZAO, SETOR, ITEM_XML, COD_PRD, COD_PRD_AUX, DESC_PRD, VALOR_PRD, CST, ALIQ_ICMS, ALIQ_ICMSST, RED_BC, CRITICA, TIPO, CNPJINTERNO, GRUPO) " +
                                                     "VALUES ('" + this.CodFilErp + "', '" + this.nomeArquivo.Replace(this.parametros.PastaProcessar, this.parametros.PastaCriticados) + "', '" + this.DataEmissao + "', '" + this.CnpjCliFor + "', '" + this.nomeCliFor + "', 'FIS', '" + i + "', '" + produto.codProdErp + "', '" + produto.codProdErp + "', " +
-                                                    "'" + produto.xProd + "', '" + produto.vProd + "', '" + produto.CST + "', '" + produto.AliqIcms + "', '" + produto.dAliqIcmsSt + "', '" + produto.bRedBC + "', 'MVA NAO DESTACADO NO XML, CST UTILIZADO OBRIGA PREENCHIMENTO DE INFORMACOES ST', 'A', '" + this.cnpjInterno + "')";
+                                                    "'" + produto.xProd + "', '" + produto.vProd + "', '" + produto.CST + "', '" + produto.AliqIcms + "', '" + produto.dAliqIcmsSt + "', '" + produto.bRedBC + "', 'MVA NAO DESTACADO NO XML, CST UTILIZADO OBRIGA PREENCHIMENTO DE INFORMACOES ST', 'A', '" + this.cnpjInterno + "', '" + this.CodEmpErp + "')";
                                 this.dbXml.execQuery(qryMva);
                             }
                         }
                     } else if (Convert.ToDouble(produto.dMvaST) != produto.dFatorMva && Convert.ToDouble(produto.dMvaST) > 0)
                     {
                             var qryMva2 = "INSERT INTO CRITICAXML (CODFILIAL, NOME_XML, DATAEMISSAO, CNPJ, RAZAO, SETOR, ITEM_XML, COD_PRD, COD_PRD_AUX, DESC_PRD, VALOR_PRD, CST, ALIQ_ICMS, ALIQ_ICMSST, RED_BC, VALOR_MVA_XML, " +
-                                                   "VALOR_MVA_PRD, CRITICA, TIPO, CNPJINTERNO) VALUES ('" + this.CodFilErp + "', '" + this.nomeArquivo.Replace(this.parametros.PastaProcessar, this.parametros.PastaCriticados) + "', '" + this.DataEmissao + "', '" + this.CnpjEmitente + "', '" + this.NomeEmitente + "', 'FIS', '" + i + "', '" + produto.codProdErp + "', '" + produto.codProdErp + "', " +
+                                                   "VALOR_MVA_PRD, CRITICA, TIPO, CNPJINTERNO, GRUPO) VALUES ('" + this.CodFilErp + "', '" + this.nomeArquivo.Replace(this.parametros.PastaProcessar, this.parametros.PastaCriticados) + "', '" + this.DataEmissao + "', '" + this.CnpjEmitente + "', '" + this.NomeEmitente + "', 'FIS', '" + i + "', '" + produto.codProdErp + "', '" + produto.codProdErp + "', " +
                                                    "'" + produto.xProd + "', '" + produto.vProd + "', '" + produto.CST + "', '" + produto.AliqIcms + "', '" + produto.dAliqIcmsSt + "', '" + produto.bRedBC + "', '" + produto.dMvaST + "', '" + produto.dFatorMva + "', " +
-                                                   "'DIVERGENCIA NO VALOR MVA XML X MVA CADASTRADO NAS EXCECOES FISCAIS', 'A', '" + this.cnpjInterno + "')";
+                                                   "'DIVERGENCIA NO VALOR MVA XML X MVA CADASTRADO NAS EXCECOES FISCAIS', 'A', '" + this.cnpjInterno + "', '" + this.CodEmpErp + "')";
                     }
 
                     this.Itens.Add(produto);

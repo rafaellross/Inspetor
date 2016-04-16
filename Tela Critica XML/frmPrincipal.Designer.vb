@@ -126,7 +126,10 @@ Partial Class frmPrincipal
         Me.CODFILIAL_ = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Cadastros = New System.Windows.Forms.TabPage()
         Me.gbFilial = New System.Windows.Forms.GroupBox()
-        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
+        Me.Label4 = New System.Windows.Forms.Label()
+        Me.txtGrupo = New System.Windows.Forms.TextBox()
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.txtCnpjInterno = New System.Windows.Forms.TextBox()
         Me.lbFilial = New System.Windows.Forms.Label()
         Me.txtFilial = New System.Windows.Forms.TextBox()
         Me.dgCadastros = New System.Windows.Forms.DataGridView()
@@ -178,7 +181,6 @@ Partial Class frmPrincipal
         CType(Me.dgFiscal, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Cadastros.SuspendLayout()
         Me.gbFilial.SuspendLayout()
-        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dgCadastros, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gbxmlcad.SuspendLayout()
         Me.gbcliforcad.SuspendLayout()
@@ -223,20 +225,22 @@ Partial Class frmPrincipal
         '
         'LogToolStripMenuItem
         '
+        Me.LogToolStripMenuItem.Enabled = False
         Me.LogToolStripMenuItem.Name = "LogToolStripMenuItem"
-        Me.LogToolStripMenuItem.Size = New System.Drawing.Size(134, 22)
+        Me.LogToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.LogToolStripMenuItem.Text = "Log"
         '
         'ParametrosToolStripMenuItem
         '
         Me.ParametrosToolStripMenuItem.Name = "ParametrosToolStripMenuItem"
-        Me.ParametrosToolStripMenuItem.Size = New System.Drawing.Size(134, 22)
+        Me.ParametrosToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.ParametrosToolStripMenuItem.Text = "Parâmetros"
         '
         'ServicoToolStripMenuItem
         '
+        Me.ServicoToolStripMenuItem.Enabled = False
         Me.ServicoToolStripMenuItem.Name = "ServicoToolStripMenuItem"
-        Me.ServicoToolStripMenuItem.Size = New System.Drawing.Size(134, 22)
+        Me.ServicoToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.ServicoToolStripMenuItem.Text = "Serviço"
         '
         'AjudaToolStripMenuItem
@@ -1171,7 +1175,10 @@ Partial Class frmPrincipal
         'gbFilial
         '
         Me.gbFilial.Anchor = System.Windows.Forms.AnchorStyles.Bottom
-        Me.gbFilial.Controls.Add(Me.PictureBox1)
+        Me.gbFilial.Controls.Add(Me.Label4)
+        Me.gbFilial.Controls.Add(Me.txtGrupo)
+        Me.gbFilial.Controls.Add(Me.Label3)
+        Me.gbFilial.Controls.Add(Me.txtCnpjInterno)
         Me.gbFilial.Controls.Add(Me.lbFilial)
         Me.gbFilial.Controls.Add(Me.txtFilial)
         Me.gbFilial.Location = New System.Drawing.Point(6, 384)
@@ -1179,14 +1186,45 @@ Partial Class frmPrincipal
         Me.gbFilial.Size = New System.Drawing.Size(129, 185)
         Me.gbFilial.TabIndex = 22
         Me.gbFilial.TabStop = False
+        Me.gbFilial.Text = "Dados Internos"
         '
-        'PictureBox1
+        'Label4
         '
-        Me.PictureBox1.Location = New System.Drawing.Point(6, 19)
-        Me.PictureBox1.Name = "PictureBox1"
-        Me.PictureBox1.Size = New System.Drawing.Size(117, 116)
-        Me.PictureBox1.TabIndex = 9
-        Me.PictureBox1.TabStop = False
+        Me.Label4.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label4.AutoSize = True
+        Me.Label4.Location = New System.Drawing.Point(6, 57)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(36, 13)
+        Me.Label4.TabIndex = 13
+        Me.Label4.Text = "Grupo"
+        '
+        'txtGrupo
+        '
+        Me.txtGrupo.Location = New System.Drawing.Point(6, 72)
+        Me.txtGrupo.Name = "txtGrupo"
+        Me.txtGrupo.Size = New System.Drawing.Size(117, 20)
+        Me.txtGrupo.TabIndex = 12
+        '
+        'Label3
+        '
+        Me.Label3.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label3.AutoSize = True
+        Me.Label3.Location = New System.Drawing.Point(6, 20)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(34, 13)
+        Me.Label3.TabIndex = 11
+        Me.Label3.Text = "CNPJ"
+        '
+        'txtCnpjInterno
+        '
+        Me.txtCnpjInterno.Location = New System.Drawing.Point(6, 34)
+        Me.txtCnpjInterno.Name = "txtCnpjInterno"
+        Me.txtCnpjInterno.Size = New System.Drawing.Size(117, 20)
+        Me.txtCnpjInterno.TabIndex = 10
         '
         'lbFilial
         '
@@ -1194,7 +1232,7 @@ Partial Class frmPrincipal
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lbFilial.AutoSize = True
-        Me.lbFilial.Location = New System.Drawing.Point(6, 138)
+        Me.lbFilial.Location = New System.Drawing.Point(6, 95)
         Me.lbFilial.Name = "lbFilial"
         Me.lbFilial.Size = New System.Drawing.Size(27, 13)
         Me.lbFilial.TabIndex = 8
@@ -1202,7 +1240,7 @@ Partial Class frmPrincipal
         '
         'txtFilial
         '
-        Me.txtFilial.Location = New System.Drawing.Point(6, 154)
+        Me.txtFilial.Location = New System.Drawing.Point(6, 111)
         Me.txtFilial.Name = "txtFilial"
         Me.txtFilial.Size = New System.Drawing.Size(117, 20)
         Me.txtFilial.TabIndex = 6
@@ -1538,7 +1576,6 @@ Partial Class frmPrincipal
         Me.Cadastros.ResumeLayout(False)
         Me.gbFilial.ResumeLayout(False)
         Me.gbFilial.PerformLayout()
-        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.dgCadastros, System.ComponentModel.ISupportInitialize).EndInit()
         Me.gbxmlcad.ResumeLayout(False)
         Me.gbxmlcad.PerformLayout()
@@ -1680,8 +1717,11 @@ End Sub
     Friend WithEvents btnreprocessaxmlcad As System.Windows.Forms.Button
     Friend WithEvents TabCritica As System.Windows.Forms.TabControl
     Friend WithEvents ImageList1 As System.Windows.Forms.ImageList
-    Friend WithEvents PictureBox1 As System.Windows.Forms.PictureBox
     Friend WithEvents PictureBox2 As System.Windows.Forms.PictureBox
     Friend WithEvents ServicoToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents UsuáriosToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents Label3 As Label
+    Friend WithEvents txtCnpjInterno As TextBox
+    Friend WithEvents Label4 As Label
+    Friend WithEvents txtGrupo As TextBox
 End Class

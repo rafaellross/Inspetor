@@ -100,9 +100,9 @@ namespace InspetorXML_Console.Classes.ERP.Generico
                     {
                         this.escreveLog("Arquivo " + nota.nomeArquivo + " criticado", "JA FOI LANCADO NO SISTEMA");
                         //Caso a nota já tenha sido lançada, será criado um log
-                        var qryJaLancado = "INSERT INTO CRITICAXML (CODFILIAL, NOME_XML, DATAEMISSAO, SETOR, CNPJ, RAZAO, CRITICA, TIPO, CNPJINTERNO) VALUES " +
+                        var qryJaLancado = "INSERT INTO CRITICAXML (CODFILIAL, NOME_XML, DATAEMISSAO, SETOR, CNPJ, RAZAO, CRITICA, TIPO, CNPJINTERNO, GRUPO) VALUES " +
                                         "('" + nota.CodFilErp + "', '" + nota.nomeArquivo.Replace(this.parametros.PastaProcessar, this.parametros.PastaCriticados) + "', '" + nota.DataEmissao + "', 'CMP', '" + nota.CnpjCliFor + "', " +
-                                        "'" + nota.nomeCliFor + "', 'XML TRANSFERIDO PARA A PASTA CRITICADOS, O MESMO JA FOI LANCADO NO SISTEMA.', 'C', '" + nota.cnpjInterno + "')";
+                                        "'" + nota.nomeCliFor + "', 'XML TRANSFERIDO PARA A PASTA CRITICADOS, O MESMO JA FOI LANCADO NO SISTEMA.', 'C', '" + nota.cnpjInterno + "', '" + nota.CodEmpErp +"')";
 
                         this.dbInspetor.execQuery(qryJaLancado);
 
@@ -180,9 +180,9 @@ namespace InspetorXML_Console.Classes.ERP.Generico
                         this.escreveLog("Arquivo " + nota.nomeArquivo + " criticado", logMsg);
                         
 
-                        var query = "INSERT INTO CRITICAXML (CODFILIAL, NOME_XML, DATAEMISSAO, SETOR, CNPJ, RAZAO, CRITICA, TIPO, CNPJINTERNO) VALUES " +
+                        var query = "INSERT INTO CRITICAXML (CODFILIAL, NOME_XML, DATAEMISSAO, SETOR, CNPJ, RAZAO, CRITICA, TIPO, CNPJINTERNO, GRUPO) VALUES " +
                                         "('" + nota.CodFilErp + "', '" + nota.nomeArquivo.Replace(this.parametros.PastaProcessar, this.parametros.PastaCriticados) + "', '" + nota.DataEmissao + "', 'CMP', '" + nota.CnpjCliFor + "', " +
-                                        "'" + nota.nomeCliFor + "', '"+ logMsg + "', 'C', '" + nota.cnpjInterno + "')";
+                                        "'" + nota.nomeCliFor + "', '"+ logMsg + "', 'C', '" + nota.cnpjInterno + "', '" + nota.CodEmpErp + "')";
                         var color = Console.ForegroundColor;
                         Console.ForegroundColor = System.ConsoleColor.Red;
                         Console.WriteLine(logMsg);
@@ -199,9 +199,9 @@ namespace InspetorXML_Console.Classes.ERP.Generico
                         nota.xmlCriticado = true;
                         //Caso o cliente/fornecedor não possua forma de pagamento cadastrado
                         this.escreveLog("Arquivo " + nota.nomeArquivo + " criticado", "O CLIENTE/FORNECEDOR NAO POSSUI COND. DE PAGTO CADASTRADA NO SISTEMA");
-                        this.dbInspetor.execQuery("INSERT INTO CRITICAXML (CODFILIAL, NOME_XML, DATAEMISSAO, SETOR, CNPJ, RAZAO, CRITICA, TIPO, CNPJINTERNO) VALUES " +
+                        this.dbInspetor.execQuery("INSERT INTO CRITICAXML (CODFILIAL, NOME_XML, DATAEMISSAO, SETOR, CNPJ, RAZAO, CRITICA, TIPO, CNPJINTERNO, GRUPO) VALUES " +
                                         "('" + nota.CodFilErp + "', '" + nota.nomeArquivo.Replace(this.parametros.PastaProcessar, this.parametros.PastaCriticados) + "', '" + nota.DataEmissao + "', 'CMP', '" + nota.CnpjCliFor + "', " +
-                                        "'" + nota.nomeCliFor + "', 'O CLIENTE/FORNECEDOR NAO POSSUI COND. DE PAGTO CADASTRADA NO SISTEMA', 'C', '" + nota.cnpjInterno + "')");
+                                        "'" + nota.nomeCliFor + "', 'O CLIENTE/FORNECEDOR NAO POSSUI COND. DE PAGTO CADASTRADA NO SISTEMA', 'C', '" + nota.cnpjInterno + "', '" + nota.CodEmpErp + "')");
                         continue;
                     }
                     
@@ -233,12 +233,23 @@ namespace InspetorXML_Console.Classes.ERP.Generico
                     
                     try
                     {
-                        
+                        var totalFinanceiro = 0.00;
                         foreach (var item in notaSerializada.NFe.infNFe.cobr.dup)
                         {
+                            totalFinanceiro += Convert.ToDouble(item.vDup);
                             parcela++;
-                            insertFinanc += " " + FuncoesErp.insereFinanceiro(nota, item.dVenc, item.vDup, parcela.ToString());
-                            
+
+                            //Verifica se é a última parcela. Se a soma das parcelas financeiras for 
+                            //menor que o valor da nota, será lançada a diferença
+                            if (parcela == notaSerializada.NFe.infNFe.cobr.dup.Length && totalFinanceiro < Convert.ToDouble(nota.valorNf))
+                            {
+                                    totalFinanceiro = Convert.ToDouble(nota.valorNf) - totalFinanceiro;
+                                    insertFinanc += " " + FuncoesErp.insereFinanceiro(nota, totalFinanceiro.ToString(), item.vDup, parcela.ToString());
+                            }                            
+                            else
+                            {
+                                insertFinanc += " " + FuncoesErp.insereFinanceiro(nota, item.dVenc, item.vDup, parcela.ToString());
+                            }                                                        
                         }
 
                     }
