@@ -37,7 +37,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>cms_consultoria.ico</ApplicationIcon>
+    <ApplicationIcon>icon_inspector.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -73,7 +73,7 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="cms_consultoria.ico" />
+    <Content Include="icon_inspector.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

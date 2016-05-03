@@ -27,7 +27,7 @@ Partial Class frmPrincipal
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.ArquivoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SairToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.UsuáriosToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.usuariosMenu = New System.Windows.Forms.ToolStripMenuItem()
         Me.OpcoesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.LogToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ParametrosToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -199,7 +199,7 @@ Partial Class frmPrincipal
         '
         'ArquivoToolStripMenuItem
         '
-        Me.ArquivoToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SairToolStripMenuItem, Me.UsuáriosToolStripMenuItem})
+        Me.ArquivoToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SairToolStripMenuItem, Me.usuariosMenu})
         Me.ArquivoToolStripMenuItem.Name = "ArquivoToolStripMenuItem"
         Me.ArquivoToolStripMenuItem.Size = New System.Drawing.Size(60, 20)
         Me.ArquivoToolStripMenuItem.Text = "Sistema"
@@ -207,14 +207,14 @@ Partial Class frmPrincipal
         'SairToolStripMenuItem
         '
         Me.SairToolStripMenuItem.Name = "SairToolStripMenuItem"
-        Me.SairToolStripMenuItem.Size = New System.Drawing.Size(119, 22)
+        Me.SairToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.SairToolStripMenuItem.Text = "Sair"
         '
-        'UsuáriosToolStripMenuItem
+        'usuariosMenu
         '
-        Me.UsuáriosToolStripMenuItem.Name = "UsuáriosToolStripMenuItem"
-        Me.UsuáriosToolStripMenuItem.Size = New System.Drawing.Size(119, 22)
-        Me.UsuáriosToolStripMenuItem.Text = "Usuários"
+        Me.usuariosMenu.Name = "usuariosMenu"
+        Me.usuariosMenu.Size = New System.Drawing.Size(152, 22)
+        Me.usuariosMenu.Text = "Usuários"
         '
         'OpcoesToolStripMenuItem
         '
@@ -227,20 +227,20 @@ Partial Class frmPrincipal
         '
         Me.LogToolStripMenuItem.Enabled = False
         Me.LogToolStripMenuItem.Name = "LogToolStripMenuItem"
-        Me.LogToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.LogToolStripMenuItem.Size = New System.Drawing.Size(134, 22)
         Me.LogToolStripMenuItem.Text = "Log"
         '
         'ParametrosToolStripMenuItem
         '
         Me.ParametrosToolStripMenuItem.Name = "ParametrosToolStripMenuItem"
-        Me.ParametrosToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.ParametrosToolStripMenuItem.Size = New System.Drawing.Size(134, 22)
         Me.ParametrosToolStripMenuItem.Text = "Parâmetros"
         '
         'ServicoToolStripMenuItem
         '
         Me.ServicoToolStripMenuItem.Enabled = False
         Me.ServicoToolStripMenuItem.Name = "ServicoToolStripMenuItem"
-        Me.ServicoToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.ServicoToolStripMenuItem.Size = New System.Drawing.Size(134, 22)
         Me.ServicoToolStripMenuItem.Text = "Serviço"
         '
         'AjudaToolStripMenuItem
@@ -1719,7 +1719,7 @@ End Sub
     Friend WithEvents ImageList1 As System.Windows.Forms.ImageList
     Friend WithEvents PictureBox2 As System.Windows.Forms.PictureBox
     Friend WithEvents ServicoToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents UsuáriosToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents usuariosMenu As ToolStripMenuItem
     Friend WithEvents Label3 As Label
     Friend WithEvents txtCnpjInterno As TextBox
     Friend WithEvents Label4 As Label

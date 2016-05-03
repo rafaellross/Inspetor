@@ -15,12 +15,6 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_106F0690B7CB0EF953CBEF7C5143B74F"
-        "OwnerKey" = "8:_D00D928C32F147B6B0AB9CC1D18C68D5"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_15EBFF3F16FCFC640FDDA86D2A6D9CAA"
         "OwnerKey" = "8:_419B06CB70874B109CD53E13D03E0D24"
         "MsmSig" = "8:_UNDEFINED"
@@ -57,20 +51,14 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_99DB56E8975FB2F2472F705D8BF02940"
+        "MsmKey" = "8:_7F798D8E747A56EB0ABE0D0474361190"
         "OwnerKey" = "8:_419B06CB70874B109CD53E13D03E0D24"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_99DB56E8975FB2F2472F705D8BF02940"
+        "MsmKey" = "8:_7F798D8E747A56EB0ABE0D0474361190"
         "OwnerKey" = "8:_D00D928C32F147B6B0AB9CC1D18C68D5"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_A60BFEA669A34168A18D3684EEC18E25"
-        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -83,6 +71,12 @@
         {
         "MsmKey" = "8:_D00D928C32F147B6B0AB9CC1D18C68D5"
         "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_DD90EFC31F03E430AC8AF44FD19068E5"
+        "OwnerKey" = "8:_D00D928C32F147B6B0AB9CC1D18C68D5"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -100,7 +94,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_106F0690B7CB0EF953CBEF7C5143B74F"
+        "OwnerKey" = "8:_DD90EFC31F03E430AC8AF44FD19068E5"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -118,7 +112,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_99DB56E8975FB2F2472F705D8BF02940"
+        "OwnerKey" = "8:_7F798D8E747A56EB0ABE0D0474361190"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -446,37 +440,6 @@
         }
         "File"
         {
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_106F0690B7CB0EF953CBEF7C5143B74F"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:CadastroUsuario, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_106F0690B7CB0EF953CBEF7C5143B74F"
-                    {
-                    "Name" = "8:CadastroUsuario.exe"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:CadastroUsuario.exe"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_B4C936A91ABB4581ACA8FE1A5529C044"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_15EBFF3F16FCFC640FDDA86D2A6D9CAA"
             {
             "AssemblyRegister" = "3:1"
@@ -528,14 +491,14 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_99DB56E8975FB2F2472F705D8BF02940"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_7F798D8E747A56EB0ABE0D0474361190"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
             "AssemblyAsmDisplayName" = "8:InspetorXML_Console, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_99DB56E8975FB2F2472F705D8BF02940"
+                    "_7F798D8E747A56EB0ABE0D0474361190"
                     {
                     "Name" = "8:InspetorXML_Console.exe"
                     "Attributes" = "3:512"
@@ -559,10 +522,21 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A60BFEA669A34168A18D3684EEC18E25"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_DD90EFC31F03E430AC8AF44FD19068E5"
             {
-            "SourcePath" = "8:..\\ServicoInspetor\\cms_consultoria.ico"
-            "TargetName" = "8:cms_consultoria.ico"
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:CadastroUsuario, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_DD90EFC31F03E430AC8AF44FD19068E5"
+                    {
+                    "Name" = "8:CadastroUsuario.exe"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:CadastroUsuario.exe"
+            "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_B4C936A91ABB4581ACA8FE1A5529C044"
             "Condition" = "8:"
@@ -576,7 +550,7 @@
             "PackageAs" = "3:1"
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
         }
@@ -636,7 +610,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:InspetorXML"
         "ProductCode" = "8:{9231C66A-6F03-4FB9-8B7B-186F84961935}"
-        "PackageCode" = "8:{B09A0170-AFF3-4915-BB08-A6FCE9155437}"
+        "PackageCode" = "8:{81DA54D0-09B9-4EC8-85AF-959369F4F492}"
         "UpgradeCode" = "8:{CA7F2015-0C90-40F9-B630-60375C11FEAE}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -1185,7 +1159,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_419B06CB70874B109CD53E13D03E0D24"
             {
-            "SourcePath" = "8:..\\ServicoTeste\\obj\\Debug\\ServicoInspetorXML.exe"
+            "SourcePath" = "8:..\\ServicoTeste\\obj\\Release\\ServicoInspetorXML.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_B4C936A91ABB4581ACA8FE1A5529C044"
@@ -1213,7 +1187,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_5BF5B154862D4741A70205EA11FC5130"
             {
-            "SourcePath" = "8:..\\CadastroUsuario\\obj\\Debug\\CadastroUsuario.exe"
+            "SourcePath" = "8:..\\CadastroUsuario\\obj\\Release\\CadastroUsuario.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_B4C936A91ABB4581ACA8FE1A5529C044"
@@ -1241,7 +1215,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_CE40DD75522440C988C18CD4FFBF0945"
             {
-            "SourcePath" = "8:..\\InspetorXML_Console\\obj\\Debug\\InspetorXML_Console.exe"
+            "SourcePath" = "8:..\\InspetorXML_Console\\obj\\Release\\InspetorXML_Console.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_B4C936A91ABB4581ACA8FE1A5529C044"
@@ -1269,7 +1243,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_D00D928C32F147B6B0AB9CC1D18C68D5"
             {
-            "SourcePath" = "8:..\\Tela Critica XML\\obj\\x86\\Debug\\Tela_Critica_XML.exe"
+            "SourcePath" = "8:..\\Tela Critica XML\\obj\\x86\\Release\\Tela_Critica_XML.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_B4C936A91ABB4581ACA8FE1A5529C044"

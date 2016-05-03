@@ -4,17 +4,42 @@ using InspetorXML_Console.Classes.ERP.Generico;
 using InspetorXML_Console.Classes.XML;
 using System;
 using System.IO;
+using System.Runtime.InteropServices;
 
 namespace InspetorXML_Console
 {
     class Program
     {
 
+        [DllImport("user32.dll")]
+        static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
+
+        [DllImport("user32.dll")]
+        static extern bool SetLayeredWindowAttributes(IntPtr hWnd, uint crKey, byte bAlpha, uint dwFlags);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        internal static extern int GetWindowLong(IntPtr hWnd, int nIndex);
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        internal static extern IntPtr GetConsoleWindow();
+
         static void Main(string[] args)
         {
-        
-        //Instancia a classe dos parametros
-        Parametros parametros = new Parametros();
+            Console.Title = "Processamento - InspetorXML";
+
+            //Configura transparência do console
+
+            int GWL_EXSTYLE = -20;
+            int WS_EX_LAYERED = 0x80000;
+            uint LWA_ALPHA = 0x2;
+
+            // Obtain our handle (hWnd)
+            IntPtr Handle = GetConsoleWindow();
+            SetWindowLong(Handle, GWL_EXSTYLE, GetWindowLong(Handle, GWL_EXSTYLE) ^ WS_EX_LAYERED);
+            // Opacity = 0.5 = (255/2)
+            SetLayeredWindowAttributes(Handle, 0, 245, LWA_ALPHA);
+            //Instancia a classe dos parametros
+            Parametros parametros = new Parametros();
             //Carrega os parâmetros do arquivo config
             Console.WriteLine("Carrega os Parametros");
             parametros.carregaParametros();
@@ -71,6 +96,7 @@ namespace InspetorXML_Console
             if (notas.arquivosXml.Count == 0)
             {
                 Console.WriteLine("Aperte qualquer tecla para sair!");
+                Console.ReadLine();
                 Environment.Exit(0);
             }
             Console.WriteLine("Instanciando objeto do ERP para inserir das notas");

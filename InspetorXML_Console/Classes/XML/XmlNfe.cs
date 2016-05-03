@@ -74,7 +74,7 @@ namespace InspetorXML_Console.Classes.XML
         public string CnpjCliFor { get; internal set; }
         public string CodLojaCliForErp { get; internal set; }
         public string CodCondPagto { get; internal set; } = "";
-        public string vFrete { get; internal set; }
+        public string vFrete { get; internal set; } = "0.00";
         public string vOutro { get; internal set; }
         public string BaseIcms { get; internal set; }
         public string ValorIcms { get; internal set; }
@@ -84,9 +84,9 @@ namespace InspetorXML_Console.Classes.XML
         public string vDesc { get; private set; }
         public string EspNf { get; private set; }
         public double vBCCofins { get; private set; } = 0;
-        public double BasePis { get; private set; } = 0;
+        public double BasePis { get; private set; } = 0.00;
         public double vCOFINS { get; private set; } = 0;
-        public double ValorPis { get; private set; } = 0;
+        public double ValorPis { get; private set; } = 0.00;
         public string CodTipoCliFor { get; internal set; }
         public string dBc { get; private set; }
         public string bAliqRedBCIcms { get; private set; }
@@ -147,6 +147,8 @@ namespace InspetorXML_Console.Classes.XML
         public bool Exportacao { get; private set; }
         public string nomeCliFor { get; private set; }
         public string cnpjInterno { get; private set; } = "";
+        public string TabSF3 { get; internal set; }
+        public string TabSFT { get; internal set; }
 
         public XmlNfe(string tipoErp, string nomeArquivo, string xmlInput, string nameSpace, DB dbXml, DB dbErp, Parametros parametros)
         {
@@ -425,7 +427,7 @@ namespace InspetorXML_Console.Classes.XML
             }
 
             //Atribui Insc. Estadual do destinatário
-            node = xpathNav.SelectSingleNode("//nfe:infNFe/nfe:dest/nfe:enderDest/nfe:IE", nameSpace);
+            node = xpathNav.SelectSingleNode("//nfe:infNFe/nfe:dest/nfe:IE", nameSpace);
             if (node != null)
             {
                 this.ieDestinatario = node.InnerXml.ToString();
@@ -714,8 +716,19 @@ namespace InspetorXML_Console.Classes.XML
                 }
                 else
                 {
+
                     ProdutosNfe produto = new ProdutosNfe();
-                    produto.numItem = i.ToString();
+
+                    //Foi necessário verificar a quantidade de itens na nota, pois o protheus só aceita 2 digitos no numero do item
+                    if (i < 99)
+                    {
+                        produto.numItem = i.ToString();
+                    }
+                    else
+                    {                  
+                            produto.numItem = FuncoesErp.numToLetra(i);                  
+                    }                    
+
                     produto.xProd = node.InnerXml.ToString();
 
 
@@ -795,14 +808,14 @@ namespace InspetorXML_Console.Classes.XML
                     node = xpathNav.SelectSingleNode("//nfe:infNFe/nfe:det[" + i + "]/nfe:imposto/nfe:IPI/nfe:IPITrib/nfe:pIPI", nameSpace);
                     if (node != null)
                     {
-                        produto.pIPI = node.InnerXml.ToString();
+                        //produto.pIPI = node.InnerXml.ToString();
                     }
                     
                     //vIPI
                     node = xpathNav.SelectSingleNode("//nfe:infNFe/nfe:det[" + i + "]/nfe:imposto/nfe:IPI/nfe:IPITrib/nfe:vIPI", nameSpace);
                     if (node != null)
                     {
-                        produto.vIPI = node.InnerXml.ToString();
+                        //produto.vIPI = node.InnerXml.ToString();
                     }
 
 
@@ -1166,15 +1179,16 @@ namespace InspetorXML_Console.Classes.XML
                     node = xpathNav.SelectSingleNode("//nfe:infNFe/nfe:det[" + i + "]/nfe:imposto/nfe:PIS/nfe:PISAliq/nfe:vBC", nameSpace);
                     if (node != null)
                     {
-                        this.BasePis += Convert.ToDouble(node.InnerXml.ToString());
                         produto.BasePis = node.InnerXml.ToString();
+                        this.BasePis += Convert.ToDouble(produto.BasePis.Replace('.', ','));
+                        
                     }
 
                     //Valor do Pis
                     node = xpathNav.SelectSingleNode("//nfe:infNFe/nfe:det[" + i + "]/nfe:imposto/nfe:PIS/nfe:PISAliq/nfe:vPIS", nameSpace);
                     if (node != null)
                     {
-                        this.ValorPis += Convert.ToDouble(node.InnerXml.ToString());
+                        this.ValorPis += Convert.ToDouble(node.InnerXml.ToString().Replace('.', ','));
                         produto.ValorPis = node.InnerXml.ToString();
                     }
 
@@ -1285,6 +1299,8 @@ namespace InspetorXML_Console.Classes.XML
                                 produto.codFilialProdErp = lista[1];
                                 produto.TpProd = lista[2];
                                 produto.uCom = lista[3];
+                                produto.pIPI = lista[4];
+                                produto.vIPI = Convert.ToString((Convert.ToDouble(produto.dBc) * Convert.ToDouble(produto.pIPI)) / 100);
                             }
                         }
                     catch (Exception ex)
@@ -1336,7 +1352,6 @@ namespace InspetorXML_Console.Classes.XML
                     }
 
 
-
                         //Validação Fiscal 1
                         if (!(produto.dVPrecoPauta > 0))
                     {
@@ -1384,7 +1399,6 @@ namespace InspetorXML_Console.Classes.XML
                                                    "'" + produto.xProd + "', '" + produto.vProd + "', '" + produto.CST + "', '" + produto.AliqIcms + "', '" + produto.dAliqIcmsSt + "', '" + produto.bRedBC + "', '" + produto.dMvaST + "', '" + produto.dFatorMva + "', " +
                                                    "'DIVERGENCIA NO VALOR MVA XML X MVA CADASTRADO NAS EXCECOES FISCAIS', 'A', '" + this.cnpjInterno + "', '" + this.CodEmpErp + "')";
                     }
-
                     this.Itens.Add(produto);
                     i++;                    
                 }
@@ -1423,6 +1437,8 @@ namespace InspetorXML_Console.Classes.XML
                     this.TabSF2 = this.dbXml.consultaErp(FuncoesErp.pegaTabelaSx2(this.CodEmpErp, "SF2"))[0];
                     this.TabSF4 = this.dbXml.consultaErp(FuncoesErp.pegaTabelaSx2(this.CodEmpErp, "SF4"))[0];
                     this.TabSF7 = this.dbXml.consultaErp(FuncoesErp.pegaTabelaSx2(this.CodEmpErp, "SF7"))[0];
+                    this.TabSF3 = this.dbXml.consultaErp(FuncoesErp.pegaTabelaSx2(this.CodEmpErp, "SF3"))[0];
+                    this.TabSFT = this.dbXml.consultaErp(FuncoesErp.pegaTabelaSx2(this.CodEmpErp, "SFT"))[0];
                     //Query para pegar a tabela dos produtos do ERP
                     query = FuncoesErp.sqlTabProdErp(this.tipoErp, this.CodEmpErp);
 

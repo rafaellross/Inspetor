@@ -264,14 +264,22 @@ namespace InspetorXML_Console.Classes.ERP.Generico
                     myFileStream.Close();
                 }
 
-
-
                 inserts.Append(insertNota);
                 inserts.Append(insertFinanc);
 
+                var insereSf3 = FuncoesErp.InsereSf3(nota);
+                inserts.Append(insereSf3);
+
+
+                //Inserts para a tabela SFT
+                foreach (var item in nota.Itens)
+                {                    
+                    inserts.Append(FuncoesErp.InsereSft(nota, item));
+                }
+
                 if (nota.TipoNf == "SAIDA")
                 {
-                    var queryC5_Num = dbErp.queryListToDic("SELECT REPLICATE('0', 6 - LEN(MAX(C5_NUM) + 1)) + CAST(MAX(C5_NUM) + 1 AS VARCHAR(6)) AS C5_NUM FROM SC5" + nota.CodEmpErp + "0 WHERE C5_FILIAL = '" + nota.CodFilErp + "';");
+                    var queryC5_Num = dbErp.queryListToDic("SELECT ISNULL(REPLICATE('0', 6 - LEN(MAX(C5_NUM) + 1)) + CAST(MAX(C5_NUM) + 1 AS VARCHAR(6)), '000001') AS C5_NUM FROM SC5" + nota.CodEmpErp + "0 WHERE C5_FILIAL = '" + nota.CodFilErp + "';");
                     if (queryC5_Num.Count > 0)
                     {
                         var C5_NUM = queryC5_Num[0]["C5_NUM"];
@@ -301,8 +309,7 @@ namespace InspetorXML_Console.Classes.ERP.Generico
                     FuncoesErp.movePara(nota.nomeArquivo, parametros.PastaProcessados);
                 }
                 else
-                {
-                    
+                {                    
                     FuncoesErp.movePara(nota.nomeArquivo, parametros.PastaCriticados);
                 }
                 

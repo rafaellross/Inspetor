@@ -12,19 +12,24 @@ namespace TestApp
     {
         static void Main(string[] args)
         {
+
+            Console.WriteLine();
+            Console.WriteLine();
+            var num = 250;
             
-            ExeConfigurationFileMap configMap = new ExeConfigurationFileMap();
-            configMap.ExeConfigFilename = @"C:\\Program Files (x86)\\CMS Consultoria\\InspetorXML\\InspetorXML_Console.exe.config";
-            Configuration config = ConfigurationManager.OpenMappedExeConfiguration(configMap, ConfigurationUserLevel.None);
-            var parametros = config.AppSettings.Settings;
+            var hundreds = Convert.ToInt32(Math.Truncate(num / 100.0));
+            var tens = Convert.ToInt32(Math.Truncate((num - (hundreds * 100.0)) / 10));
+            var ones = Convert.ToInt32(Math.Truncate((num - ((hundreds * 100.0) + (tens * 10)))));
 
-            Console.WriteLine(parametros["TempoExecucao"].Value);
-            if (Process.GetProcessesByName("InspetorXML_Console").Length > 0)
-            {
-                Console.WriteLine("O serviço já está em execução!");
-            }
+            
+            
+            
+
+            
 
 
+
+            Console.WriteLine("Resultado: " + combinacoes[num]);
             Console.ReadKey();
         }
     }

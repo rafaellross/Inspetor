@@ -19,7 +19,7 @@ namespace InspetorXML_Console.Classes.ERP.Generico
             else
             {
                 return "SELECT CODCOLIGADA, CODFILIAL FROM GFILIAL WHERE REPLACE(REPLACE(REPLACE(CGC, '.', ''), '/', ''), '-', '') = '" + cnpjEmpresa + "'"; ;
-            }            
+            }
         }
 
         public static string sqlCliForErp(string tipoErp, string tipoNf, string cnpjCliFor, string codTab = "", string codFilial = "", string nomeCliFor = "", bool Exportacao = false)
@@ -42,13 +42,13 @@ namespace InspetorXML_Console.Classes.ERP.Generico
                 {
                     return "SELECT A1_COD, A1_LOJA, A1_MSBLQL, A1_COND, A1_TIPO FROM SA1" + codTab + "0 WHERE REPLACE(REPLACE(REPLACE(A1_CGC, '.', ''), '/', ''), '-', '') = '" + cnpjCliFor + "' AND D_E_L_E_T_ <> '*'";
                 }
-                
+
             }
             else
             {
                 return "";
-            }                            
-            
+            }
+
         }
 
         public static string sqlInsertCliFor(string tipoErp, XmlNfe nota)
@@ -56,30 +56,30 @@ namespace InspetorXML_Console.Classes.ERP.Generico
             var query = "";
             if (nota.TipoNf == "SAIDA")
             {
-                var A1_FILIAL   = "'" + nota.CodFilErp + "',";
-                var A1_COD      = "ISNULL((SELECT REPLICATE('0', 6-LEN(CAST(MAX(A1_COD)+1 AS VARCHAR(6)))) + CAST(MAX(A1_COD)+1 AS VARCHAR(6)) FROM " + nota.TabSA1 + " WHERE A1_FILIAL =  '"+ nota.CodFilErp +"' and PATINDEX('%[A-Z]%', A1_COD) = 0), '000001'),";
-                
-                var A1_LOJA     = "'" + (nota.TipoPessoa == "F" ? "01" : nota.CnpjDestinatario.Substring(10, 2)) + "',";
-                var A1_PESSOA   = "'" + nota.TipoPessoa + "',";
-                var A1_NOME     = "SUBSTRING('" + nota.NomeDestinatario + "', 1, 40),";
-                var A1_NREDUZ   = "SUBSTRING('" + nota.NomeDestinatario + "', 1, 20),";
-                var A1_END      = "SUBSTRING('" + nota.enderecoDestinatario + "', 1, 40),";
-                var A1_TIPO = "'',"; 
+                var A1_FILIAL = "'" + nota.CodFilErp + "',";
+                var A1_COD = "ISNULL((SELECT REPLICATE('0', 6-LEN(CAST(MAX(A1_COD)+1 AS VARCHAR(6)))) + CAST(MAX(A1_COD)+1 AS VARCHAR(6)) FROM " + nota.TabSA1 + " WHERE A1_FILIAL =  '" + nota.CodFilErp + "' and PATINDEX('%[A-Z]%', A1_COD) = 0), '000001'),";
+
+                var A1_LOJA = "'" + (nota.TipoPessoa == "F" ? "01" : nota.CnpjDestinatario.Substring(10, 2)) + "',";
+                var A1_PESSOA = "'" + nota.TipoPessoa + "',";
+                var A1_NOME = "SUBSTRING('" + nota.NomeDestinatario + "', 1, 40),";
+                var A1_NREDUZ = "SUBSTRING('" + nota.NomeDestinatario + "', 1, 20),";
+                var A1_END = "SUBSTRING('" + nota.enderecoDestinatario + "', 1, 40),";
+                var A1_TIPO = "'',";
                 if (nota.TipoPessoa == "F" || nota.ieDestinatario == "")
                 {
-                    A1_TIPO = "'F',"; 
+                    A1_TIPO = "'F',";
                 }
                 else
                 {
                     A1_TIPO = "'S',";
                 }
-                
-                var A1_EST      = "'" + nota.UFDestinatario + "',";
-                var A1_ESTADO   = "'',";
-                var A1_COD_MUN  = "SUBSTRING('" + nota.codMunicipioDestinatario + "', 3, 5),";
-                var A1_MUN      = "'" + nota.nomeMunicipioDestinatario + "',";
-                var A1_BAIRRO   = "'" + nota.bairroDestinatario + "', ";
-                var A1_NATUREZ = "'',"; 
+
+                var A1_EST = "'" + nota.UFDestinatario + "',";
+                var A1_ESTADO = "'',";
+                var A1_COD_MUN = "SUBSTRING('" + nota.codMunicipioDestinatario + "', 3, 5),";
+                var A1_MUN = "'" + nota.nomeMunicipioDestinatario + "',";
+                var A1_BAIRRO = "'" + nota.bairroDestinatario + "', ";
+                var A1_NATUREZ = "'',";
                 if (nota.paisDestinatario != "1058")
                 {
                     A1_NATUREZ = "'0061',";
@@ -88,27 +88,27 @@ namespace InspetorXML_Console.Classes.ERP.Generico
                 {
                     A1_NATUREZ = "'0060',";
                 }
-                
-                var A1_IBGE     = "'',";
-                var A1_CEP      = "'" + nota.cepDestinatario + "',";
-                var A1_DDI      = "'',";
-                var A1_DDD      = "'',";
-                var A1_TEL      = "'" + nota.telefoneDestinatario + "',";
-                var A1_TELEX    = "'',";
-                var A1_FAX      = "'',";
-                var A1_ENDCOB   = "'',";
-                var A1_PAIS     = "'',";
-                var A1_ENDREC   = "'',";
-                var A1_ENDENT   = "'',";
-                var A1_TRIBFAV  = "'',";
-                var A1_CONTATO  = "'',";
-                var A1_CGC      = "'" + nota.CnpjDestinatario + "',";
-                var A1_PFISICA  = "'',";
-                var A1_INSCR    = "'" + nota.ieDestinatario + "',";
-                var A1_INSCRM   = "'',";
-                var A1_VEND     = "'',";
-                var A1_COMIS    = "'0',";
-                var A1_REGIAO   = "'',";
+
+                var A1_IBGE = "'',";
+                var A1_CEP = "'" + nota.cepDestinatario + "',";
+                var A1_DDI = "'',";
+                var A1_DDD = "'',";
+                var A1_TEL = "'" + nota.telefoneDestinatario + "',";
+                var A1_TELEX = "'',";
+                var A1_FAX = "'',";
+                var A1_ENDCOB = "'',";
+                var A1_PAIS = "'',";
+                var A1_ENDREC = "'',";
+                var A1_ENDENT = "'',";
+                var A1_TRIBFAV = "'',";
+                var A1_CONTATO = "'',";
+                var A1_CGC = "'" + nota.CnpjDestinatario + "',";
+                var A1_PFISICA = "'',";
+                var A1_INSCR = "'" + nota.ieDestinatario + "',";
+                var A1_INSCRM = "'',";
+                var A1_VEND = "'',";
+                var A1_COMIS = "'0',";
+                var A1_REGIAO = "'',";
                 var A1_CONTA = "'',"; //Perguntar ao Mori;
                 if (nota.paisDestinatario != "1058")
                 {
@@ -118,35 +118,35 @@ namespace InspetorXML_Console.Classes.ERP.Generico
                 {
                     A1_CONTA = "'112010060',";
                 }
-                
-                var A1_BCO1     = "'',";
-                var A1_BCO2     = "'',";
-                var A1_BCO3     = "'',";
-                var A1_BCO4     = "'',";
-                var A1_BCO5     = "'',";
-                var A1_TRANSP   = "'',";
-                var A1_TPFRET   = "'',";
-                var A1_COND     = "'001',"; //Perguntar ao Mori;
-                var A1_DESC     = "'',";
-                var A1_PRIOR    = "'',";
-                var A1_RISCO    = "'',";
-                var A1_LC       = "'0',"; 
-                var A1_VENCLC   = "'',";
-                var A1_CLASSE   = "'',";
-                var A1_LCFIN    = "'0',";
-                var A1_MOEDALC  = "'2',";
-                var A1_MSALDO   = "'0',";
-                var A1_MCOMPRA  = "'0',";
-                var A1_METR     = "'0',";
-                var A1_PRICOM   = "'',";
-                var A1_ULTCOM   = "'',";
-                var A1_NROCOM   = "'1',";
-                var A1_FORMVIS  = "'',";
-                var A1_TEMVIS   = "'0',";
-                var A1_ULTVIS   = "'',";
-                var A1_TMPVIS   = "'00:00',";
-                var A1_CLASVEN  = "'',";
-                var A1_TMPSTD   = "'00:00',";
+
+                var A1_BCO1 = "'',";
+                var A1_BCO2 = "'',";
+                var A1_BCO3 = "'',";
+                var A1_BCO4 = "'',";
+                var A1_BCO5 = "'',";
+                var A1_TRANSP = "'',";
+                var A1_TPFRET = "'',";
+                var A1_COND = "'001',"; //Perguntar ao Mori;
+                var A1_DESC = "'',";
+                var A1_PRIOR = "'',";
+                var A1_RISCO = "'',";
+                var A1_LC = "'0',";
+                var A1_VENCLC = "'',";
+                var A1_CLASSE = "'',";
+                var A1_LCFIN = "'0',";
+                var A1_MOEDALC = "'2',";
+                var A1_MSALDO = "'0',";
+                var A1_MCOMPRA = "'0',";
+                var A1_METR = "'0',";
+                var A1_PRICOM = "'',";
+                var A1_ULTCOM = "'',";
+                var A1_NROCOM = "'1',";
+                var A1_FORMVIS = "'',";
+                var A1_TEMVIS = "'0',";
+                var A1_ULTVIS = "'',";
+                var A1_TMPVIS = "'00:00',";
+                var A1_CLASVEN = "'',";
+                var A1_TMPSTD = "'00:00',";
                 var A1_MENSAGE = "'',";
                 var A1_SALDUP = "'0',";
                 var A1_RECISS = "'2',";
@@ -195,7 +195,7 @@ namespace InspetorXML_Console.Classes.ERP.Generico
                 var A1_TPISSRS = "'',";
                 var A1_CODLOC = "'',";
                 var A1_TPESSOA = "'',";
-                var A1_CODPAIS = "'" + nota.paisDestinatario +"',";
+                var A1_CODPAIS = "'" + nota.paisDestinatario + "',";
                 var A1_SATIV3 = "'',";
                 var A1_SATIV4 = "'',";
                 var A1_SATIV5 = "'',";
@@ -308,7 +308,7 @@ namespace InspetorXML_Console.Classes.ERP.Generico
                 var R_E_C_N_O_ = "ISNULL((SELECT MAX(R_E_C_N_O_)+1 FROM " + nota.TabSA1 + "), 1),";
                 var R_E_C_D_E_L_ = "'0',";
                 var A1_INCLTMG = "''";
-                
+
                 query += "INSERT INTO " + nota.TabSA1 + "(A1_FILIAL, A1_COD, A1_LOJA, A1_PESSOA, A1_NOME, A1_NREDUZ, A1_END, A1_TIPO, A1_EST, A1_ESTADO, A1_COD_MUN, A1_MUN, A1_BAIRRO, A1_NATUREZ, A1_IBGE, A1_CEP, A1_DDI, A1_DDD, A1_TEL, A1_TELEX, A1_FAX, A1_ENDCOB, A1_PAIS, A1_ENDREC, A1_ENDENT, A1_TRIBFAV, A1_CONTATO, A1_CGC, A1_PFISICA, A1_INSCR, A1_INSCRM, A1_VEND, A1_COMIS, A1_REGIAO, A1_CONTA, A1_BCO1, A1_BCO2, A1_BCO3, A1_BCO4, A1_BCO5, A1_TRANSP, A1_TPFRET, A1_COND, A1_DESC, A1_PRIOR, A1_RISCO, A1_LC, A1_VENCLC, A1_CLASSE, A1_LCFIN, A1_MOEDALC, A1_MSALDO, A1_MCOMPRA, A1_METR, A1_PRICOM, A1_ULTCOM, A1_NROCOM, A1_FORMVIS, A1_TEMVIS, A1_ULTVIS, A1_TMPVIS, A1_CLASVEN, A1_TMPSTD, A1_MENSAGE, A1_SALDUP, A1_RECISS, A1_NROPAG, A1_SALPEDL, A1_TRANSF, A1_SUFRAMA, A1_ATR, A1_VACUM, A1_SALPED, A1_TITPROT, A1_CHQDEVO, A1_DTULTIT, A1_MATR, A1_DTULCHQ, A1_MAIDUPL, A1_TABELA, A1_INCISS, A1_SALDUPM, A1_PAGATR, A1_CXPOSTA, A1_ATIVIDA, A1_CARGO1, A1_CARGO2, A1_CARGO3, A1_RTEC, A1_SUPER, A1_ALIQIR, A1_OBSERV, A1_RG, A1_CALCSUF, A1_DTNASC, A1_SALPEDB, A1_CLIFAT, A1_GRPTRIB, A1_BAIRROC, A1_CEPC, A1_MUNC, A1_ESTC, A1_CEPE, A1_BAIRROE, A1_MUNE, A1_ESTE, A1_SATIV1, A1_SATIV2, A1_TPISSRS, A1_CODLOC, A1_TPESSOA, A1_CODPAIS, A1_SATIV3, A1_SATIV4, A1_SATIV5, A1_SATIV6, A1_SATIV7, A1_SATIV8, A1_CODMARC, A1_CODAGE, A1_COMAGE, A1_TIPCLI, A1_DEST_1, A1_EMAIL, A1_DEST_2, A1_CODMUN, A1_DEST_3, A1_HPAGE, A1_CBO, A1_CNAE, A1_CONDPAG, A1_DIASPAG, A1_OBS, A1_AGREG, A1_CODHIST, A1_RECINSS, A1_RECCOFI, A1_RECCSLL, A1_RECPIS, A1_TIPPER, A1_SALFIN, A1_SALFINM, A1_CONTAB, A1_B2B, A1_GRPVEN, A1_CLICNV, A1_INSCRUR, A1_MSBLQL, A1_SITUA, A1_NUMRA, A1_SUBCOD, A1_CDRDES, A1_FILDEB, A1_CODFOR, A1_ABICS, A1_BLEMAIL, A1_TIPOCLI, A1_VINCULO, A1_DTINIV, A1_DTFIMV, A1_LOCCONS, A1_CBAIRRE, A1_CODMUNE, A1_PERFIL, A1_HRTRANS, A1_UNIDVEN, A1_TIPPRFL, A1_PRF_VLD, A1_PRF_COD, A1_PRF_OBS, A1_REGPB, A1_USADDA, A1_SIMPLES, A1_CTARE, A1_FRETISS, A1_CODSIAF, A1_ENDNOT, A1_CEINSS, A1_REGESIM, A1_PERCATM, A1_IPWEB, A1_IDHIST, A1_INDRET, A1_NIF, A1_IRBAX, A1_ABATIMP, A1_CONTRIB, A1_TDA, A1_COMPLEM, A1_TIMEKEE, A1_RECIRRF, A1_ORIGEM, A1_FOMEZER, A1_RECFET, A1_INCULT, A1_MINIRF, A1_FILTRF, A1_MATFUN, A1_OUTRMUN, A1_CODFID, A1_SIMPNAC, A1_TPNFSE, A1_ALIFIXA, A1_CRDMA, A1_PRSTSER, A1_RFACS, A1_RFABOV, A1_PERFECP, A1_IENCONT, A1_TPDP, A1_ENTID, A1_TPJ, A1_INOVAUT, A1_NR_END,A1_ENDCOMP, A1_RECFMD, D_E_L_E_T_, R_E_C_N_O_, R_E_C_D_E_L_, A1_INCLTMG) ";
                 query += "VALUES(";
                 query += A1_FILIAL + A1_COD + A1_LOJA + A1_PESSOA + A1_NOME + A1_NREDUZ + A1_END + A1_TIPO + A1_EST + A1_ESTADO + A1_COD_MUN + A1_MUN + A1_BAIRRO + A1_NATUREZ + A1_IBGE + A1_CEP + A1_DDI + A1_DDD + A1_TEL + A1_TELEX + A1_FAX + A1_ENDCOB + A1_PAIS + A1_ENDREC + A1_ENDENT + A1_TRIBFAV + A1_CONTATO + A1_CGC + A1_PFISICA + A1_INSCR + A1_INSCRM + A1_VEND + A1_COMIS + A1_REGIAO + A1_CONTA + A1_BCO1 + A1_BCO2 + A1_BCO3 + A1_BCO4 + A1_BCO5 + A1_TRANSP + A1_TPFRET + A1_COND + A1_DESC + A1_PRIOR + A1_RISCO + A1_LC + A1_VENCLC + A1_CLASSE + A1_LCFIN + A1_MOEDALC + A1_MSALDO + A1_MCOMPRA + A1_METR + A1_PRICOM + A1_ULTCOM + A1_NROCOM + A1_FORMVIS + A1_TEMVIS + A1_ULTVIS + A1_TMPVIS + A1_CLASVEN + A1_TMPSTD + A1_MENSAGE + A1_SALDUP + A1_RECISS + A1_NROPAG + A1_SALPEDL + A1_TRANSF + A1_SUFRAMA + A1_ATR + A1_VACUM + A1_SALPED + A1_TITPROT + A1_CHQDEVO + A1_DTULTIT + A1_MATR + A1_DTULCHQ + A1_MAIDUPL + A1_TABELA + A1_INCISS + A1_SALDUPM + A1_PAGATR + A1_CXPOSTA + A1_ATIVIDA + A1_CARGO1 + A1_CARGO2 + A1_CARGO3 + A1_RTEC + A1_SUPER + A1_ALIQIR + A1_OBSERV + A1_RG + A1_CALCSUF + A1_DTNASC + A1_SALPEDB + A1_CLIFAT + A1_GRPTRIB + A1_BAIRROC + A1_CEPC + A1_MUNC + A1_ESTC + A1_CEPE + A1_BAIRROE + A1_MUNE + A1_ESTE + A1_SATIV1 + A1_SATIV2 + A1_TPISSRS + A1_CODLOC + A1_TPESSOA + A1_CODPAIS + A1_SATIV3 + A1_SATIV4 + A1_SATIV5 + A1_SATIV6 + A1_SATIV7 + A1_SATIV8 + A1_CODMARC + A1_CODAGE + A1_COMAGE + A1_TIPCLI + A1_DEST_1 + A1_EMAIL + A1_DEST_2 + A1_CODMUN + A1_DEST_3 + A1_HPAGE + A1_CBO + A1_CNAE + A1_CONDPAG + A1_DIASPAG + A1_OBS + A1_AGREG + A1_CODHIST + A1_RECINSS + A1_RECCOFI + A1_RECCSLL + A1_RECPIS + A1_TIPPER + A1_SALFIN + A1_SALFINM + A1_CONTAB + A1_B2B + A1_GRPVEN + A1_CLICNV + A1_INSCRUR + A1_MSBLQL + A1_SITUA + A1_NUMRA + A1_SUBCOD + A1_CDRDES + A1_FILDEB + A1_CODFOR + A1_ABICS + A1_BLEMAIL + A1_TIPOCLI + A1_VINCULO + A1_DTINIV + A1_DTFIMV + A1_LOCCONS + A1_CBAIRRE + A1_CODMUNE + A1_PERFIL + A1_HRTRANS + A1_UNIDVEN + A1_TIPPRFL + A1_PRF_VLD + A1_PRF_COD + A1_PRF_OBS + A1_REGPB + A1_USADDA + A1_SIMPLES + A1_CTARE + A1_FRETISS + A1_CODSIAF + A1_ENDNOT + A1_CEINSS + A1_REGESIM + A1_PERCATM + A1_IPWEB + A1_IDHIST + A1_INDRET + A1_NIF + A1_IRBAX + A1_ABATIMP + A1_CONTRIB + A1_TDA + A1_COMPLEM + A1_TIMEKEE + A1_RECIRRF + A1_ORIGEM + A1_FOMEZER + A1_RECFET + A1_INCULT + A1_MINIRF + A1_FILTRF + A1_MATFUN + A1_OUTRMUN + A1_CODFID + A1_SIMPNAC + A1_TPNFSE + A1_ALIFIXA + A1_CRDMA + A1_PRSTSER + A1_RFACS + A1_RFABOV + A1_PERFECP + A1_IENCONT + A1_TPDP + A1_ENTID + A1_TPJ + A1_INOVAUT + A1_NR_END + A1_ENDCOMP + A1_RECFMD + D_E_L_E_T_ + R_E_C_N_O_ + R_E_C_D_E_L_ + A1_INCLTMG;
@@ -316,41 +316,41 @@ namespace InspetorXML_Console.Classes.ERP.Generico
             }
             else
             {
-                var A2_FILIAL   = "'" + nota.CodFilErp + "',";
-                var A2_COD      = "ISNULL((SELECT REPLICATE('0', 6-LEN(CAST(MAX(A2_COD)+1 AS VARCHAR(6)))) + CAST(MAX(A2_COD)+1 AS VARCHAR(6)) FROM " + nota.TabSA1 + " WHERE A1_FILIAL =  '" + nota.CodFilErp + "' AND PATINDEX('%[A-Z]%', A2_COD) = 0), '000001'),";
-                var A2_LOJA     = "'" + nota.CnpjEmitente.Substring(10, 2) + "',";
-                var A2_NOME     = "SUBSTRING('" + nota.NomeEmitente + "', 1, 40),";
-                var A2_NREDUZ   = "SUBSTRING('" + nota.NomeEmitente + "', 1, 20),";
-                var A2_END      = "SUBSTRING('" + nota.enderecoEmitente + "', 1, 40),";
-                var A2_NR_END   = "'" + nota.nroEnderecoEmitente + "',";
-                var A2_BAIRRO   = "'" + nota.bairroEnderecoEmitente + "',";
-                var A2_EST      = "'" + nota.UFEmitente + "',";
-                var A2_CONTPRE  = "'1',"; //Perguntar ao Mori
-                var A2_ESTADO   = "'',";
-                var A2_COD_MUN  = "SUBSTRING('" + nota.codMunicipioEmitente + "', 3, 5),";
-                var A2_MUN      = "'" + nota.municipioEmitente + "',";
-                var A2_IBGE     = "'',";
-                var A2_CEP      = "'" + nota.cepEmitente + "',";
-                var A2_CX_POST  = "'',";
-                var A2_TIPO     = "'J',";
-                var A2_PFISICA  = "'',";
-                var A2_CGC      = "'" + nota.CnpjEmitente + "',";
-                var A2_DDI      = "'',";
-                var A2_DDD      = "'',";
-                var A2_TEL      = "'" + nota.telefoneEmitente + "',";
-                var A2_FAX      = "'',";
-                var A2_INSCR    = "'" + nota.ieEmitente + "',";
-                var A2_INSCRM   = "'',";
-                var A2_CONTATO  = "'',";
-                var A2_BANCO    = "'',";
-                var A2_AGENCIA  = "'',";
-                var A2_NUMCON   = "'',";
-                var A2_SWIFT    = "'',";
-                var A2_NATUREZ  = "'',";
-                var A2_TRANSP   = "'',";
-                var A2_PRIOR    = "'',";
-                var A2_RISCO    = "'',";
-                var A2_COND     = "'001',";
+                var A2_FILIAL = "'" + nota.CodFilErp + "',";
+                var A2_COD = "ISNULL((SELECT REPLICATE('0', 6-LEN(CAST(MAX(A2_COD)+1 AS VARCHAR(6)))) + CAST(MAX(A2_COD)+1 AS VARCHAR(6)) FROM " + nota.TabSA2 + " WHERE A2_FILIAL =  '" + nota.CodFilErp + "' AND PATINDEX('%[A-Z]%', A2_COD) = 0), '000001'),";
+                var A2_LOJA = "'" + nota.CnpjEmitente.Substring(10, 2) + "',";
+                var A2_NOME = "SUBSTRING('" + nota.NomeEmitente + "', 1, 40),";
+                var A2_NREDUZ = "SUBSTRING('" + nota.NomeEmitente + "', 1, 20),";
+                var A2_END = "SUBSTRING('" + nota.enderecoEmitente + "', 1, 40),";
+                var A2_NR_END = "'" + nota.nroEnderecoEmitente + "',";
+                var A2_BAIRRO = "'" + nota.bairroEnderecoEmitente + "',";
+                var A2_EST = "'" + nota.UFEmitente + "',";
+                var A2_CONTPRE = "'1',"; //Perguntar ao Mori
+                var A2_ESTADO = "'',";
+                var A2_COD_MUN = "SUBSTRING('" + nota.codMunicipioEmitente + "', 3, 5),";
+                var A2_MUN = "'" + nota.municipioEmitente + "',";
+                var A2_IBGE = "'',";
+                var A2_CEP = "'" + nota.cepEmitente + "',";
+                var A2_CX_POST = "'',";
+                var A2_TIPO = "'J',";
+                var A2_PFISICA = "'',";
+                var A2_CGC = "'" + nota.CnpjEmitente + "',";
+                var A2_DDI = "'',";
+                var A2_DDD = "'',";
+                var A2_TEL = "'" + nota.telefoneEmitente + "',";
+                var A2_FAX = "'',";
+                var A2_INSCR = "'" + nota.ieEmitente + "',";
+                var A2_INSCRM = "'',";
+                var A2_CONTATO = "'',";
+                var A2_BANCO = "'',";
+                var A2_AGENCIA = "'',";
+                var A2_NUMCON = "'',";
+                var A2_SWIFT = "'',";
+                var A2_NATUREZ = "'',";
+                var A2_TRANSP = "'',";
+                var A2_PRIOR = "'',";
+                var A2_RISCO = "'',";
+                var A2_COND = "'001',";
                 var A2_LC = "'',";
                 var A2_MATR = "'0',";
                 var A2_MCOMPRA = "'0',";
@@ -546,14 +546,14 @@ namespace InspetorXML_Console.Classes.ERP.Generico
                 {
                     TipoEntSai = "B1.B1_TE";
                 }
-                return "SELECT SUBSTRING(F4.F4_CF, 2, 3) AS COMPCFOP, F4.F4_CODIGO FROM " + TabSF4 + " F4 INNER JOIN " + codTabProd + " B1 ON F4.F4_CODIGO = " + TipoEntSai + " WHERE " +
-                        "B1.B1_COD = '" + codProd + "' AND B1.B1_FILIAL = '" + codFilial + "' AND F4.F4_FILIAL = '" + codFilial + "' AND B1.D_E_L_E_T_ <> '*' AND F4.D_E_L_E_T_ <> '*'";
+                return "SELECT SUBSTRING(F4.F4_CF, 2, 3) AS COMPCFOP, " + TipoEntSai + " FROM " + TabSF4 + " F4 RIGHT JOIN " + codTabProd + " B1 ON F4.F4_CODIGO = " + TipoEntSai + " AND F4.F4_FILIAL = '" + codFilial + "' AND F4.D_E_L_E_T_ <> '*' WHERE " +
+                        "B1.B1_COD = '" + codProd + "' AND B1.B1_FILIAL = '" + codFilial + "' AND B1.D_E_L_E_T_ <> '*' ";
             }
             else
             {
                 return "";
             }
-                
+
         }
 
         //SD1	ITENS DAS NF’S DE ENTRADA | SD2	ITENS DE VENDA DA NF
@@ -564,9 +564,9 @@ namespace InspetorXML_Console.Classes.ERP.Generico
             {
                 //Notas de Entrada
                 if (tipoNf == "ENTRADA")
-                                {
+                {
                     var D1_FILIAL = "'" + codFilial + "',";
-                    var D1_ITEM = "REPLICATE('0', 2-LEN('" + dadosProd.numItem + "')) + '" + dadosProd.numItem +"',";
+                    var D1_ITEM = "ISNULL(REPLICATE('0', 2-LEN('" + dadosProd.numItem + "')) + '" + dadosProd.numItem + "', '1'),";
                     var D1_COD = "'" + dadosProd.codProdErp + "',";
                     var D1_UM = "'" + dadosProd.uCom + "',";
                     var D1_QUANT = "'" + dadosProd.qCom + "',";
@@ -615,48 +615,48 @@ namespace InspetorXML_Console.Classes.ERP.Generico
                 }
                 else
                 {
-                    var D2_FILIAL   = "'" + codFilial + "',";
-                    var D2_ITEM     = "REPLICATE('0', 2-LEN('" + dadosProd.numItem + "')) + '" + dadosProd.numItem + "',";
-                    var D2_COD      = "'" + dadosProd.codProdErp + "',";
-                    var D2_UM       = "'" + dadosProd.uCom + "',";
-                    var D2_QUANT    = "'" + dadosProd.qCom + "',";
-                    var D2_PRCVEN   = "'" + dadosProd.vUnCom + "',";
-                    var D2_PRUNIT   = "'" + dadosProd.vUnCom + "',";
-                    var D2_TOTAL    = "'" + dadosProd.vProd + "',";
-                    var D2_VALBRUT  = "'" + dadosProd.vProd + "',";
-                    var D2_VALIPI   = "'" + dadosProd.vIPI + "',";
-                    var D2_VALICM   = "'" + dadosProd.vICMS + "',";
-                    var D2_TES      = "'" + dadosProd.TES + "',";
-                    var D2_CF       = "'" + dadosProd.CFOP + "',";
-                    var D2_DESC     = "'" + dadosProd.vDesc + "',";
-                    var D2_IPI      = "'" + dadosProd.vIPI + "',";
-                    var D2_PICM     = "'" + dadosProd.PICM + "',";
-                    var D2_CLIENTE  = "'" + codCliFor + "',";
-                    var D2_LOJA     = "'" + CodLojaCliForErp + "',";
-                    var D2_LOCAL    = "'" + CodLojaCliForErp + "',";
-                    var D2_DOC      = "'" + NumNf + "',";
-                    var D2_EMISSAO  = "REPLACE(CAST(CAST('" + DataEmissao + "' AS DATE) AS VARCHAR(20)), '-', ''),";
-                    var D2_DTDIGIT  = "REPLACE(CAST(CAST(GETDATE() AS DATE) AS VARCHAR(20)), '-', ''),";
-                    var D2_TIPO     = "'N',";
-                    var D2_SERIE    = "'" + serieNf + "',";
-                    var D2_TP       = "'" + dadosProd.TpProd + "',";
-                    var D2_BASEICM  = "'" + dadosProd.BaseIcms + "',";
-                    var D2_BASEIPI  = "'" + dadosProd.BaseIpi + "',";
-                    var D2_BASIMP5  = "'" + dadosProd.BaseCofins + "',";
-                    var D2_BASIMP6  = "'" + dadosProd.BasePis + "',";
-                    var D2_VALIMP5  = "'" + dadosProd.vCOFINS + "',";
-                    var D2_VALIMP6  = "'" + dadosProd.ValorPis + "',";
-                    var D2_ALQIMP5  = "'" + dadosProd.pCOFINS + "',";
-                    var D2_ALQIMP6  = "'" + dadosProd.pPIS + "',";
-                    var D2_VALFRE   = "'" + dadosProd.vFrete + "',";
-                    var D2_SEGURO   = "'" + dadosProd.vSeg + "',";
-                    var D2_DESPESA  = "'" + dadosProd.vOutro + "',";
-                    var D2_STSERV   = "'1',";
-                    var D2_ALIQSOL  = "'" + dadosProd.PICM + "',";
-                    var D2_ALQCSL   = "'1',";
-                    var D2_ALQPIS   = "'" + dadosProd.pPIS + "',";
-                    var D2_ALQCOF   = "'" + dadosProd.pCOFINS + "',";
-                    var R_E_C_N_O_  = "ISNULL((SELECT MAX(R_E_C_N_O_)+1 FROM SD2" + codTab + "0), 1),";
+                    var D2_FILIAL = "'" + codFilial + "',";
+                    var D2_ITEM = "ISNULL(REPLICATE('0', 2-LEN('" + dadosProd.numItem + "')) + '" + dadosProd.numItem + "', '1'),";
+                    var D2_COD = "'" + dadosProd.codProdErp + "',";
+                    var D2_UM = "'" + dadosProd.uCom + "',";
+                    var D2_QUANT = "'" + dadosProd.qCom + "',";
+                    var D2_PRCVEN = "'" + dadosProd.vUnCom + "',";
+                    var D2_PRUNIT = "'" + dadosProd.vUnCom + "',";
+                    var D2_TOTAL = "'" + dadosProd.vProd + "',";
+                    var D2_VALBRUT = "'" + dadosProd.vProd + "',";
+                    var D2_VALIPI = "'" + dadosProd.vIPI + "',";
+                    var D2_VALICM = "'" + dadosProd.vICMS + "',";
+                    var D2_TES = "'" + dadosProd.TES + "',";
+                    var D2_CF = "'" + dadosProd.CFOP + "',";
+                    var D2_DESC = "'" + dadosProd.vDesc + "',";
+                    var D2_IPI = "'" + dadosProd.vIPI + "',";
+                    var D2_PICM = "'" + dadosProd.PICM + "',";
+                    var D2_CLIENTE = "'" + codCliFor + "',";
+                    var D2_LOJA = "'" + CodLojaCliForErp + "',";
+                    var D2_LOCAL = "'" + CodLojaCliForErp + "',";
+                    var D2_DOC = "REPLICATE('0', 9-LEN('" + NumNf + "')) + '" + NumNf + "',";
+                    var D2_EMISSAO = "REPLACE(CAST(CAST('" + DataEmissao + "' AS DATE) AS VARCHAR(20)), '-', ''),";
+                    var D2_DTDIGIT = "REPLACE(CAST(CAST(GETDATE() AS DATE) AS VARCHAR(20)), '-', ''),";
+                    var D2_TIPO = "'N',";
+                    var D2_SERIE = "'" + serieNf + "',";
+                    var D2_TP = "'" + dadosProd.TpProd + "',";
+                    var D2_BASEICM = "'" + dadosProd.BaseIcms + "',";
+                    var D2_BASEIPI = "'" + dadosProd.BaseIpi + "',";
+                    var D2_BASIMP5 = "'" + dadosProd.BaseCofins + "',";
+                    var D2_BASIMP6 = "'" + dadosProd.BasePis + "',";
+                    var D2_VALIMP5 = "'" + dadosProd.vCOFINS + "',";
+                    var D2_VALIMP6 = "'" + dadosProd.ValorPis + "',";
+                    var D2_ALQIMP5 = "'" + dadosProd.pCOFINS + "',";
+                    var D2_ALQIMP6 = "'" + dadosProd.pPIS + "',";
+                    var D2_VALFRE = "'" + dadosProd.vFrete + "',";
+                    var D2_SEGURO = "'" + dadosProd.vSeg + "',";
+                    var D2_DESPESA = "'" + dadosProd.vOutro + "',";
+                    var D2_STSERV = "'1',";
+                    var D2_ALIQSOL = "'" + dadosProd.PICM + "',";
+                    var D2_ALQCSL = "'1',";
+                    var D2_ALQPIS = "'" + dadosProd.pPIS + "',";
+                    var D2_ALQCOF = "'" + dadosProd.pCOFINS + "',";
+                    var R_E_C_N_O_ = "ISNULL((SELECT MAX(R_E_C_N_O_)+1 FROM SD2" + codTab + "0), 1),";
                     //Implementar ICMS
                     var D2_CLASFIS = "''";
                     query += "INSERT INTO SD2" + codTab + "0 (D2_FILIAL,D2_ITEM,D2_COD,D2_UM,D2_QUANT,D2_PRCVEN,D2_PRUNIT,D2_TOTAL,D2_VALBRUT," +
@@ -682,14 +682,14 @@ namespace InspetorXML_Console.Classes.ERP.Generico
             {
                 return "";
             }
-                        
+
         }
 
         public static string sqlCodProdErp(string tipoErp, string NCMProd, string prodTab, string codFilial)
         {
             if (tipoErp.ToLower() == "protheus")
             {
-                return "SELECT TOP 1 B1_COD, B1_FILIAL, B1_TIPO, B1_UM FROM " + prodTab + " WHERE B1_POSIPI = '" + NCMProd + "' AND D_E_L_E_T_ <> '*'";
+                return "SELECT TOP 1 B1_COD, B1_FILIAL, B1_TIPO, B1_UM, CASE WHEN B1_IPI = '' THEN 0 ELSE B1_IPI END AS B1_IPI FROM " + prodTab + " WHERE B1_POSIPI = '" + NCMProd + "' AND D_E_L_E_T_ <> '*'";
             }
             //Implementar query do RM
             else
@@ -706,44 +706,44 @@ namespace InspetorXML_Console.Classes.ERP.Generico
             {
                 //Notas de Entrada
                 if (nota.TipoNf == "ENTRADA")
-                                {
-                    var F1_FILIAL   = "'" + nota.CodFilErp + "',";
-                    var F1_DOC      = "'" + nota.NumNf + "',";
-                    var F1_SERIE    = "'" + nota.serieNf + "',";
-                    var F1_FORNECE  = "'" + nota.CodCliForErp + "',";
-                    var F1_LOJA     = "'" + nota.CodLojaCliForErp + "',";
-                    var F1_COND     = "'" + nota.CodCondPagto + "',";
-                    var F1_DUPL     = "'" + nota.NumNf + "',";                    
-                    var F1_EMISSAO  = "REPLACE(CAST(CAST('" + nota.DataEmissao + "' AS DATE) AS VARCHAR(20)), '-', ''),";
-                    var F1_EST      = "'" + nota.UFEmitente + "',";
-                    var F1_FRETE    = "'" + nota.vFrete + "',";
-                    var F1_DESPESA  = "'" + nota.vOutro + "',";
-                    var F1_BASEICM  = "'" + nota.BaseIcms + "',";
-                    var F1_VALICM   = "'" + nota.vICMS + "',";
-                    var F1_BASEIPI  = "'" + (Convert.ToDouble(nota.vIPI) > 0 ? Convert.ToString(Convert.ToDouble(nota.ValorBruto) + Convert.ToDouble(nota.vOutro) + Convert.ToDouble(nota.vFrete) + Convert.ToDouble(nota.vSeg)) : "0") + "',";
-                    var F1_VALIPI   = "'" + nota.vIPI + "',";
-                    var F1_VALMERC  = "'" + nota.ValorBruto + "',";
-                    var F1_VALBRUT  = "'" + nota.ValorBruto + "',";
-                    var F1_TIPO     = "'N',";
-                    var F1_DESCONT  = "'" + nota.vDesc + "',";
-                    var F1_DTDIGIT  = "REPLACE(CAST(CAST(GETDATE() AS DATE) AS VARCHAR(20)), '-', ''),";
-                    var F1_ORIGLAN  = "'PX',";
-                    var F1_CONTSOC  = "0,";
-                    var F1_IRRF     = "0,";
-                    var F1_ESPECIE  = "'" + nota.EspNf + "',";
-                    var F1_II       = "'0',";
-                    var F1_BASIMP5  = "'" + nota.vBCCofins.ToString() + "',";
-                    var F1_BASIMP6  = "'" + nota.BasePis + "',";
-                    var F1_VALIMP5  = "'" + nota.vCOFINS.ToString() + "',";
-                    var F1_VALIMP6  = "'" + nota.ValorPis + "',";
-                    var F1_SEGURO   = "'" + nota.vSeg + "',";
-                    var F1_MOEDA    = "1,";
-                    var F1_PREFIXO  = "1,";
-                    var F1_STATUS   = "'',";
-                    var F1_RECBMTO  = "REPLACE(CAST(CAST(GETDATE() AS DATE) AS VARCHAR(20)), '-', ''),";
-                    var F1_RECISS   = "2,";
-                    var R_E_C_N_O_  = "ISNULL((SELECT MAX(R_E_C_N_O_)+1 FROM SF1" + nota.CodEmpErp + "0), 1),";
-                    var F1_CHVNFE   = "'" + nota.ChaveNfe + "'";
+                {
+                    var F1_FILIAL = "'" + nota.CodFilErp + "',";
+                    var F1_DOC = "REPLICATE('0', 9-LEN('" + nota.NumNf + "')) + '" + nota.NumNf + "',";
+                    var F1_SERIE = "'" + nota.serieNf + "',";
+                    var F1_FORNECE = "'" + nota.CodCliForErp + "',";
+                    var F1_LOJA = "'" + nota.CodLojaCliForErp + "',";
+                    var F1_COND = "'" + nota.CodCondPagto + "',";
+                    var F1_DUPL = "REPLICATE('0', 9-LEN('" + nota.NumNf + "')) + '" + nota.NumNf + "',";
+                    var F1_EMISSAO = "REPLACE(CAST(CAST('" + nota.DataEmissao + "' AS DATE) AS VARCHAR(20)), '-', ''),";
+                    var F1_EST = "'" + nota.UFEmitente + "',";
+                    var F1_FRETE = "'" + nota.vFrete + "',";
+                    var F1_DESPESA = "'" + nota.vOutro + "',";
+                    var F1_BASEICM = "'" + nota.BaseIcms + "',";
+                    var F1_VALICM = "'" + nota.vICMS + "',";
+                    var F1_BASEIPI = "'" + (Convert.ToDouble(nota.vIPI) > 0 ? Convert.ToString(Convert.ToDouble(nota.ValorBruto) + Convert.ToDouble(nota.vOutro) + Convert.ToDouble(nota.vFrete) + Convert.ToDouble(nota.vSeg)) : "0") + "',";
+                    var F1_VALIPI = "'" + nota.vIPI + "',";
+                    var F1_VALMERC = "'" + nota.ValorBruto + "',";
+                    var F1_VALBRUT = "'" + nota.ValorBruto + "',";
+                    var F1_TIPO = "'N',";
+                    var F1_DESCONT = "'" + nota.vDesc + "',";
+                    var F1_DTDIGIT = "REPLACE(CAST(CAST(GETDATE() AS DATE) AS VARCHAR(20)), '-', ''),";
+                    var F1_ORIGLAN = "'PX',";
+                    var F1_CONTSOC = "0,";
+                    var F1_IRRF = "0,";
+                    var F1_ESPECIE = "'" + nota.EspNf + "',";
+                    var F1_II = "'0',";
+                    var F1_BASIMP5 = "'" + nota.vBCCofins.ToString() + "',";
+                    var F1_BASIMP6 = "'" + nota.BasePis + "',";
+                    var F1_VALIMP5 = "'" + nota.vCOFINS.ToString() + "',";
+                    var F1_VALIMP6 = "'" + nota.ValorPis + "',";
+                    var F1_SEGURO = "'" + nota.vSeg + "',";
+                    var F1_MOEDA = "1,";
+                    var F1_PREFIXO = "1,";
+                    var F1_STATUS = "'',";
+                    var F1_RECBMTO = "REPLACE(CAST(CAST(GETDATE() AS DATE) AS VARCHAR(20)), '-', ''),";
+                    var F1_RECISS = "2,";
+                    var R_E_C_N_O_ = "ISNULL((SELECT MAX(R_E_C_N_O_)+1 FROM SF1" + nota.CodEmpErp + "0), 1),";
+                    var F1_CHVNFE = "'" + nota.ChaveNfe + "'";
 
                     query = "INSERT INTO SF1" + nota.CodEmpErp + "0 (F1_FILIAL, F1_DOC, F1_SERIE, F1_FORNECE, F1_LOJA, F1_COND, F1_DUPL, F1_EMISSAO, F1_EST, F1_FRETE, F1_DESPESA, F1_BASEICM, F1_VALICM, F1_BASEIPI, F1_VALIPI, F1_VALMERC, F1_VALBRUT, F1_TIPO, F1_DESCONT, F1_DTDIGIT, F1_ORIGLAN, F1_CONTSOC, F1_IRRF, F1_ESPECIE, F1_II, F1_BASIMP5, F1_BASIMP6, F1_VALIMP5, F1_VALIMP6, F1_SEGURO, F1_MOEDA, F1_PREFIXO, F1_STATUS, F1_RECBMTO, F1_RECISS, R_E_C_N_O_, F1_CHVNFE) VALUES(";
                     query += F1_FILIAL + F1_DOC + F1_SERIE + F1_FORNECE + F1_LOJA + F1_COND + F1_DUPL + F1_EMISSAO + F1_EST + F1_FRETE + F1_DESPESA + F1_BASEICM + F1_VALICM + F1_BASEIPI + F1_VALIPI + F1_VALMERC + F1_VALBRUT + F1_TIPO + F1_DESCONT + F1_DTDIGIT + F1_ORIGLAN + F1_CONTSOC + F1_IRRF + F1_ESPECIE + F1_II + F1_BASIMP5 + F1_BASIMP6 + F1_VALIMP5 + F1_VALIMP6 + F1_SEGURO + F1_MOEDA + F1_PREFIXO + F1_STATUS + F1_RECBMTO + F1_RECISS + R_E_C_N_O_ + F1_CHVNFE;
@@ -752,51 +752,52 @@ namespace InspetorXML_Console.Classes.ERP.Generico
                 //Notas de Saída
                 else
                 {
-                    var F2_FILIAL       = "'" + nota.CodFilErp + "',";
-                    var F2_DOC          = "'" + nota.NumNf + "',";
-                    var F2_SERIE        = "'" + nota.serieNf + "',";
-                    var F2_CLIENTE      = "'" + nota.CodCliForErp + "',";
-                    var F2_CLIENT       = "'" + nota.CodCliForErp + "',";
-                    var F2_LOJA         = "'" + nota.CodLojaCliForErp + "',";
-                    var F2_LOJENT       = "'" + nota.CodLojaCliForErp + "',";
-                    var F2_COND         = "'" + nota.CodCondPagto + "',";
-                    var F2_DUPL         = "'" + nota.NumNf + "',";
-                    var F2_EMISSAO      = "REPLACE(CAST(CAST('" + nota.DataEmissao + "' AS DATE) AS VARCHAR(20)), '-', ''),";
-                    var F2_EST          = "'" + nota.UFDestinatario + "',";
-                    var F2_FRETE        = "'" + nota.vFrete + "',";
-                    var F2_DESPESA      = "'" + nota.vOutro + "',";
-                    var F2_BASEICM      = "'" + nota.BaseIcms + "',";
-                    var F2_VALICM       = "'" + nota.ValorIcms + "',";
-                    var F2_BASEIPI      = "'" + (Convert.ToDouble(nota.vIPI) > 0 ? Convert.ToString(Convert.ToDouble(nota.ValorBruto) + Convert.ToDouble(nota.vOutro) + Convert.ToDouble(nota.vFrete) + Convert.ToDouble(nota.vSeg)) : "0") + "',";
-                    var F2_VALIPI       = "'" + nota.vIPI + "',";
-                    var F2_VALMERC      = "'" + nota.ValorBruto + "',";
-                    var F2_VALBRUT      = "'" + nota.ValorBruto + "',";
-                    var F2_TIPO         = "'N',";
-                    var F2_DESCONT      = "'" + nota.vDesc + "',";
-                    var F2_DTDIGIT      = "REPLACE(CAST(CAST(GETDATE() AS DATE) AS VARCHAR(20)), '-', ''),";
-                    var F2_CONTSOC      = "'0',";
-                    var F2_ESPECIE      = "'" + nota.EspNf + "',";
-                    var F2_BASIMP5      = "'" + nota.vBCCofins + "',";
-                    var F2_BASIMP6      = "'" + nota.BasePis + "',";
-                    var F2_VALIMP5      = "'" + nota.vCOFINS + "',";
-                    var F2_VALIMP6      = "'" + nota.ValorPis + "',";
-                    var F2_SEGURO       = "'" + nota.vSeg + "',";
-                    var F2_MOEDA        = "'1',";
-                    var F2_PREFIXO      = "'1',";
-                    var F2_RECISS       = "'2',";
-                    var R_E_C_N_O_      = "ISNULL((SELECT MAX(R_E_C_N_O_)+1 FROM SF2" + nota.CodEmpErp + "0), 1),";
-                    var F2_ICMFRET      = "'0',";
-                    var F2_TIPOCLI      = "'" + nota.CodTipoCliFor + "',";
-                    var F2_VOLUME1      = "'" + nota.qVol + "',";
-                    var F2_VOLUME2      = "'0" + "',";
-                    var F2_VOLUME3      = "'0" + "',";
-                    var F2_VOLUME4      = "'0" + "',";
-                    var F2_ICMSRET      = "'0" + "',";
-                    var F2_PLIQUI       = "'" + nota.pesoL + "',";
-                    var F2_PBRUTO       = "'" + nota.pesoB + "',";
-                    var F2_HORA         = "SUBSTRING(CONVERT(VARCHAR(20), GETDATE(), 108), 1, 5),";
-                    var F2_RECFAUT      = "'1',";
-                    var F2_CHVNFE       = "'" + nota.ChaveNfe + "'";
+                    var F2_FILIAL = "'" + nota.CodFilErp + "',";
+                    var F2_DOC = "REPLICATE('0', 9-LEN('" + nota.NumNf + "')) + '" + nota.NumNf + "',";
+                    var F2_SERIE = "SUBSTRING('" + nota.serieNf + "', 1, 3),";
+                    var F2_CLIENTE = "'" + nota.CodCliForErp + "',";
+                    var F2_CLIENT = "'" + nota.CodCliForErp + "',";
+                    var F2_LOJA = "'" + nota.CodLojaCliForErp + "',";
+                    var F2_LOJENT = "'" + nota.CodLojaCliForErp + "',";
+                    var F2_COND = "'" + nota.CodCondPagto + "',";
+                    var F2_DUPL = "REPLICATE('0', 9-LEN('" + nota.NumNf + "')) + '" + nota.NumNf + "',";
+                    var F2_EMISSAO = "REPLACE(CAST(CAST('" + nota.DataEmissao + "' AS DATE) AS VARCHAR(20)), '-', ''),";
+                    var F2_EST = "'" + nota.UFDestinatario + "',";
+                    var F2_FRETE = "'" + nota.vFrete + "',";
+                    var F2_DESPESA = "'" + nota.vOutro + "',";
+                    var F2_BASEICM = "'" + nota.BaseIcms + "',";
+                    var F2_VALICM = "'" + nota.ValorIcms + "',";
+                    
+                    var F2_BASEIPI = "'" + (Convert.ToDouble(nota.vIPI) > 0 ? Convert.ToString(Convert.ToDouble(nota.ValorBruto.ToString().Replace('.', ',')) + Convert.ToDouble(nota.vOutro.ToString().Replace('.', ',')) + Convert.ToDouble(nota.vFrete.Replace('.', ',')) + Convert.ToDouble(nota.vSeg.Replace('.', ','))).Replace(',','.') : "0") + "',";
+                    var F2_VALIPI = "'" + nota.vIPI + "',";
+                    var F2_VALMERC = "'" + nota.ValorBruto + "',";
+                    var F2_VALBRUT = "'" + nota.ValorBruto + "',";
+                    var F2_TIPO = "'N',";
+                    var F2_DESCONT = "'" + nota.vDesc + "',";
+                    var F2_DTDIGIT = "REPLACE(CAST(CAST(GETDATE() AS DATE) AS VARCHAR(20)), '-', ''),";
+                    var F2_CONTSOC = "'0',";
+                    var F2_ESPECIE = "'" + nota.EspNf + "',";
+                    var F2_BASIMP5 = "'" + convertNumToString(nota.vBCCofins.ToString()) + "',";
+                    var F2_BASIMP6 = "'" + convertNumToString(nota.BasePis.ToString()) + "',";
+                    var F2_VALIMP5 = "'" + convertNumToString(nota.vCOFINS.ToString()) + "',";
+                    var F2_VALIMP6 = "'" + convertNumToString(nota.ValorPis.ToString()) + "',";
+                    var F2_SEGURO = "'" + nota.vSeg + "',";
+                    var F2_MOEDA = "'1',";
+                    var F2_PREFIXO = "'1',";
+                    var F2_RECISS = "'2',";
+                    var R_E_C_N_O_ = "ISNULL((SELECT MAX(R_E_C_N_O_)+1 FROM SF2" + nota.CodEmpErp + "0), 1),";
+                    var F2_ICMFRET = "'0',";
+                    var F2_TIPOCLI = "'" + nota.CodTipoCliFor + "',";
+                    var F2_VOLUME1 = "'" + nota.qVol + "',";
+                    var F2_VOLUME2 = "'0" + "',";
+                    var F2_VOLUME3 = "'0" + "',";
+                    var F2_VOLUME4 = "'0" + "',";
+                    var F2_ICMSRET = "'0" + "',";
+                    var F2_PLIQUI = "'" + nota.pesoL + "',";
+                    var F2_PBRUTO = "'" + nota.pesoB + "',";
+                    var F2_HORA = "SUBSTRING(CONVERT(VARCHAR(20), GETDATE(), 108), 1, 5),";
+                    var F2_RECFAUT = "'1',";
+                    var F2_CHVNFE = "'" + nota.ChaveNfe + "'";
                     query += "INSERT INTO SF2" + nota.CodEmpErp + "0(F2_FILIAL, F2_DOC, F2_SERIE, F2_CLIENTE, F2_CLIENT, F2_LOJA, F2_LOJENT, F2_COND, F2_DUPL, F2_EMISSAO, F2_EST, F2_FRETE, F2_DESPESA, ";
                     query += "F2_BASEICM,F2_VALICM,F2_BASEIPI,F2_VALIPI,F2_VALMERC,F2_VALBRUT,F2_TIPO,F2_DESCONT,F2_DTDIGIT,F2_CONTSOC,F2_ESPECIE,F2_BASIMP5,";
                     query += "F2_BASIMP6,F2_VALIMP5,F2_VALIMP6,F2_SEGURO,F2_MOEDA,F2_PREFIXO,F2_RECISS,R_E_C_N_O_,F2_ICMFRET,F2_TIPOCLI,F2_VOLUME1,F2_VOLUME2,F2_VOLUME3,F2_VOLUME4,";
@@ -823,7 +824,7 @@ namespace InspetorXML_Console.Classes.ERP.Generico
             {
                 query = "query rm";
             }
-            
+
             return query;
         }
 
@@ -854,36 +855,36 @@ namespace InspetorXML_Console.Classes.ERP.Generico
         {
             //Esta função retorna um array, pois deve retornar o C5_NUM para ser utilizado nos itens
             string query = "";
-            
+
             if (tipoErp.ToLower() == "protheus")
             {
-                var C5_FILIAL   = "'" + nota.CodFilErp + "',";
+                var C5_FILIAL = "'" + nota.CodFilErp + "',";
                 //var C5_NUM      = "ISNULL((SELECT REPLICATE('0', 6-LEN(MAX(C5_NUM)+1))+CAST(MAX(C5_NUM)+1 AS VARCHAR(6)) FROM SC5" + nota.CodEmpErp + "0 WHERE C5_FILIAL = '" + nota.CodFilErp + "'), '000001'),";
                 //Valor atribuido para ser utilizado nos itens
                 C5_NUM = "'" + C5_NUM + "',";
-                var C5_TIPO     = "'N',";
-                var C5_CLIENTE  = "'" + nota.CodCliForErp + "',";
-                var C5_CLIENT   = "'" + nota.CodCliForErp + "',";
-                var C5_LOJACLI  = "'" + nota.CodLojaCliForErp + "',";
-                var C5_LOJAENT  = "'" + nota.CodLojaCliForErp + "',";
-                var C5_TIPOCLI  = "'" + nota.TipoCli + "',";
-                var C5_CONDPAG  = "'" + nota.CodCondPagto + "',";
-                var C5_EMISSAO  = "REPLACE(CAST(CAST('" + nota.DataEmissao + "' AS DATE) AS VARCHAR(20)), '-', ''),";
-                var C5_FRETE    = "'" + nota.vFrete + "',";
-                var C5_SEGURO   = "'" + nota.vSeg + "',";
-                var C5_DESPESA  = "'" + nota.vOutro + "',";
-                var C5_MOEDA    = "'1',";
-                var C5_PESOL    = "'" + nota.pesoL + "',";
-                var C5_PBRUTO   = "'" + nota.pesoB + "',";
-                var C5_LIBEROK  = "'S',";
-                var C5_NOTA     = "'" + nota.NumNf + "',";
-                var C5_SERIE    = "'" + nota.serieNf + "',";
-                var C5_TIPLIB   = "'1',";
-                var C5_DESCONT  = "'" + nota.vDesc + "',";
-                var C5_TXMOEDA  = "'1',";
-                var C5_TPCARGA  = "'2',";
-                var C5_GERAWMS  = "'1',";
-                var C5_SOLOPC   = "'1',";
+                var C5_TIPO = "'N',";
+                var C5_CLIENTE = "'" + nota.CodCliForErp + "',";
+                var C5_CLIENT = "'" + nota.CodCliForErp + "',";
+                var C5_LOJACLI = "'" + nota.CodLojaCliForErp + "',";
+                var C5_LOJAENT = "'" + nota.CodLojaCliForErp + "',";
+                var C5_TIPOCLI = "'" + nota.TipoCli + "',";
+                var C5_CONDPAG = "'" + nota.CodCondPagto + "',";
+                var C5_EMISSAO = "REPLACE(CAST(CAST('" + nota.DataEmissao + "' AS DATE) AS VARCHAR(20)), '-', ''),";
+                var C5_FRETE = "'" + nota.vFrete + "',";
+                var C5_SEGURO = "'" + nota.vSeg + "',";
+                var C5_DESPESA = "'" + nota.vOutro + "',";
+                var C5_MOEDA = "'1',";
+                var C5_PESOL = "'" + nota.pesoL + "',";
+                var C5_PBRUTO = "'" + nota.pesoB + "',";
+                var C5_LIBEROK = "'S',";
+                var C5_NOTA = "REPLICATE('0', 9-LEN('" + nota.NumNf + "')) + '" + nota.NumNf + "',";
+                var C5_SERIE = "'" + nota.serieNf + "',";
+                var C5_TIPLIB = "'1',";
+                var C5_DESCONT = "'" + nota.vDesc + "',";
+                var C5_TXMOEDA = "'1',";
+                var C5_TPCARGA = "'2',";
+                var C5_GERAWMS = "'1',";
+                var C5_SOLOPC = "'1',";
                 var R_E_C_N_O_ = "ISNULL((SELECT MAX(R_E_C_N_O_)+1 FROM SC5" + nota.CodEmpErp + "0), 1),";
                 var R_E_C_D_E_L_ = "'0'";
                 query += "INSERT INTO SC5" + nota.CodEmpErp + "0(C5_FILIAL, C5_NUM, C5_TIPO, C5_CLIENTE, C5_CLIENT, C5_LOJACLI, C5_LOJAENT, C5_TIPOCLI, C5_CONDPAG, C5_EMISSAO, C5_FRETE, C5_SEGURO, C5_DESPESA, C5_MOEDA,C5_PESOL,C5_PBRUTO,C5_LIBEROK,C5_NOTA,C5_SERIE,C5_TIPLIB,C5_DESCONT,C5_TXMOEDA,C5_TPCARGA,C5_GERAWMS,C5_SOLOPC,R_E_C_N_O_,R_E_C_D_E_L_) ";
@@ -904,33 +905,32 @@ namespace InspetorXML_Console.Classes.ERP.Generico
             string query = "";
             if (nota.tipoErp.ToLower() == "protheus")
             {
-                var C6_FILIAL   = "'" + nota.CodFilErp + "',";
-                var C6_ITEM     = "'" + dadosProd.numItem + "',";
-                var C6_PRODUTO  = "'" + dadosProd.codProdErp + "',";
-                var C6_UM       = "'" + dadosProd.uCom + "',";
-                var C6_QTDVEN   = "'" + dadosProd.qCom + "',";
-                var C6_PRCVEN   = "'" + dadosProd.vUnCom + "',";
-                var C6_VALOR    = "'" + dadosProd.vProd + "',";
-                var C6_TES      = "'" + dadosProd.TES + "',";
-                var C6_LOCAL    = "'01',";
-                var C6_CF       = "'" + dadosProd.CFOP + "',";
-                var C6_QTDENT   = "'" + dadosProd.qCom + "',";
-                var C6_CLI      = "'" + nota.CodCliForErp + "',";
-                var C6_ENTREG   = "REPLACE(CAST(CAST('" + nota.DataEmissao + "' AS DATE) AS VARCHAR(20)), '-', ''),";
-                var C6_LOJA     = "'" + nota.CodLojaCliForErp + "',";
-                var C6_NOTA     = "'" + nota.NumNf 
-                    + "',";
-                var C6_SERIE    = "'" + nota.serieNf + "',";
-                var C6_DATFAT   = "REPLACE(CAST(CAST('" + nota.DataEmissao + "' AS DATE) AS VARCHAR(20)), '-', ''),";
-                var C6_NUM      = "'" + C5Num + "',";
-                var C6_DESCRI   = "'" + dadosProd.vDesc + "',";
-                var C6_PRUNIT   = "'" + dadosProd.vUnCom + "',";
+                var C6_FILIAL = "'" + nota.CodFilErp + "',";
+                var C6_ITEM = "'" + dadosProd.numItem + "',";
+                var C6_PRODUTO = "'" + dadosProd.codProdErp + "',";
+                var C6_UM = "'" + dadosProd.uCom + "',";
+                var C6_QTDVEN = "'" + dadosProd.qCom + "',";
+                var C6_PRCVEN = "'" + dadosProd.vUnCom + "',";
+                var C6_VALOR = "'" + dadosProd.vProd + "',";
+                var C6_TES = "'" + dadosProd.TES + "',";
+                var C6_LOCAL = "'01',";
+                var C6_CF = "'" + dadosProd.CFOP + "',";
+                var C6_QTDENT = "'" + dadosProd.qCom + "',";
+                var C6_CLI = "'" + nota.CodCliForErp + "',";
+                var C6_ENTREG = "REPLACE(CAST(CAST('" + nota.DataEmissao + "' AS DATE) AS VARCHAR(20)), '-', ''),";
+                var C6_LOJA = "'" + nota.CodLojaCliForErp + "',";
+                var C6_NOTA = "REPLICATE('0', 9-LEN('" + nota.NumNf + "')) + '" + nota.NumNf + "',";
+                var C6_SERIE = "'" + nota.serieNf + "',";
+                var C6_DATFAT = "REPLACE(CAST(CAST('" + nota.DataEmissao + "' AS DATE) AS VARCHAR(20)), '-', ''),";
+                var C6_NUM = "'" + C5Num + "',";
+                var C6_DESCRI = "'" + dadosProd.vDesc + "',";
+                var C6_PRUNIT = "'" + dadosProd.vUnCom + "',";
                 //Implementar ICMS
-                var C6_CLASFIS  = "'',";
-                var C6_TPOP     = "'F',";
-                var C6_SUGENTR  = "REPLACE(CAST(CAST('" + nota.DataEmissao + "' AS DATE) AS VARCHAR(20)), '-', ''),";
-                var C6_RATEIO   = "'2',";
-                var R_E_C_N_O_  = "ISNULL((SELECT MAX(R_E_C_N_O_) + 1 FROM SC6" + nota.CodEmpErp + "0), 1),";
+                var C6_CLASFIS = "'',";
+                var C6_TPOP = "'F',";
+                var C6_SUGENTR = "REPLACE(CAST(CAST('" + nota.DataEmissao + "' AS DATE) AS VARCHAR(20)), '-', ''),";
+                var C6_RATEIO = "'2',";
+                var R_E_C_N_O_ = "ISNULL((SELECT MAX(R_E_C_N_O_) + 1 FROM SC6" + nota.CodEmpErp + "0), 1),";
                 var R_E_C_D_E_L_ = "'0'";
 
                 query += "INSERT INTO SC6" + nota.CodEmpErp + "0(C6_FILIAL,C6_ITEM,C6_PRODUTO,C6_UM,C6_QTDVEN,C6_PRCVEN,C6_VALOR,C6_TES,C6_LOCAL,C6_CF,C6_QTDENT,C6_CLI,C6_ENTREG,C6_LOJA,C6_NOTA,C6_SERIE,C6_DATFAT,C6_NUM,C6_DESCRI,C6_PRUNIT,C6_CLASFIS,C6_TPOP,C6_SUGENTR,C6_RATEIO,R_E_C_N_O_,R_E_C_D_E_L_) ";
@@ -947,30 +947,74 @@ namespace InspetorXML_Console.Classes.ERP.Generico
             string query = "";
             if (nota.tipoErp.ToLower() == "protheus")
             {
-                var C9_OK       = "'    ',";
-                var C9_FILIAL   = "'" + nota.CodFilErp + "',";
-                var C9_PEDIDO   = "'" + C5Num + "',";
-                var C9_ITEM     = "'" + dadosProd.numItem + "',";
-                var C9_CLIENTE  = "'" + nota.CodCliForErp + "',";
-                var C9_LOJA     = "'" + nota.CodLojaCliForErp + "',";
-                var C9_PRODUTO  = "'" + dadosProd.codProdErp + "',";
-                var C9_QTDLIB   = "'" + dadosProd.qCom + "',";
-                var C9_NFISCAL  = "'" + nota.NumNf + "',";
-                var C9_SERIENF  = "'" + nota.serieNf + "',";
-                var C9_DATALIB  = "REPLACE(CAST(CAST('" + nota.DataEmissao + "' AS DATE) AS VARCHAR(20)), '-', ''),";
-                var C9_SEQUEN   = "'01',";
-                var C9_PRCVEN   = "'" + dadosProd.vUnCom + "', ";
-                var C9_BLEST    = "'10',";
-                var C9_BLCRED   = "'10',";
-                var C9_LOCAL    = "'01',";
-                var C9_TPCARGA  = "'2',";
-                var C9_NUMSEQ   = "ISNULL((SELECT REPLICATE('0', 6-LEN(MAX(C9_NUMSEQ)+1))+CAST(MAX(C9_NUMSEQ)+1 AS VARCHAR(6)) FROM SC9" + nota.CodEmpErp + "0), '000001'),";
-                var C9_RETOPER  = "'2',";
-                var R_E_C_N_O_  = "ISNULL((SELECT MAX(R_E_C_N_O_)+1 FROM SC9" + nota.CodEmpErp + "0), 1),";
-                var R_E_C_D_E_L_ = "'0'";
-                query += "INSERT INTO SC9" + nota.CodEmpErp + "0 (C9_OK,C9_FILIAL,C9_PEDIDO,C9_ITEM,C9_CLIENTE,C9_LOJA,C9_PRODUTO,C9_QTDLIB,C9_NFISCAL,C9_SERIENF,C9_DATALIB,C9_SEQUEN,C9_PRCVEN,C9_BLEST,C9_BLCRED,C9_LOCAL,C9_TPCARGA,C9_NUMSEQ,C9_RETOPER,R_E_C_N_O_,R_E_C_D_E_L_) ";
+                var C9_OK = "'    ',";
+                var C9_FILIAL = "'" + nota.CodFilErp + "',";
+                var C9_PEDIDO = "'" + C5Num + "',";
+                var C9_ITEM = "'" + dadosProd.numItem + "',";
+                var C9_CLIENTE = "'" + nota.CodCliForErp + "',";
+                var C9_LOJA = "'" + nota.CodLojaCliForErp + "',";
+                var C9_PRODUTO = "'" + dadosProd.codProdErp + "',";
+                var C9_QTDLIB = "'" + dadosProd.qCom + "',";
+                var C9_NFISCAL = "REPLICATE('0', 9-LEN('" + nota.NumNf + "')) + '" + nota.NumNf + "',";
+                var C9_SERIENF = "'" + nota.serieNf + "',";
+                var C9_DATALIB = "REPLACE(CAST(CAST('" + nota.DataEmissao + "' AS DATE) AS VARCHAR(20)), '-', ''),";
+                var C9_SEQUEN = "'01',";
+                var C9_PRCVEN = "'" + dadosProd.vUnCom + "', ";
+                var C9_BLEST = "'10',";
+                var C9_BLCRED = "'10',";
+                var C9_LOCAL = "'01',";
+                var C9_TPCARGA = "'2',";
+                var C9_NUMSEQ = "ISNULL((SELECT REPLICATE('0', 6-LEN(MAX(C9_NUMSEQ)+1))+CAST(MAX(C9_NUMSEQ)+1 AS VARCHAR(6)) FROM SC9" + nota.CodEmpErp + "0), '000001'),";
+                var C9_RETOPER = "'2',";
+                var R_E_C_N_O_ = "ISNULL((SELECT MAX(R_E_C_N_O_)+1 FROM SC9" + nota.CodEmpErp + "0), 1),";
+                var R_E_C_D_E_L_ = "'0',";
+                var C9_GRUPO = "'',";
+                var C9_AGREG = "'',";
+                var C9_IDENTB6 = "'',";
+                var C9_VENDA = "'',";
+                var C9_BLOQUEI = "'',";
+                var C9_LOTECTL = "'',";
+                var C9_NUMLOTE = "'',";
+                var C9_NUMSERI = "'',";
+                var C9_REMITO = "'',";
+                var C9_ITEMREM = "'',";
+                var C9_DTVALID = "'',";
+                var C9_RESERVA = "'',";
+                var C9_QTDRESE = "'',";
+                var C9_BLINF = "'',";
+                var C9_BLTMS = "'',";
+                var C9_BLWMS = "'',";
+                var C9_CARGA = "'',";
+                var C9_CODISS = "'',";
+                var C9_DATENT = "'',";
+                var C9_DAV = "'',";
+                var C9_EDTPMS = "'',";
+                var C9_ENDPAD = "'',";
+                var C9_IDDCF = "'',";
+                var C9_LICITA = "'',";
+                var C9_LOTNFC = "'',";
+                var C9_NUMCP = "'',";
+                var C9_ORDSEP = "'',";
+                var C9_POTENCI = "'',";
+                var C9_PROJPMS = "'',";
+                var C9_QTDLIB2 = "'',";
+                var C9_REGWMS = "'',";
+                var C9_SEQCAR = "'',";
+                var C9_SEQENT = "'',";
+                var C9_SERIREM = "'',";
+                var C9_SERVIC = "'',";
+                var C9_STSERV = "'',";
+                var C9_TASKPMS = "'',";
+                var C9_TPESTR = "'',";
+                var C9_TPOP = "'',";
+                var C9_TRT = "'',";
+                var D_E_L_E_T_ = "''";
+
+
+                query += "INSERT INTO SC9" + nota.CodEmpErp + "0 (C9_OK,C9_FILIAL,C9_PEDIDO,C9_ITEM,C9_CLIENTE,C9_LOJA,C9_PRODUTO,C9_QTDLIB,C9_NFISCAL,C9_SERIENF,C9_DATALIB,C9_SEQUEN,C9_PRCVEN,C9_BLEST,C9_BLCRED,C9_LOCAL,C9_TPCARGA,C9_NUMSEQ,C9_RETOPER,R_E_C_N_O_,R_E_C_D_E_L_,C9_GRUPO,C9_AGREG,C9_IDENTB6,C9_VENDA,C9_BLOQUEI,C9_LOTECTL,C9_NUMLOTE,C9_NUMSERI,C9_REMITO,C9_ITEMREM,C9_DTVALID,C9_RESERVA,C9_QTDRESE,C9_BLINF,C9_BLTMS,C9_BLWMS,C9_CARGA,C9_CODISS,C9_DATENT,C9_DAV,C9_EDTPMS,C9_ENDPAD,C9_IDDCF,C9_LICITA,C9_LOTNFC,C9_NUMCP,C9_ORDSEP,C9_POTENCI,C9_PROJPMS,C9_QTDLIB2,C9_REGWMS,C9_SEQCAR,C9_SEQENT,C9_SERIREM,C9_SERVIC,C9_STSERV,C9_TASKPMS,C9_TPESTR,C9_TPOP,C9_TRT,D_E_L_E_T_) ";
                 query += " VALUES(";
-                query += C9_OK + C9_FILIAL + C9_PEDIDO + C9_ITEM + C9_CLIENTE + C9_LOJA + C9_PRODUTO + C9_QTDLIB + C9_NFISCAL + C9_SERIENF + C9_DATALIB + C9_SEQUEN + C9_PRCVEN + C9_BLEST + C9_BLCRED + C9_LOCAL + C9_TPCARGA + C9_NUMSEQ + C9_RETOPER + R_E_C_N_O_ + R_E_C_D_E_L_;
+
+                query += C9_OK + C9_FILIAL + C9_PEDIDO + C9_ITEM + C9_CLIENTE + C9_LOJA + C9_PRODUTO + C9_QTDLIB + C9_NFISCAL + C9_SERIENF + C9_DATALIB + C9_SEQUEN + C9_PRCVEN + C9_BLEST + C9_BLCRED + C9_LOCAL + C9_TPCARGA + C9_NUMSEQ + C9_RETOPER + R_E_C_N_O_ + R_E_C_D_E_L_ + C9_GRUPO + C9_AGREG + C9_IDENTB6 + C9_VENDA + C9_BLOQUEI + C9_LOTECTL + C9_NUMLOTE + C9_NUMSERI + C9_REMITO + C9_ITEMREM + C9_DTVALID + C9_RESERVA + C9_QTDRESE + C9_BLINF + C9_BLTMS + C9_BLWMS + C9_CARGA + C9_CODISS + C9_DATENT + C9_DAV + C9_EDTPMS + C9_ENDPAD + C9_IDDCF + C9_LICITA + C9_LOTNFC + C9_NUMCP + C9_ORDSEP + C9_POTENCI + C9_PROJPMS + C9_QTDLIB2 + C9_REGWMS + C9_SEQCAR + C9_SEQENT + C9_SERIREM + C9_SERVIC + C9_STSERV + C9_TASKPMS + C9_TPESTR + C9_TPOP + C9_TRT + D_E_L_E_T_;
                 query += ")";
             }
             return query;
@@ -983,7 +1027,7 @@ namespace InspetorXML_Console.Classes.ERP.Generico
             {
                 File.Delete(pastaDestino + "\\" + System.IO.Path.GetFileName(nomeArquivo));
             }
-            
+
             File.Move(nomeArquivo, pastaDestino + "\\" + System.IO.Path.GetFileName(nomeArquivo));
         }
 
@@ -991,7 +1035,7 @@ namespace InspetorXML_Console.Classes.ERP.Generico
         public static string sqlInsereLog(string nomeArquivo, string msg, string CST = "", string PICM = "")
         {
             return "INSERT INTO LOGEVENTOSXML (NOME_XML, DATAEMISSAO, SETOR, USUARIO, EVENTO, CRITICA, CST) " +
-                      "VALUES (SUBSTRING('" + nomeArquivo + "', 1, 80),GETDATE(), 'FIS', 'inspetorXml', 'I', '"+ msg +"', '"+ CST +"');";
+                      "VALUES (SUBSTRING('" + nomeArquivo + "', 1, 80),GETDATE(), 'FIS', 'inspetorXml', 'I', '" + msg + "', '" + CST + "');";
 
         }
 
@@ -1032,7 +1076,7 @@ namespace InspetorXML_Console.Classes.ERP.Generico
                 query += "insert into SE1" + nota.CodEmpErp + "0(E1_FILIAL, E1_PREFIXO, E1_NUM, E1_PARCELA, E1_TIPO, E1_NATUREZ, E1_PORTADO, E1_AGEDEP, E1_CLIENTE, E1_LOJA, E1_NOMCLI, E1_EMISSAO, E1_VENCTO, E1_VENCREA, E1_VALOR, E1_BASEIRF, E1_IRRF, E1_ISS, E1_NUMBCO, E1_INDICE, E1_BAIXA, E1_NUMBOR, E1_DATABOR, E1_EMIS1, E1_HIST, E1_LA, E1_LOTE, E1_MOTIVO, E1_MOVIMEN, E1_OP, E1_SITUACA, E1_CONTRAT, E1_SALDO, E1_SUPERVI, E1_VEND1, E1_VEND2, E1_VEND3, E1_VEND4, E1_VEND5, E1_COMIS1, E1_COMIS2, E1_COMIS3, E1_COMIS4, E1_DESCONT, E1_COMIS5, E1_MULTA, E1_JUROS, E1_CORREC, E1_VALLIQ, E1_VENCORI, E1_CONTA, E1_VALJUR, E1_PORCJUR, E1_MOEDA, E1_BASCOM1, E1_BASCOM2, E1_BASCOM3, E1_BASCOM4, E1_BASCOM5, E1_FATPREF, E1_FATURA, E1_OK, E1_PROJETO, E1_CLASCON, E1_VALCOM1, E1_VALCOM2, E1_VALCOM3, E1_VALCOM4, E1_VALCOM5, E1_OCORREN, E1_INSTR1, E1_INSTR2, E1_PEDIDO, E1_DTVARIA, E1_VARURV, E1_VLCRUZ, E1_DTFATUR, E1_NUMNOTA, E1_SERIE, E1_STATUS, E1_ORIGEM, E1_IDENTEE, E1_NUMCART, E1_FLUXO, E1_DESCFIN, E1_DIADESC, E1_TIPODES, E1_CARTAO, E1_CARTVAL, E1_CARTAUT, E1_ADM, E1_VLRREAL, E1_TRANSF, E1_BCOCHQ, E1_AGECHQ, E1_CTACHQ, E1_NUMLIQ, E1_ORDPAGO, E1_RECIBO, E1_INSS, E1_FILORIG, E1_DTACRED, E1_TIPOFAT, E1_TIPOLIQ, E1_CSLL, E1_COFINS, E1_PIS, E1_FLAGFAT, E1_MESBASE, E1_ANOBASE, E1_PLNUCOB, E1_CODINT, E1_CODEMP, E1_MATRIC, E1_TXMOEDA, E1_ACRESC, E1_SDACRES, E1_DECRESC, E1_SDDECRE, E1_MULTNAT, E1_MSFIL, E1_MSEMP, E1_PROJPMS, E1_DESDOBR, E1_NRDOC, E1_MODSPB, E1_EMITCHQ, E1_IDCNAB, E1_PLCOEMP, E1_PLTPCOE, E1_CODCOR, E1_PARCCSS, E1_CODORCA, E1_CODIMOV, E1_FILDEB, E1_NUMSOL, E1_NUMRA, E1_INSCRIC, E1_SERREC, E1_DATAEDI, E1_CODBAR, E1_CODDIG, E1_CHQDEV, E1_LIDESCF, E1_VLBOLSA, E1_VLFIES, E1_NUMCRD, E1_DEBITO, E1_CCD, E1_ITEMD, E1_CLVLDB, E1_CREDIT, E1_CCC, E1_ITEMC, E1_CLVLCR, E1_DESCON1, E1_DESCON2, E1_DTDESC3, E1_DTDESC1, E1_DTDESC2, E1_VLMULTA, E1_DESCON3, E1_MOTNEG, E1_SABTPIS, E1_SABTCOF, E1_SABTCSL, E1_FORNISS, E1_PARTOT, E1_SITFAT, E1_BASEPIS, E1_BASECOF, E1_BASECSL, E1_VRETISS, E1_PARCIRF, E1_SCORGP, E1_FRETISS, E1_TXMDCOR, E1_SATBIRF, E1_TIPREG, E1_CONEMP, E1_VERCON, E1_SUBCON, E1_VERSUB, E1_PLLOTE, E1_PLOPELT, E1_CODRDA, E1_FORMREC, E1_BCOCLI, E1_AGECLI, E1_CTACLI, E1_PARCFET, E1_FETHAB, E1_MDCRON, E1_MDCONTR, E1_MEDNUME, E1_MDPLANI, E1_MDPARCE, E1_MDREVIS, E1_NUMMOV, E1_PREFORI, E1_IDMOV, E1_NUMPRO, E1_INDPRO, E1_MDMULT, E1_MDBONI, E1_MDDESC, E1_RETCNTR, E1_NODIA, E1_MULTDIA, E1_JURFAT, E1_RELATO, E1_BASEINS, E1_TITPAI, E1_NFELETR, E1_DOCTEF, E1_PRINSS, E1_PARCFAB, E1_PARCFAC, E1_PARTPDP, E1_TPDESC, E1_TPDP, E1_VLMINIS, E1_FACS, E1_FABOV, E1_NUMCON, E1_SABTIRF, E1_IDLAN, E1_IDBOLET, E1_SERVICO, E1_VLBOLP, E1_IDAPLIC, E1_PROCEL, E1_NUMINSC, E1_DIACTB, E1_LTCXA, E1_NOPER, E1_TURMA, E1_NSUTEF, E1_VRETIRF, E1_APLVLMN, E1_BASEISS, E1_SEQBX, E1_RATFIN, E1_CODIRRF, E1_PRISS, E1_CODISS, D_E_L_E_T_, R_E_C_N_O_, R_E_C_D_E_L_, E1_FAMAD, E1_PARCFAM, E1_FMPEQ, E1_PARCFMP, E1_CTRBCO, E1_PRODUTO, E1_PERLET, E1_CHAVENF) ";
                 query += "SELECT ";
                 query += "F2_FILIAL AS E1_FILIAL, ";
-                query += "'" + nota.serieNf +"' AS E1_PREFIXO, ";
+                query += "'" + nota.serieNf + "' AS E1_PREFIXO, ";
                 query += "F2_DOC AS E1_NUM, ";
                 query += "'" + parcela + "' AS E1_PARCELA, ";
                 query += "'NF' AS E1_TIPO, ";
@@ -1152,7 +1196,7 @@ namespace InspetorXML_Console.Classes.ERP.Generico
                 query += "'0' AS E1_SDDECRE, ";
                 query += "'' AS E1_MULTNAT, ";
                 query += "F2_FILIAL AS E1_MSFIL, ";
-                query += "'" + nota.CodEmpErp + "' AS E1_MSEMP, "; 
+                query += "'" + nota.CodEmpErp + "' AS E1_MSEMP, ";
                 query += "'' AS E1_PROJPMS, ";
                 query += "'' AS E1_DESDOBR, ";
                 query += "'' AS E1_NRDOC, ";
@@ -1284,7 +1328,7 @@ namespace InspetorXML_Console.Classes.ERP.Generico
                 query += "'' AS E1_PARCFAM, ";
                 query += "'0' AS E1_FMPEQ, ";
                 query += "'' AS E1_PARCFMP, ";
-                query += "'' AS E1_CTRBCO, ";   
+                query += "'' AS E1_CTRBCO, ";
                 query += "'' AS E1_PRODUTO, ";
                 query += "'' AS E1_PERLET, ";
                 query += "'' AS E1_CHAVENF ";
@@ -1297,9 +1341,9 @@ namespace InspetorXML_Console.Classes.ERP.Generico
                 query = "insert into SE2" + nota.CodEmpErp + @"0(E2_FILIAL, E2_PREFIXO, E2_NUM, E2_PARCELA, E2_TIPO, E2_NATUREZ, E2_PORTADO, E2_FORNECE, E2_LOJA, E2_NOMFOR, E2_EMISSAO, E2_VENCTO, E2_VENCREA, E2_VALOR, E2_ISS, E2_IRRF, E2_NUMBCO, E2_INDICE, E2_BAIXA, E2_BCOPAG, E2_EMIS1, E2_HIST, E2_LA, E2_LOTE, E2_MOTIVO, E2_MOVIMEN, E2_OP, E2_SALDO, E2_OK, E2_DESCONT, E2_MULTA, E2_JUROS, E2_CORREC, E2_VALLIQ, E2_VENCORI, E2_VALJUR, E2_PORCJUR, E2_MOEDA, E2_NUMBOR, E2_FATPREF, E2_FATURA, E2_PROJETO, E2_CLASCON, E2_RATEIO, E2_DTVARIA, E2_VARURV, E2_VLCRUZ, E2_DTFATUR, E2_ACRESC, E2_TITORIG, E2_IMPCHEQ, E2_PARCIR, E2_ARQRAT, E2_OCORREN, E2_ORIGEM, E2_IDENTEE, E2_FLUXO, E2_PARCISS, E2_ORDPAGO, E2_DESDOBR, E2_INSS, E2_PARCINS, E2_NUMLIQ, E2_BCOCHQ, E2_AGECHQ, E2_CTACHQ, E2_DATALIB, E2_APROVA, E2_TIPOFAT, E2_FLAGFAT, E2_ANOBASE, E2_MESBASE, E2_TXMOEDA, E2_SDACRES, E2_DECRESC, E2_SDDECRE, E2_USUALIB, E2_MULTNAT, E2_NUMTIT, E2_PROJPMS, E2_PLLOTE, E2_DIRF, E2_CODRET, E2_MODSPB, E2_IDCNAB, E2_PARCCSS, E2_RETENC, E2_CONTAD, E2_CODORCA, E2_SEST, E2_PARCSES, E2_FILDEB, E2_FILORIG, E2_FORNISS, E2_LOJAISS, E2_DEBITO, E2_CCD, E2_ITEMD, E2_CLVLDB, E2_CREDIT, E2_CCC, E2_ITEMC, E2_CLVLCR, E2_COFINS, E2_PIS, E2_CSLL, E2_PARCCOF, E2_PARCPIS, E2_PARCSLL, E2_TITPIS, E2_TITCOF, E2_TITCSL, E2_TITINS, E2_VRETPIS, E2_VRETCOF, E2_VRETCSL, E2_PRETPIS, E2_PRETCOF, E2_PRETCSL, E2_SEQBX, E2_CODBAR, E2_BASECOF, E2_BASEPIS, E2_BASECSL, E2_VRETISS, E2_VENCISS, E2_VBASISS, E2_MDRTISS, E2_VARIAC, E2_PERIOD, E2_MDCONTR, E2_MDREVIS, E2_MDPLANI, E2_MDCRON, E2_MDPARCE, E2_FRETISS, E2_TXMDCOR, E2_APLVLMN, E2_CLEARIN, E2_HORASPB, E2_PRETIRF, E2_SEFIP, E2_TRETISS, E2_VRETIRF, E2_PLOPELT, E2_CODRDA, E2_PARCFET, E2_FETHAB, E2_FORORI, E2_LOJORI, E2_STATUS, E2_DTDIRF, E2_TITADT, E2_TITPAI, E2_INSSRET, E2_CODAGL, E2_PROCPCC, E2_FORNPAI, E2_CODISS, E2_USUASUS, E2_USUACAN, E2_DATASUS, E2_DATACAN, E2_LIMCAN, E2_PREOP, E2_BASEISS, E2_NUMPRO, E2_INDPRO, E2_PARCAGL, E2_NODIA, E2_DIACTB, E2_MDMULT, E2_MDBONI, E2_MDDESC, E2_RETCNTR, E2_CIDE, E2_PRETINS, E2_VRETINS, E2_FATFOR, E2_FATLOJ, E2_BASEIRF, E2_DATAAGE, E2_TEMDOCS, E2_STATLIB, E2_CODAPRO, E2_IDMOV, E2_PRINSS, E2_BASEINS, E2_PARCCID, E2_CODRCSL, E2_CODRPIS, E2_CODRCOF, E2_TIPOLIQ, E2_PARIMP5, E2_PARIMP4, E2_PARIMP3, E2_PARIMP2, E2_PARIMP1, E2_CODINS, E2_IDDARF, E2_DTBORDE, E2_MSIDENT, E2_PRISS, E2_RATFIN, E2_NUMSOL, E2_CODOPE, E2_FABOV, E2_FACS, E2_PARCFAB, E2_PARCFAC, E2_FIMP, E2_NFELETR, E2_AGLIMP, D_E_L_E_T_, R_E_C_N_O_, R_E_C_D_E_L_, E2_FAMAD, E2_PARCFAM, E2_FMPEQ, E2_PARCFMP, E2_FORBCO, E2_FORAGE, E2_FAGEDV, E2_FORCTA, E2_FCTADV) ";
                 query += "select TOP 1 ";
                 query += "F1_FILIAL AS E2_FILIAL, ";
-                query += "'"+ nota.serieNf +"' AS E2_PREFIXO, ";
+                query += "'" + nota.serieNf + "' AS E2_PREFIXO, ";
                 query += "F1_DOC AS E2_NUM, ";
-                query += "'"+ parcela + "' AS E2_PARCELA, ";
+                query += "'" + parcela + "' AS E2_PARCELA, ";
                 query += "'NF' AS E2_TIPO, ";
                 query += "'1000' AS E2_NATUREZ, ";
                 query += "'' AS E2_PORTADO, ";
@@ -1342,7 +1386,7 @@ namespace InspetorXML_Console.Classes.ERP.Generico
                 query += "'N' AS E2_RATEIO, ";
                 query += "'' AS E2_DTVARIA, ";
                 query += "'0' AS E2_VARURV, ";
-                query += "'" + vDup +"' AS E2_VLCRUZ, ";
+                query += "'" + vDup + "' AS E2_VLCRUZ, ";
                 query += "'' AS E2_DTFATUR, ";
                 query += "'0' AS E2_ACRESC, ";
                 query += "'' AS E2_TITORIG, ";
@@ -1461,7 +1505,7 @@ namespace InspetorXML_Console.Classes.ERP.Generico
                 query += "'' AS E2_DATACAN, ";
                 query += "'' AS E2_LIMCAN, ";
                 query += "'' AS E2_PREOP, ";
-                query += "'" + vDup +"' AS E2_BASEISS, ";
+                query += "'" + vDup + "' AS E2_BASEISS, ";
                 query += "'' AS E2_NUMPRO, ";
                 query += "'' AS E2_INDPRO, ";
                 query += "'' AS E2_PARCAGL, ";
@@ -1540,6 +1584,497 @@ namespace InspetorXML_Console.Classes.ERP.Generico
             return sb.ToString();
         }
 
+        //Insere SF3 Livros Fiscais
+        public static string InsereSf3(XmlNfe nota)
+        {
+            var query = "";
 
+            var F3_REPROC = "'',";
+            var F3_ENTRADA = "REPLACE(CAST(CAST('" + nota.DataEmissao + "' AS DATE) AS VARCHAR(20)), '-', ''),";
+            var F3_NFISCAL = "REPLICATE('0', 9-LEN('" + nota.NumNf + "')) + '" + nota.NumNf + "',";
+            var F3_SERIE = "SUBSTRING('" + nota.serieNf + "', 1, 3),";
+            var F3_CLIEFOR = "'" + nota.CodCliForErp + "',";
+            var F3_LOJA = "'" + nota.CodLojaCliForErp + "',";
+            var F3_CFO = "'',"; //Perguntar de onde pegar
+            var F3_CODISS = "'',";
+            var F3_ESTADO = "'" + (nota.TipoNf == "ENTRADA" ? nota.UFEmitente : nota.UFDestinatario) + "',";
+            var F3_EMISSAO = "REPLACE(CAST(CAST('" + nota.DataEmissao + "' AS DATE) AS VARCHAR(20)), '-', ''),";
+            var F3_CONTA = "'',";
+            var F3_ALIQICM = "'" + nota.dAliqIcms + "',";
+            var F3_VALCONT = "'" + nota.valorNf + "',";
+            var F3_BASEICM = "'" + nota.BaseIcms + "',";
+            var F3_VALICM = "'" + nota.ValorIcms + "',";
+            var F3_ISENICM = "'0',";
+            var F3_OUTRICM = "'0',";
+            var F3_BASEIPI = "'" + nota.valorNf + "',";
+            var F3_VALIPI = "'" + nota.vIPI + "',";
+            var F3_ISENIPI = "'0',";
+            var F3_OUTRIPI = "'0',";
+            var F3_OBSERV = "'',";
+            var F3_VALOBSE = "'" + nota.valorNf + "',";
+            var F3_ICMSRET = "'" + nota.ValorIcms + "',";
+            var F3_TIPO = "'',";
+            var F3_LANCAM = "'',";
+            var F3_DOCOR = "'',";
+            var F3_ICMSCOM = "'',";
+            var F3_IPIOBS = "'0',";
+            var F3_NRLIVRO = "'',";
+            var F3_ICMAUTO = "'0',";
+            var F3_BASERET = "'0',";
+            var F3_FORMUL = "'',";
+            var F3_ESPECIE = "'" + nota.EspNf + "',";
+            var F3_FORMULA = "'',";
+            var F3_DESPESA = "'0',";
+            var F3_PDV = "'',";
+            var F3_BASIMP1 = "'',";
+            var F3_BASIMP2 = "'',";
+            var F3_BASIMP3 = "'',";
+            var F3_BASIMP4 = "'',";
+            var F3_BASIMP5 = "'',";
+            var F3_BASIMP6 = "'',";
+            var F3_ALQIMP1 = "'',";
+            var F3_ALQIMP2 = "'',";
+            var F3_ALQIMP3 = "'',";
+            var F3_ALQIMP4 = "'',";
+            var F3_ALQIMP5 = "'',";
+            var F3_ALQIMP6 = "'',";
+            var F3_VALIMP1 = "'',";
+            var F3_VALIMP2 = "'',";
+            var F3_VALIMP3 = "'',";
+            var F3_VALIMP4 = "'',";
+            var F3_VALIMP5 = "'',";
+            var F3_VALIMP6 = "'',";
+            var F3_RETIMP1 = "'',";
+            var F3_RETIMP2 = "'',";
+            var F3_RETIMP3 = "'',";
+            var F3_RETIMP4 = "'',";
+            var F3_RETIMP5 = "'',";
+            var F3_RETIMP6 = "'',";
+            var F3_DTLANC = "'',";
+            var F3_FILIAL = "'" + nota.CodFilErp + "',";
+            var F3_DTCANC = "'',";
+            var F3_DOCPRE = "'',";
+            var F3_ISSST = "'',";
+            var F3_CRDPCTR = "'',";
+            var F3_CREDST = "'',";
+            var F3_CRDPRES = "'',";
+            var F3_CRPRELE = "'',";
+            var F3_MDCAT79 = "'',";
+            var F3_NFEMP = "'',";
+            var F3_ICMSDIF = "'',";
+            var F3_TRFICM = "'',";
+            var F3_OBSICM = "'',";
+            var F3_OBSSOL = "'',";
+            var F3_SOLTRIB = "'',";
+            var F3_CFOEXT = "'',";
+            var F3_SIMPLES = "'',";
+            var F3_CRDZFM = "'',";
+            var F3_RECISS = "'',";
+            var F3_IDENTFT = "'000001',";
+            var F3_CRPRST = "'',";
+            var F3_CPPRODE = "'',";
+            var F3_TPPRODE = "'',";
+            var F3_VFESTMT = "'',";
+            var F3_VFECPMT = "'',";
+            var F3_CROUTGO = "'',";
+            var F3_VALANTI = "'',";
+            var F3_VALTPDP = "'',";
+            var F3_CSTISS = "'',";
+            var F3_ECF = "'',";
+            var F3_CFPS = "'',";
+            var F3_CRDTRAN = "'',";
+            var F3_DESCZFR = "'',";
+            var F3_BASEPS3 = "'',";
+            var F3_ALIQPS3 = "'',";
+            var F3_VALPS3 = "'',";
+            var F3_BASECF3 = "'',";
+            var F3_ALIQCF3 = "'',";
+            var F3_VALCF3 = "'',";
+            var F3_EMINFE = "'',";
+            var F3_NUMINI = "'',";
+            var F3_NUMFIM = "'',";
+            var F3_CRDEST = "'',";
+            var F3_NUMRPS = "'',";
+            var F3_CRPRERO = "'',";
+            var F3_ESTCRED = "'',";
+            var F3_CNAE = "'',";
+            var F3_CREDNFE = "'',";
+            var F3_CREDACU = "'',";
+            var F3_ISSSUB = "'',";
+            var F3_VFECPST = "'',";
+            var F3_HORNFE = "'',";
+            var F3_VALFET = "'',";
+            var F3_VALFAB = "'',";
+            var F3_VALFAC = "'',";
+            var F3_CPRESPR = "'',";
+            var F3_VALFECP = "'',";
+            var F3_CRPRSIM = "'',";
+            var F3_ANTICMS = "'',";
+            var F3_CODNFE = "'',";
+            var F3_CODRSEF = "'',";
+            var F3_CHVNFE = "'',";
+            var F3_NFELETR = "'',";
+            var F3_DESCRET = "'',";
+            var F3_CODRET = "'',";
+            var F3_BSREIN = "'',";
+            var F3_VREINT = "'',";
+            var F3_VFECPMG = "'',";
+            var F3_VFECPRN = "'',";
+            var F3_VFESTRN = "'',";
+            var F3_CREDPRE = "'',";
+            var F3_VFESTMG = "'',";
+            var F3_CLASCO = "'',";
+            var F3_CLIENT = "'',";
+            var F3_LOJENT = "'',";
+            var F3_VALTST = "'',";
+            var F3_BASETST = "'',";
+            var F3_ISSMAT = "'',";
+            var F3_VALFDS = "'',";
+            var F3_CRPREPR = "'',";
+            var F3_CAT102 = "'',";
+            var F3_CRPREPE = "'',";
+            var F3_CRPRESP = "'',";
+            var F3_CROUTSP = "'',";
+            var F3_OK = "'',";
+            var F3_VALFUM = "'',";
+            var F3_VLSENAR = "'',";
+            var F3_VLINCMG = "'',";
+            var F3_DS43080 = "'',";
+            var F3_VL43080 = "'',";
+            var F3_VALCPM = "'',";
+            var F3_BASECPM = "'',";
+            var F3_ALQCPM = "'',";
+            var F3_VALFMP = "'',";
+            var F3_BASEFMP = "'',";
+            var F3_ALQFMP = "'',";
+            var F3_VALFMD = "'',";
+            var F3_PROTOC = "'',";
+            var F3_SERSAT = "'',";
+            var F3_BASNDES = "'',";
+            var F3_ICMNDES = "'',";
+            var F3_BASECPB = "'',";
+            var F3_VALCPB = "'',";
+            var F3_ALIQCPB = "'',";
+            var F3_VFCPDIF = "'',";
+            var F3_DIFAL = "'',";
+            var F3_BASEDES = "'',";
+            var F3_CLIDEST = "'',";
+            var F3_LOJDEST = "'',";
+            var D_E_L_E_T_ = "'',";
+            var R_E_C_N_O_ = "ISNULL((SELECT MAX(R_E_C_N_O_)+1 FROM " + nota.TabSF3 + "), 1)";
+
+            query += "INSERT INTO " + nota.TabSF3 + "(F3_REPROC, F3_ENTRADA, F3_NFISCAL, F3_SERIE, F3_CLIEFOR, F3_LOJA, F3_CFO, F3_CODISS, F3_ESTADO, F3_EMISSAO, F3_CONTA, F3_ALIQICM, F3_VALCONT, F3_BASEICM, F3_VALICM, F3_ISENICM, F3_OUTRICM, F3_BASEIPI, F3_VALIPI, F3_ISENIPI, F3_OUTRIPI, F3_OBSERV, F3_VALOBSE, F3_ICMSRET, F3_TIPO, F3_LANCAM, F3_DOCOR, F3_ICMSCOM, F3_IPIOBS, F3_NRLIVRO, F3_ICMAUTO, F3_BASERET, F3_FORMUL, F3_ESPECIE, F3_FORMULA, F3_DESPESA, F3_PDV, F3_BASIMP1, F3_BASIMP2, F3_BASIMP3, F3_BASIMP4, F3_BASIMP5, F3_BASIMP6, F3_ALQIMP1, F3_ALQIMP2, F3_ALQIMP3, F3_ALQIMP4, F3_ALQIMP5, F3_ALQIMP6, F3_VALIMP1, F3_VALIMP2, F3_VALIMP3, F3_VALIMP4, F3_VALIMP5, F3_VALIMP6, F3_RETIMP1, F3_RETIMP2, F3_RETIMP3, F3_RETIMP4, F3_RETIMP5, F3_RETIMP6, F3_DTLANC, F3_FILIAL, F3_DTCANC, F3_DOCPRE, F3_ISSST, F3_CRDPCTR, F3_CREDST, F3_CRDPRES, F3_CRPRELE, F3_MDCAT79, F3_NFEMP, F3_ICMSDIF, F3_TRFICM, F3_OBSICM, F3_OBSSOL, F3_SOLTRIB, F3_CFOEXT, F3_SIMPLES, F3_CRDZFM, F3_RECISS, F3_IDENTFT, F3_CRPRST, F3_CPPRODE, F3_TPPRODE, F3_VFESTMT, F3_VFECPMT, F3_CROUTGO, F3_VALANTI, F3_VALTPDP, F3_CSTISS, F3_ECF, F3_CFPS, F3_CRDTRAN, F3_DESCZFR, F3_BASEPS3, F3_ALIQPS3, F3_VALPS3, F3_BASECF3, F3_ALIQCF3, F3_VALCF3, F3_EMINFE, F3_NUMINI, F3_NUMFIM, F3_CRDEST, F3_NUMRPS, F3_CRPRERO, F3_ESTCRED, F3_CNAE, F3_CREDNFE, F3_CREDACU, F3_ISSSUB, F3_VFECPST, F3_HORNFE, F3_VALFET, F3_VALFAB, F3_VALFAC, F3_CPRESPR, F3_VALFECP, F3_CRPRSIM, F3_ANTICMS, F3_CODNFE, F3_CODRSEF, F3_CHVNFE, F3_NFELETR, F3_DESCRET, F3_CODRET, F3_BSREIN, F3_VREINT, F3_VFECPMG, F3_VFECPRN, F3_VFESTRN, F3_CREDPRE, F3_VFESTMG, F3_CLASCO, F3_CLIENT, F3_LOJENT, F3_VALTST, F3_BASETST, F3_ISSMAT, F3_VALFDS, F3_CRPREPR, F3_CAT102, F3_CRPREPE, F3_CRPRESP, F3_CROUTSP, F3_OK, F3_VALFUM, F3_VLSENAR, F3_VLINCMG, F3_DS43080, F3_VL43080, F3_VALCPM, F3_BASECPM, F3_ALQCPM, F3_VALFMP, F3_BASEFMP, F3_ALQFMP, F3_VALFMD, F3_PROTOC, F3_SERSAT, F3_BASNDES, F3_ICMNDES, F3_BASECPB, F3_VALCPB, F3_ALIQCPB, F3_VFCPDIF, F3_DIFAL, F3_BASEDES, F3_CLIDEST, F3_LOJDEST, D_E_L_E_T_, R_E_C_N_O_) ";
+            query += "VALUES(";
+            query += F3_REPROC + F3_ENTRADA + F3_NFISCAL + F3_SERIE + F3_CLIEFOR + F3_LOJA + F3_CFO + F3_CODISS + F3_ESTADO + F3_EMISSAO + F3_CONTA + F3_ALIQICM + F3_VALCONT + F3_BASEICM + F3_VALICM + F3_ISENICM + F3_OUTRICM + F3_BASEIPI + F3_VALIPI + F3_ISENIPI + F3_OUTRIPI + F3_OBSERV + F3_VALOBSE + F3_ICMSRET + F3_TIPO + F3_LANCAM + F3_DOCOR + F3_ICMSCOM + F3_IPIOBS + F3_NRLIVRO + F3_ICMAUTO + F3_BASERET + F3_FORMUL + F3_ESPECIE + F3_FORMULA + F3_DESPESA + F3_PDV + F3_BASIMP1 + F3_BASIMP2 + F3_BASIMP3 + F3_BASIMP4 + F3_BASIMP5 + F3_BASIMP6 + F3_ALQIMP1 + F3_ALQIMP2 + F3_ALQIMP3 + F3_ALQIMP4 + F3_ALQIMP5 + F3_ALQIMP6 + F3_VALIMP1 + F3_VALIMP2 + F3_VALIMP3 + F3_VALIMP4 + F3_VALIMP5 + F3_VALIMP6 + F3_RETIMP1 + F3_RETIMP2 + F3_RETIMP3 + F3_RETIMP4 + F3_RETIMP5 + F3_RETIMP6 + F3_DTLANC + F3_FILIAL + F3_DTCANC + F3_DOCPRE + F3_ISSST + F3_CRDPCTR + F3_CREDST + F3_CRDPRES + F3_CRPRELE + F3_MDCAT79 + F3_NFEMP + F3_ICMSDIF + F3_TRFICM + F3_OBSICM + F3_OBSSOL + F3_SOLTRIB + F3_CFOEXT + F3_SIMPLES + F3_CRDZFM + F3_RECISS + F3_IDENTFT + F3_CRPRST + F3_CPPRODE + F3_TPPRODE + F3_VFESTMT + F3_VFECPMT + F3_CROUTGO + F3_VALANTI + F3_VALTPDP + F3_CSTISS + F3_ECF + F3_CFPS + F3_CRDTRAN + F3_DESCZFR + F3_BASEPS3 + F3_ALIQPS3 + F3_VALPS3 + F3_BASECF3 + F3_ALIQCF3 + F3_VALCF3 + F3_EMINFE + F3_NUMINI + F3_NUMFIM + F3_CRDEST + F3_NUMRPS + F3_CRPRERO + F3_ESTCRED + F3_CNAE + F3_CREDNFE + F3_CREDACU + F3_ISSSUB + F3_VFECPST + F3_HORNFE + F3_VALFET + F3_VALFAB + F3_VALFAC + F3_CPRESPR + F3_VALFECP + F3_CRPRSIM + F3_ANTICMS + F3_CODNFE + F3_CODRSEF + F3_CHVNFE + F3_NFELETR + F3_DESCRET + F3_CODRET + F3_BSREIN + F3_VREINT + F3_VFECPMG + F3_VFECPRN + F3_VFESTRN + F3_CREDPRE + F3_VFESTMG + F3_CLASCO + F3_CLIENT + F3_LOJENT + F3_VALTST + F3_BASETST + F3_ISSMAT + F3_VALFDS + F3_CRPREPR + F3_CAT102 + F3_CRPREPE + F3_CRPRESP + F3_CROUTSP + F3_OK + F3_VALFUM + F3_VLSENAR + F3_VLINCMG + F3_DS43080 + F3_VL43080 + F3_VALCPM + F3_BASECPM + F3_ALQCPM + F3_VALFMP + F3_BASEFMP + F3_ALQFMP + F3_VALFMD + F3_PROTOC + F3_SERSAT + F3_BASNDES + F3_ICMNDES + F3_BASECPB + F3_VALCPB + F3_ALIQCPB + F3_VFCPDIF + F3_DIFAL + F3_BASEDES + F3_CLIDEST + F3_LOJDEST + D_E_L_E_T_ + R_E_C_N_O_;
+            query += ");";
+            return query;
+        }
+
+        //Insere SFT
+        public static string InsereSft(XmlNfe nota, ProdutosNfe dadosProd)
+        {
+            var query = "";
+            var FT_FILIAL = "'" + nota.CodFilErp + "',";
+            var FT_ENTRADA = "REPLACE(CAST(CAST('" + nota.DataEmissao + "' AS DATE) AS VARCHAR(20)), '-', ''),";
+            var FT_EMISSAO = "REPLACE(CAST(CAST('" + nota.DataEmissao + "' AS DATE) AS VARCHAR(20)), '-', ''),";
+            var FT_NFISCAL = "REPLICATE('0', 9-LEN('" + nota.NumNf + "')) + '" + nota.NumNf + "',";
+            var FT_SERIE = "SUBSTRING('" + nota.serieNf + "', 1, 3),";
+            var FT_CLIEFOR = "'" + nota.CodCliForErp + "',";
+            var FT_LOJA = "'" + nota.CodLojaCliForErp + "',";
+            var FT_ESTADO = "'" + (nota.TipoNf == "ENTRADA" ? nota.UFEmitente : nota.UFDestinatario) + "',";
+            var FT_CFOP = "'" + dadosProd.CFOP + "',";
+            var FT_CODISS = "'',";
+            var FT_ALIQICM = "'" + dadosProd.AliqIcms + "',";
+            var FT_VALCONT = "'" + dadosProd.vProd + "',";
+            var FT_BASEICM = "'" + dadosProd.BaseIcms + "',";
+            var FT_VALICM = "'" + dadosProd.vICMS + "',";
+            var FT_ISENICM = "'',";
+            var FT_OUTRICM = "'',";
+            var FT_BASEIPI = "'" + dadosProd.BaseIpi + "',";
+            var FT_VALIPI = "'" + dadosProd.vIPI + "',";
+            var FT_ISENIPI = "'',";
+            var FT_OUTRIPI = "'',";
+            var FT_BASERET = "'',";
+            var FT_ICMSRET = "'',";
+            var FT_OBSERV = "'',";
+            var FT_TIPO = "'',";
+            var FT_ICMSCOM = "'',";
+            var FT_ICMSDIF = "'',";
+            var FT_TRFICM = "'',";
+            var FT_CRDEST = "'',";
+            var FT_IPIOBS = "'',";
+            var FT_OBSICM = "'',";
+            var FT_OBSSOL = "'',";
+            var FT_SOLTRIB = "'',";
+            var FT_ICMAUTO = "'',";
+            var FT_BASIMP1 = "'',";
+            var FT_BASIMP2 = "'',";
+            var FT_BASIMP3 = "'',";
+            var FT_BASIMP4 = "'',";
+            var FT_BASIMP5 = "'',";
+            var FT_BASIMP6 = "'',";
+            var FT_ALQIMP1 = "'',";
+            var FT_ALQIMP2 = "'',";
+            var FT_ALQIMP3 = "'',";
+            var FT_ALQIMP4 = "'',";
+            var FT_ALQIMP5 = "'',";
+            var FT_ALQIMP6 = "'',";
+            var FT_VALIMP1 = "'',";
+            var FT_VALIMP2 = "'',";
+            var FT_VALIMP3 = "'',";
+            var FT_VALIMP4 = "'',";
+            var FT_VALIMP5 = "'',";
+            var FT_VALIMP6 = "'',";
+            var FT_CFOEXT = "'',";
+            var FT_RETIMP1 = "'',";
+            var FT_RETIMP2 = "'',";
+            var FT_RETIMP3 = "'',";
+            var FT_RETIMP4 = "'',";
+            var FT_RETIMP5 = "'',";
+            var FT_RETIMP6 = "'',";
+            var FT_DTCANC = "'',";
+            var FT_ISSST = "'',";
+            var FT_NRLIVRO = "'',";
+            var FT_FORMULA = "'',";
+            var FT_PDV = "'',";
+            var FT_ESPECIE = "'',";
+            var FT_CREDST = "'',";
+            var FT_CONTA = "'',";
+            var FT_PRODUTO = "'',";
+            var FT_TIPOMOV = "'',";
+            var FT_ITEM = "'" + dadosProd.numItem + "',";
+            var FT_ALIQIPI = "'',";
+            var FT_FORMUL = "'',";
+            var FT_CLASFIS = "'',";
+            var FT_CTIPI = "'',";
+            var FT_FRETE = "'',";
+            var FT_SEGURO = "'',";
+            var FT_DESPESA = "'',";
+            var FT_ALIQIRR = "'',";
+            var FT_BASEIRR = "'',";
+            var FT_VALIRR = "'',";
+            var FT_BASEINS = "'',";
+            var FT_ALIQINS = "'',";
+            var FT_VALINS = "'',";
+            var FT_POSIPI = "'" + dadosProd.NCM + "',";
+            var FT_IDENTF3 = "'000001',";
+            var FT_ESTOQUE = "'',";
+            var FT_DESPIPI = "'',";
+            var FT_ISENRET = "'',";
+            var FT_OUTRRET = "'',";
+            var FT_QUANT = "'',";
+            var FT_PRCUNIT = "'',";
+            var FT_DESCONT = "'',";
+            var FT_TOTAL = "'',";
+            var FT_PESO = "'',";
+            var FT_NFORI = "'',";
+            var FT_SERORI = "'',";
+            var FT_ITEMORI = "'',";
+            var FT_BASEPIS = "'',";
+            var FT_ALIQPIS = "'',";
+            var FT_VALPIS = "'',";
+            var FT_BASECOF = "'',";
+            var FT_ALIQCOF = "'',";
+            var FT_VALCOF = "'',";
+            var FT_BASECSL = "'',";
+            var FT_ALIQCSL = "'',";
+            var FT_VALCSL = "'',";
+            var FT_BASEPS3 = "'',";
+            var FT_ALIQPS3 = "'',";
+            var FT_VALPS3 = "'',";
+            var FT_BASECF3 = "'',";
+            var FT_ALIQCF3 = "'',";
+            var FT_VALCF3 = "'',";
+            var FT_NFELETR = "'',";
+            var FT_EMINFE = "'',";
+            var FT_HORNFE = "'',";
+            var FT_CODNFE = "'',";
+            var FT_CREDNFE = "'',";
+            var FT_ISSSUB = "'',";
+            var FT_RECISS = "'',";
+            var FT_NUMRPS = "'',";
+            var FT_CFPS = "'',";
+            var FT_CLIENT = "'',";
+            var FT_LOJENT = "'',";
+            var FT_ISSMAT = "'',";
+            var FT_RGESPST = "'',";
+            var FT_VALFDS = "'',";
+            var FT_PRFDSUL = "'',";
+            var FT_UFERMS = "'',";
+            var FT_ESTCRED = "'',";
+            var FT_ANTICMS = "'',";
+            var FT_BASETST = "'',";
+            var FT_ALIQTST = "'',";
+            var FT_VALTST = "'',";
+            var FT_VALANTI = "'',";
+            var FT_CHVNFE = "'',";
+            var FT_CSTPIS = "'',";
+            var FT_CSTCOF = "'',";
+            var FT_CODBCC = "'',";
+            var FT_INDNTFR = "'',";
+            var FT_CPPRODE = "'',";
+            var FT_TPPRODE = "'',";
+            var FT_CRPRRON = "'',";
+            var FT_ALIQSOL = "'',";
+            var FT_ALQFECP = "'',";
+            var FT_PAUTST = "'',";
+            var FT_PAUTIC = "'',";
+            var FT_PAUTPIS = "'',";
+            var FT_PAUTCOF = "'',";
+            var FT_PAUTIPI = "'',";
+            var FT_BSEFET = "'',";
+            var FT_ALQFET = "'',";
+            var FT_VALFET = "'',";
+            var FT_BSEFAB = "'',";
+            var FT_ALQFAB = "'',";
+            var FT_VALFAB = "'',";
+            var FT_BSEFAC = "'',";
+            var FT_ALQFAC = "'',";
+            var FT_VALFAC = "'',";
+            var FT_CRPREPR = "'',";
+            var FT_CRPRERO = "'',";
+            var FT_CPRESPR = "'',";
+            var FT_ALQFUM = "'',";
+            var FT_ALSENAR = "'',";
+            var FT_CRPREPE = "'',";
+            var FT_CRDTRAN = "'',";
+            var FT_CRPRELE = "'',";
+            var FT_CRPRSIM = "'',";
+            var FT_CRDZFM = "'',";
+            var FT_CSTISS = "'',";
+            var FT_CRPRESP = "'',";
+            var FT_TNATREC = "'',";
+            var FT_CNATREC = "'',";
+            var FT_GRUPONC = "'',";
+            var FT_DTFIMNT = "'',";
+            var FT_VALFECP = "'',";
+            var FT_CRDPRES = "'',";
+            var FT_MARGEM = "'',";
+            var FT_VALFUM = "'',";
+            var FT_VLSENAR = "'',";
+            var FT_BSSENAR = "'',";
+            var FT_CROUTSP = "'',";
+            var FT_PR43080 = "'',";
+            var FT_MOTICMS = "'',";
+            var FT_VLINCMG = "'',";
+            var FT_PRINCMG = "'',";
+            var FT_VFECPRN = "'',";
+            var FT_VFESTRN = "'',";
+            var FT_ALFECRN = "'',";
+            var FT_BRETPIS = "'',";
+            var FT_BRETCOF = "'',";
+            var FT_BRETCSL = "'',";
+            var FT_VRETPIS = "'',";
+            var FT_VRETCOF = "'',";
+            var FT_VRETCSL = "'',";
+            var FT_ARETPIS = "'" + dadosProd.pPIS + "',";
+            var FT_ARETCOF = "'" + dadosProd.pCOFINS + "',";
+            var FT_ARETCSL = "'',";
+            var FT_AGREG = "'',";
+            var FT_DESCICM = "'',";
+            var FT_COEPSST = "'',";
+            var FT_COECFST = "'',";
+            var FT_IDSFB = "'',";
+            var FT_IDSFC = "'',";
+            var FT_CREDPRE = "'',";
+            var FT_BSREIN = "'',";
+            var FT_IDSB5 = "'',";
+            var FT_IDSED = "'',";
+            var FT_IDSF4 = "'',";
+            var FT_CROUTGO = "'',";
+            var FT_IDSF7 = "'',";
+            var FT_IDSA1 = "'',";
+            var FT_IDSA2 = "'',";
+            var FT_IDSB1 = "'',";
+            var FT_IDSBZ = "'',";
+            var FT_NORESP = "'',";
+            var FT_MVALCOF = "'',";
+            var FT_MALQPIS = "'',";
+            var FT_MVALPIS = "'',";
+            var FT_DS43080 = "'',";
+            var FT_NATOPER = "'',";
+            var FT_PRCUNIC = "'',";
+            var FT_MALQCOF = "'',";
+            var FT_CRPRST = "'',";
+            var FT_DESCZFR = "'',";
+            var FT_PRDFIS = "'',";
+            var FT_VFECPST = "'',";
+            var FT_ALFECMG = "'',";
+            var FT_VFECPMT = "'',";
+            var FT_VFESTMT = "'',";
+            var FT_ALFECMT = "'',";
+            var FT_VFECPMG = "'',";
+            var FT_VFESTMG = "'',";
+            var FT_VREINT = "'',";
+            var FT_B1DIAT = "'',";
+            var FT_PDIA = "'',";
+            var FT_CV139 = "'',";
+            var FT_IDCFC = "'',";
+            var FT_VLCIDE = "'',";
+            var FT_BASECID = "'',";
+            var FT_ALQCIDE = "'',";
+            var FT_VALCPM = "'',";
+            var FT_BASECPM = "'',";
+            var FT_ALQCPM = "'',";
+            var FT_VALFMP = "'',";
+            var FT_BASEFMP = "'',";
+            var FT_ALQFMP = "'',";
+            var FT_BASEFMD = "'',";
+            var FT_ALQFMD = "'',";
+            var FT_VALFMD = "'',";
+            var FT_SERSAT = "'',";
+            var FT_BASNDES = "'',";
+            var FT_ICMNDES = "'',";
+            var FT_GRPCST = "'',";
+            var FT_CEST = "'',";
+            var FT_ATIVCPB = "'',";
+            var FT_BASECPB = "'',";
+            var FT_VALCPB = "'',";
+            var FT_ALIQCPB = "'',";
+            var FT_DIFAL = "'',";
+            var FT_VFCPDIF = "'',";
+            var FT_PDDES = "'',";
+            var FT_PDORI = "'',";
+            var FT_BASEDES = "'',";
+            var FT_CLIDEST = "'',";
+            var FT_LOJDEST = "'',";
+            var D_E_L_E_T_ = "'',";
+            var R_E_C_N_O_ = "ISNULL((SELECT MAX(R_E_C_N_O_)+1 FROM " + nota.TabSFT + "), 1),";
+            var R_E_C_D_E_L_ = "'0'";
+
+            query += "INSERT INTO " + nota.TabSFT + "(FT_FILIAL,  FT_ENTRADA,  FT_EMISSAO,  FT_NFISCAL,  FT_SERIE,  FT_CLIEFOR,  FT_LOJA,  FT_ESTADO,  FT_CFOP,  FT_CODISS,  FT_ALIQICM,  FT_VALCONT,  FT_BASEICM,  FT_VALICM,  FT_ISENICM,  FT_OUTRICM,  FT_BASEIPI,  FT_VALIPI,  FT_ISENIPI,  FT_OUTRIPI,  FT_BASERET,  FT_ICMSRET,  FT_OBSERV,  FT_TIPO,  FT_ICMSCOM,  FT_ICMSDIF,  FT_TRFICM,  FT_CRDEST,  FT_IPIOBS,  FT_OBSICM,  FT_OBSSOL,  FT_SOLTRIB,  FT_ICMAUTO,  FT_BASIMP1,  FT_BASIMP2,  FT_BASIMP3,  FT_BASIMP4,  FT_BASIMP5,  FT_BASIMP6,  FT_ALQIMP1,  FT_ALQIMP2,  FT_ALQIMP3,  FT_ALQIMP4,  FT_ALQIMP5,  FT_ALQIMP6,  FT_VALIMP1,  FT_VALIMP2,  FT_VALIMP3,  FT_VALIMP4,  FT_VALIMP5,  FT_VALIMP6,  FT_CFOEXT,  FT_RETIMP1,  FT_RETIMP2,  FT_RETIMP3,  FT_RETIMP4,  FT_RETIMP5,  FT_RETIMP6,  FT_DTCANC,  FT_ISSST,  FT_NRLIVRO,  FT_FORMULA,  FT_PDV,  FT_ESPECIE,  FT_CREDST,  FT_CONTA,  FT_PRODUTO,  FT_TIPOMOV,  FT_ITEM,  FT_ALIQIPI,  FT_FORMUL,  FT_CLASFIS,  FT_CTIPI,  FT_FRETE,  FT_SEGURO,  FT_DESPESA,  FT_ALIQIRR,  FT_BASEIRR,  FT_VALIRR,  FT_BASEINS,  FT_ALIQINS,  FT_VALINS,  FT_POSIPI,  FT_IDENTF3,  FT_ESTOQUE,  FT_DESPIPI,  FT_ISENRET,  FT_OUTRRET,  FT_QUANT,  FT_PRCUNIT,  FT_DESCONT,  FT_TOTAL,  FT_PESO,  FT_NFORI,  FT_SERORI,  FT_ITEMORI,  FT_BASEPIS,  FT_ALIQPIS,  FT_VALPIS,  FT_BASECOF,  FT_ALIQCOF,  FT_VALCOF,  FT_BASECSL,  FT_ALIQCSL,  FT_VALCSL,  FT_BASEPS3,  FT_ALIQPS3,  FT_VALPS3,  FT_BASECF3,  FT_ALIQCF3,  FT_VALCF3,  FT_NFELETR,  FT_EMINFE,  FT_HORNFE,  FT_CODNFE,  FT_CREDNFE,  FT_ISSSUB,  FT_RECISS,  FT_NUMRPS,  FT_CFPS,  FT_CLIENT,  FT_LOJENT,  FT_ISSMAT,  FT_RGESPST,  FT_VALFDS,  FT_PRFDSUL,  FT_UFERMS,  FT_ESTCRED,  FT_ANTICMS,  FT_BASETST,  FT_ALIQTST,  FT_VALTST,  FT_VALANTI,  FT_CHVNFE,  FT_CSTPIS,  FT_CSTCOF,  FT_CODBCC,  FT_INDNTFR,  FT_CPPRODE,  FT_TPPRODE,  FT_CRPRRON,  FT_ALIQSOL,  FT_ALQFECP,  FT_PAUTST,  FT_PAUTIC,  FT_PAUTPIS,  FT_PAUTCOF,  FT_PAUTIPI,  FT_BSEFET,  FT_ALQFET,  FT_VALFET,  FT_BSEFAB,  FT_ALQFAB,  FT_VALFAB,  FT_BSEFAC,  FT_ALQFAC,  FT_VALFAC,  FT_CRPREPR,  FT_CRPRERO,  FT_CPRESPR,  FT_ALQFUM,  FT_ALSENAR,  FT_CRPREPE,  FT_CRDTRAN,  FT_CRPRELE,  FT_CRPRSIM,  FT_CRDZFM,  FT_CSTISS,  FT_CRPRESP,  FT_TNATREC,  FT_CNATREC,  FT_GRUPONC,  FT_DTFIMNT,  FT_VALFECP,  FT_CRDPRES,  FT_MARGEM,  FT_VALFUM,  FT_VLSENAR,  FT_BSSENAR,  FT_CROUTSP,  FT_PR43080,  FT_MOTICMS,  FT_VLINCMG,  FT_PRINCMG,  FT_VFECPRN,  FT_VFESTRN,  FT_ALFECRN,  FT_BRETPIS,  FT_BRETCOF,  FT_BRETCSL,  FT_VRETPIS,  FT_VRETCOF,  FT_VRETCSL,  FT_ARETPIS,  FT_ARETCOF,  FT_ARETCSL,  FT_AGREG,  FT_DESCICM,  FT_COEPSST,  FT_COECFST,  FT_IDSFB,  FT_IDSFC,  FT_CREDPRE,  FT_BSREIN,  FT_IDSB5,  FT_IDSED,  FT_IDSF4,  FT_CROUTGO,  FT_IDSF7,  FT_IDSA1,  FT_IDSA2,  FT_IDSB1,  FT_IDSBZ,  FT_NORESP,  FT_MVALCOF,  FT_MALQPIS,  FT_MVALPIS,  FT_DS43080,  FT_NATOPER,  FT_PRCUNIC,  FT_MALQCOF,  FT_CRPRST,  FT_DESCZFR,  FT_PRDFIS,  FT_VFECPST,  FT_ALFECMG,  FT_VFECPMT,  FT_VFESTMT,  FT_ALFECMT,  FT_VFECPMG,  FT_VFESTMG,  FT_VREINT,  FT_B1DIAT,  FT_PDIA,  FT_CV139,  FT_IDCFC,  FT_VLCIDE,  FT_BASECID,  FT_ALQCIDE,  FT_VALCPM,  FT_BASECPM,  FT_ALQCPM,  FT_VALFMP,  FT_BASEFMP,  FT_ALQFMP,  FT_BASEFMD,  FT_ALQFMD,  FT_VALFMD,  FT_SERSAT,  FT_BASNDES,  FT_ICMNDES,  FT_GRPCST,  FT_CEST,  FT_ATIVCPB,  FT_BASECPB,  FT_VALCPB,  FT_ALIQCPB,  FT_DIFAL,  FT_VFCPDIF,  FT_PDDES,  FT_PDORI,  FT_BASEDES,  FT_CLIDEST,  FT_LOJDEST,  D_E_L_E_T_,  R_E_C_N_O_,  R_E_C_D_E_L_) ";
+            query += "VALUES(";
+            query += FT_FILIAL + FT_ENTRADA + FT_EMISSAO + FT_NFISCAL + FT_SERIE + FT_CLIEFOR + FT_LOJA + FT_ESTADO + FT_CFOP + FT_CODISS + FT_ALIQICM + FT_VALCONT + FT_BASEICM + FT_VALICM + FT_ISENICM + FT_OUTRICM + FT_BASEIPI + FT_VALIPI + FT_ISENIPI + FT_OUTRIPI + FT_BASERET + FT_ICMSRET + FT_OBSERV + FT_TIPO + FT_ICMSCOM + FT_ICMSDIF + FT_TRFICM + FT_CRDEST + FT_IPIOBS + FT_OBSICM + FT_OBSSOL + FT_SOLTRIB + FT_ICMAUTO + FT_BASIMP1 + FT_BASIMP2 + FT_BASIMP3 + FT_BASIMP4 + FT_BASIMP5 + FT_BASIMP6 + FT_ALQIMP1 + FT_ALQIMP2 + FT_ALQIMP3 + FT_ALQIMP4 + FT_ALQIMP5 + FT_ALQIMP6 + FT_VALIMP1 + FT_VALIMP2 + FT_VALIMP3 + FT_VALIMP4 + FT_VALIMP5 + FT_VALIMP6 + FT_CFOEXT + FT_RETIMP1 + FT_RETIMP2 + FT_RETIMP3 + FT_RETIMP4 + FT_RETIMP5 + FT_RETIMP6 + FT_DTCANC + FT_ISSST + FT_NRLIVRO + FT_FORMULA + FT_PDV + FT_ESPECIE + FT_CREDST + FT_CONTA + FT_PRODUTO + FT_TIPOMOV + FT_ITEM + FT_ALIQIPI + FT_FORMUL + FT_CLASFIS + FT_CTIPI + FT_FRETE + FT_SEGURO + FT_DESPESA + FT_ALIQIRR + FT_BASEIRR + FT_VALIRR + FT_BASEINS + FT_ALIQINS + FT_VALINS + FT_POSIPI + FT_IDENTF3 + FT_ESTOQUE + FT_DESPIPI + FT_ISENRET + FT_OUTRRET + FT_QUANT + FT_PRCUNIT + FT_DESCONT + FT_TOTAL + FT_PESO + FT_NFORI + FT_SERORI + FT_ITEMORI + FT_BASEPIS + FT_ALIQPIS + FT_VALPIS + FT_BASECOF + FT_ALIQCOF + FT_VALCOF + FT_BASECSL + FT_ALIQCSL + FT_VALCSL + FT_BASEPS3 + FT_ALIQPS3 + FT_VALPS3 + FT_BASECF3 + FT_ALIQCF3 + FT_VALCF3 + FT_NFELETR + FT_EMINFE + FT_HORNFE + FT_CODNFE + FT_CREDNFE + FT_ISSSUB + FT_RECISS + FT_NUMRPS + FT_CFPS + FT_CLIENT + FT_LOJENT + FT_ISSMAT + FT_RGESPST + FT_VALFDS + FT_PRFDSUL + FT_UFERMS + FT_ESTCRED + FT_ANTICMS + FT_BASETST + FT_ALIQTST + FT_VALTST + FT_VALANTI + FT_CHVNFE + FT_CSTPIS + FT_CSTCOF + FT_CODBCC + FT_INDNTFR + FT_CPPRODE + FT_TPPRODE + FT_CRPRRON + FT_ALIQSOL + FT_ALQFECP + FT_PAUTST + FT_PAUTIC + FT_PAUTPIS + FT_PAUTCOF + FT_PAUTIPI + FT_BSEFET + FT_ALQFET + FT_VALFET + FT_BSEFAB + FT_ALQFAB + FT_VALFAB + FT_BSEFAC + FT_ALQFAC + FT_VALFAC + FT_CRPREPR + FT_CRPRERO + FT_CPRESPR + FT_ALQFUM + FT_ALSENAR + FT_CRPREPE + FT_CRDTRAN + FT_CRPRELE + FT_CRPRSIM + FT_CRDZFM + FT_CSTISS + FT_CRPRESP + FT_TNATREC + FT_CNATREC + FT_GRUPONC + FT_DTFIMNT + FT_VALFECP + FT_CRDPRES + FT_MARGEM + FT_VALFUM + FT_VLSENAR + FT_BSSENAR + FT_CROUTSP + FT_PR43080 + FT_MOTICMS + FT_VLINCMG + FT_PRINCMG + FT_VFECPRN + FT_VFESTRN + FT_ALFECRN + FT_BRETPIS + FT_BRETCOF + FT_BRETCSL + FT_VRETPIS + FT_VRETCOF + FT_VRETCSL + FT_ARETPIS + FT_ARETCOF + FT_ARETCSL + FT_AGREG + FT_DESCICM + FT_COEPSST + FT_COECFST + FT_IDSFB + FT_IDSFC + FT_CREDPRE + FT_BSREIN + FT_IDSB5 + FT_IDSED + FT_IDSF4 + FT_CROUTGO + FT_IDSF7 + FT_IDSA1 + FT_IDSA2 + FT_IDSB1 + FT_IDSBZ + FT_NORESP + FT_MVALCOF + FT_MALQPIS + FT_MVALPIS + FT_DS43080 + FT_NATOPER + FT_PRCUNIC + FT_MALQCOF + FT_CRPRST + FT_DESCZFR + FT_PRDFIS + FT_VFECPST + FT_ALFECMG + FT_VFECPMT + FT_VFESTMT + FT_ALFECMT + FT_VFECPMG + FT_VFESTMG + FT_VREINT + FT_B1DIAT + FT_PDIA + FT_CV139 + FT_IDCFC + FT_VLCIDE + FT_BASECID + FT_ALQCIDE + FT_VALCPM + FT_BASECPM + FT_ALQCPM + FT_VALFMP + FT_BASEFMP + FT_ALQFMP + FT_BASEFMD + FT_ALQFMD + FT_VALFMD + FT_SERSAT + FT_BASNDES + FT_ICMNDES + FT_GRPCST + FT_CEST + FT_ATIVCPB + FT_BASECPB + FT_VALCPB + FT_ALIQCPB + FT_DIFAL + FT_VFCPDIF + FT_PDDES + FT_PDORI + FT_BASEDES + FT_CLIDEST + FT_LOJDEST + D_E_L_E_T_ + R_E_C_N_O_ + R_E_C_D_E_L_;
+            query += ");";
+            return query;
+        }
+
+        public static string convertNumToString(string num)
+        {
+            return num.Replace(',', '.');
+        }
+
+        public static string numToLetra(int num)
+        {
+            string[] letras = new string[26] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
+
+            List<string> combinacoes = new List<string>();
+            for (int i = 0; i < letras.Length; i++)
+            {
+                for (int j = 0; j < letras.Length; j++)
+                {
+                    combinacoes.Add(letras[i] + letras[j]);
+                }
+            }
+            if (num > combinacoes.Count)
+            {
+                return "";
+            }
+            else
+            {
+                return combinacoes[num];
+            }
+            
+        }
     }
 }

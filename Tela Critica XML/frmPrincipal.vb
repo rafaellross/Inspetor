@@ -1375,7 +1375,7 @@ Public Class frmPrincipal
         frmServico.Show()
     End Sub
 
-    Private Sub UsuáriosToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles UsuáriosToolStripMenuItem.Click
+    Private Sub UsuáriosToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles usuariosMenu.Click
         System.Diagnostics.Process.Start("CadastroUsuario.exe")
     End Sub
 
