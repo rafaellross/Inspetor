@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Configuration;
+using System.IO;
 
 namespace InspetorXML_Console.Classes.App
 {
-    class Parametros
+    public class Parametros
     {
         //Parâmetros do Banco de Dados do Inspetor XML
         public string DBInspetor { get; private set; }
@@ -39,7 +40,7 @@ namespace InspetorXML_Console.Classes.App
 
             //Parâmetros do Banco de Dados do Inspetor XML
             this.DBInspetor = parametros["DBInspetor"];
-            this.DBErpServer = parametros["DBInspetorServer"];
+            this.DBInspetorServer = parametros["DBInspetorServer"];
             this.UserDBInspetor = parametros["UserDBInspetor"];
             this.PasswdDBInspetor = parametros["PasswdDBInspetor"];
 
@@ -59,6 +60,38 @@ namespace InspetorXML_Console.Classes.App
             this.TempoExecucao = Convert.ToInt32(parametros.Get("TempoExecucao"));
             this.User = parametros["User"];
             this.ativaLog = parametros["AtivaLog"];
+        }
+
+        /// <summary>
+        /// Cria as pastas que não existem
+        /// </summary>
+        public void criaPastas()
+        {
+            if (!Directory.Exists(this.PastaCriticados))
+            {
+                Directory.CreateDirectory(this.PastaCriticados);
+            }
+
+            if (!Directory.Exists(this.PastaLog))
+            {
+                Directory.CreateDirectory(this.PastaLog);
+            }
+
+            if (!Directory.Exists(this.PastaManual))
+            {
+                Directory.CreateDirectory(this.PastaManual);
+            }
+
+            if (!Directory.Exists(this.PastaProcessados))
+            {
+                Directory.CreateDirectory(this.PastaProcessados);
+            }
+
+            if (!Directory.Exists(this.PastaProcessar))
+            {
+                Directory.CreateDirectory(this.PastaProcessar);
+            }
+
         }
     }
 }

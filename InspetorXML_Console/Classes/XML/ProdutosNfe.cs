@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace InspetorXML_Console.Classes.XML
 {
-    class ProdutosNfe
+    public class ProdutosNfe
     {
         public string numItem { get; set; }
         public string cProd { get; set; } = "";
@@ -28,7 +28,7 @@ namespace InspetorXML_Console.Classes.XML
         public string vIPI { get; internal set; } = "";
         public string CST { get; internal set; } = "";
         public string CSTCofins { get; internal set; } = "";
-        public string vBC { get; internal set; } = "";
+        public string vBCCofins { get; internal set; } = "";
         public string pCOFINS { get; internal set; } = "";
         public string vCOFINS { get; internal set; } = "";
         public string codProdErp { get; internal set; }
@@ -36,13 +36,33 @@ namespace InspetorXML_Console.Classes.XML
         public string vICMS { get; internal set; }
         public string TES { get; set; }
         public string CompCfop { get; internal set; }
-        public object PICM { get; internal set; } = "";
-        public object TpProd { get; internal set; }
-        public object BaseIcms { get; internal set; }
-        public object BaseIpi { get; internal set; }
+        public string PICM { get; internal set; } = "";
+        public string TpProd { get; internal set; }
+        public string BaseIcms { get; internal set; }
+        public string BaseIpi { get; internal set; }
         public string BaseCofins { get; internal set; }
         public string BasePis { get; internal set; }
         public string ValorPis { get; internal set; }
         public string pPIS { get; internal set; }
+        public string CstIcms { get; internal set; }
+        public string AliqIcms { get; internal set; }
+        public string ValIcms { get; internal set; }
+        public string GrpTrib { get; set; }
+        public double VPrecoPauta { get; internal set; } = 0;
+        public double dFatorMva { get; internal set; } = 0;
+        public double dVPrecoPauta { get; internal set; } = 0;
+        public double dVAliqPauta { get; internal set; } = 0;
+        public string dAliqMvaST { get; internal set; }
+        public string dMvaST { get; internal set; }
+        public string sCst { get; internal set; }
+        public bool bSimST { get; internal set; }
+        public bool bValMvaSt { get; internal set; }
+        public bool bValBcSt { get; internal set; }
+        public string bRedBC { get; internal set; }
+        public string dAliqIcmsSt { get; internal set; }
+        public bool bValComReducao { get; internal set; }
+        public bool bValAliqIcms { get; internal set; }
+        public double dBcCalc { get; internal set; }
+        public string dBc { get; internal set; }
     }
 }
