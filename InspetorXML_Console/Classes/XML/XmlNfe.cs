@@ -78,6 +78,7 @@ namespace InspetorXML_Console.Classes.XML
         public string vIPI { get; private set; }
         public object ValorBruto { get; internal set; }
         public string vSeg { get; private set; }
+        public string vDesc { get; private set; }
 
         public XmlNfe(string tipoErp, string nomeArquivo, string xmlInput, string nameSpace, DB dbXml, DB dbErp)
         {
@@ -246,8 +247,13 @@ namespace InspetorXML_Console.Classes.XML
             }
 
             //vDesc
-            node = xpathNav.SelectSingleNode("//nfe:infNFe/nfe:total/nfe:ICMSTot/nfe:vDesc", nameSpace);    
-        //Dados da transportadora
+            node = xpathNav.SelectSingleNode("//nfe:infNFe/nfe:total/nfe:ICMSTot/nfe:vDesc", nameSpace);
+            if (node != null)
+            {
+                this.vDesc = node.InnerXml.ToString();
+            }
+
+                //Dados da transportadora
 
                 //Placa da Transportadora
                 node = xpathNav.SelectSingleNode("//nfe:infNFe/nfe:transp/nfe:veicTransp/nfe:placa", nameSpace);

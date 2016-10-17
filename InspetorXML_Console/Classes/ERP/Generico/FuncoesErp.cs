@@ -145,6 +145,7 @@ namespace InspetorXML_Console.Classes.ERP.Generico
 
         public static string sqlInsereCabecNf(string tipoErp, XmlNfe nota)
         {
+            string query = "";
             if (tipoErp.ToLower() == "protheus")
             {
                 if (nota.TipoNf == "ENTRADA")
@@ -167,12 +168,12 @@ namespace InspetorXML_Console.Classes.ERP.Generico
                     var F1_VALMERC  = nota.ValorBruto;
                     var F1_VALBRUT  = nota.ValorBruto;
                     var F1_TIPO     = "'N'";
-                    var F1_DESCONT  = nota;
-                    var F1_DTDIGIT = "";
-                    var F1_ORIGLAN = "";
-                    var F1_CONTSOC = "";
-                    var F1_IRRF = "";
-                    var F1_ESPECIE = "";
+                    var F1_DESCONT  = nota.vDesc;
+                    var F1_DTDIGIT  = "REPLACE(CAST(CAST(GETDATE() AS DATE) AS VARCHAR(20)), '-', ''),";
+                    var F1_ORIGLAN  = "'PX',";
+                    var F1_CONTSOC  = "0";
+                    var F1_IRRF     = "0";
+                    var F1_ESPECIE  = nota;
                     var F1_II = "";
                     var F1_BASIMP5 = "";
                     var F1_BASIMP6 = "";
@@ -188,6 +189,7 @@ namespace InspetorXML_Console.Classes.ERP.Generico
                     var F1_CHVNFE = "";
                 }
             }
+            return query;
         }
     }
 }
